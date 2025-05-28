@@ -13,6 +13,7 @@
 #define GPIO_BASE_ADDR    0x03005000
 #define TIMER_BASE_ADDR   0x0300A000
 
+
 // Frequencies
 #define TB_FREQUENCY 20000000
 #define TB_BAUDRATE    115200
@@ -22,3 +23,7 @@
 #define UART_BYTE_ALIGN 4
 #define UART_FREQ       TB_FREQUENCY
 #define UART_BAUD       TB_BAUDRATE
+
+// User Address map
+#define USER_ROM_BASE_ADDR 0x20000000
+#define USER_ROM_ADDR_RANGE 0x20

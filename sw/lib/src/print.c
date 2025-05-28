@@ -36,12 +36,14 @@ void printf(const char *fmt, ...) {
     while (*fmt) {
         if (*fmt == '%') {
             fmt++;
-            if (*fmt == 'x') { // hex
+            if (*fmt == 'x') {
                 idx = format_hex32(buffer, va_arg(args, unsigned int));
-                // print from buffer
                 for (int j = idx - 1; j >= 0; j--) {
                     putchar(buffer[j]);
                 }
+            } else if (*fmt == 'c') {
+                char ch = (char)va_arg(args, int);  // char promoted to int in varargs
+                putchar(ch);
             }
         } else {
             putchar(*fmt);

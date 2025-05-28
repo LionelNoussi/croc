@@ -39,6 +39,26 @@ int main() {
     // wait until uart has finished sending
     uart_write_flush();
 
+    // ROM TEST -------------------------------------
+    // Read from the Rom and print the result
+    printf("ROM contents: ");
+    char c = '.';
+    // Loop through ROM until end token is read
+    for (int i = 0; c != '\0' | i < USER_ROM_ADDR_RANGE; i += 4) {
+        // Read 4 chars from ROM
+        uint32_t val = *reg32(USER_ROM_BASE_ADDR, i);
+        char *chars = (char *)&val;
+        // Loop through the chars and print each one individually
+        for (int b = 0; b < 4; b++) {
+            c = chars[b];
+            // If the end token is read, stop the loop.
+            if (c == '\0') break;
+            putchar(c);
+        }
+    }
+    putchar('\n');
+    // ROM TEST END ---------------------------------
+
     // toggling some GPIOs
     gpio_set_direction(0xFFFF, 0x000F); // lowest four as outputs
     gpio_write(0x0A);  // ready output pattern
