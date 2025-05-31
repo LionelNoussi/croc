@@ -119,8 +119,23 @@ SV_DEFINES     ?= VERILATOR SYNTHESIS COMMON_CELLS_ASSERTS_OFF
 yosys-flist: Bender.lock Bender.yml rtl/*/Bender.yml
 	$(BENDER) script flist-plus $(foreach t,$(BENDER_TARGETS),-t $(t)) $(foreach d,$(SV_DEFINES),-D $(d)=1) > $(PROJ_DIR)/croc.flist
 
+# import yosys make commands
 include yosys/yosys.mk
 include openroad/openroad.mk
+
+# OpenSTA for static timing analysis
+YS_NETLIST ?= croc		# name of the final netlist
+
+sta_clean:
+	rm -r sta/reports/
+
+sta:
+	cd sta; \
+	mkdir reports; \
+	YS_NETLIST=$(YS_NETLIST) \
+	sta scripts/opensta.tcl
+
+.PHONY: sta sta_clean
 
 klayout/croc_chip.gds: $(OR_OUT)/croc.def klayout/*.sh klayout/*.py
 	./klayout/def2gds.sh

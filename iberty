@@ -1,0 +1,8 @@
+[00000.000000] 
+[00000.000009]  /----------------------------------------------------------------------------\
+[00000.000010]  |  yosys -- Yosys Open SYnthesis Suite                                       |
+[00000.000011]  |  Copyright (C) 2012 - 2024  Claire Xenia Wolf <claire@yosyshq.com>         |
+[00000.000012]  |  Distributed under an ISC-like license, type "license" to see terms        |
+[00000.000013]  \----------------------------------------------------------------------------/
+[00000.000013]  Yosys 0.48 (git sha1 aaa534749, g++ 13.3.0-6ubuntu2~24.04 -fPIC -O3)
+[00000.021180] ERROR: Can't guess frontend for input file `stat' (missing -f option)!

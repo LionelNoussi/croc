@@ -42,7 +42,7 @@ int main() {
     // ROM TEST -------------------------------------
     // Read from the Rom and print the result
     printf("ROM contents: ");
-    char c = '.';
+    char c = ' ';
     // Loop through ROM until end token is read
     for (int i = 0; c != '\0' | i < USER_ROM_ADDR_RANGE; i += 4) {
         // Read 4 chars from ROM

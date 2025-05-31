@@ -39,7 +39,7 @@ $(NETLIST) $(NETLIST_DEBUG):  $(SV_FLIST)
 	TMP="$(YOSYS_TMP)" \
 	OUT="$(YOSYS_OUT)" \
 	REPORTS="$(YOSYS_REPORTS)" \
-	$(YOSYS) -c $(YOSYS_DIR)/scripts/yosys_synthesis.tcl \
+	$(YOSYS) -c $(YOSYS_DIR)/scripts/main.tcl \
 		2>&1 | TZ=UTC gawk '{ print strftime("[%Y-%m-%d %H:%M %Z]"), $$0 }' \
 		     | tee "$(YOSYS_DIR)/$(TOP_DESIGN).log" \
 		     | gawk -f $(YOSYS_DIR)/scripts/filter_output.awk;

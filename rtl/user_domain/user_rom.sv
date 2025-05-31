@@ -36,7 +36,6 @@ module user_rom #(
   logic rsp_err; // Error field of the obi response
 
   // Wire the registers holding the request
-  // TODO 1 : Modify the code such that the ROM will respond after 2 cycles instead of 1
   assign req_d = obi_req_i.req;
   assign id_d = obi_req_i.a.aid;
   assign we_d = obi_req_i.a.we;
@@ -55,42 +54,35 @@ module user_rom #(
     end
   end
 
-  // Assign the response data
-  // TODO 2 : Modify the code such that the ROM will contain (up to) 32 ASCII chars
-  // hold in your initials in the form: "JD&JD's ASIC\0"
-  logic [7:0] rom[0:31];  // byte-wide ROM, 32 entries (256 bits total)
+  logic [31:0] rom_words[0:7];
 
   initial begin
-    rom[0]  = "L";
-    rom[1]  = "N";
-    rom[2]  = "&";
-    rom[3]  = "L";
-    rom[4]  = "K";
-    rom[5]  = "'";
-    rom[6]  = "s";
-    rom[7]  = " ";
-    rom[8]  = "A";
-    rom[9]  = "S";
-    rom[10] = "I";
-    rom[11] = "C";
-    rom[12] = 8'h00;
-    // rom[13] ... rom[31] default to '0
+    // Pack bytes into 32-bit words, LSB = lowest address byte
+    rom_words[0] = { "L", "N", "&", "L" };    // bytes 3..0
+    rom_words[1] = { "K", "'", "s", " " };    // bytes 7..4
+    rom_words[2] = { "A", "S", "I", "C" };    // bytes 11..8
+    rom_words[3] = 32'h00000000;
+    rom_words[4] = 32'h00000000;
+    rom_words[5] = 32'h00000000;
+    rom_words[6] = 32'h00000000;
+    rom_words[7] = 32'h00000000;
   end
 
-  logic [4:0] word_addr;
+  logic [2:0] word_addr;  // 3 bits to address 8 words
+
   always_comb begin
     rsp_data = '0;
-    rsp_err  = '0;
-    word_addr = addr_q[6:2];
+    rsp_err  = 1'b0;
+
+    word_addr = addr_q[4:2];  // assuming addr_q is byte address, aligned to 4 bytes
 
     if (req_q) begin
       if (!we_q) begin
-        int base = word_addr * 4;  // byte index = word_addr << 2
         rsp_data = {
-          rom[base + 3],
-          rom[base + 2],
-          rom[base + 1],
-          rom[base + 0]
+          rom_words[word_addr][7:0],      // lowest byte
+          rom_words[word_addr][15:8],
+          rom_words[word_addr][23:16],
+          rom_words[word_addr][31:24]     // highest byte
         };
       end else begin
         rsp_err = 1'b1;

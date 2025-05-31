@@ -1,0 +1,2407 @@
+35. Printing statistics.
+
+=== cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req ===
+
+   Number of wires:                 83
+   Number of wire bits:            163
+   Number of public wires:          65
+   Number of public wire bits:     145
+   Number of ports:                 14
+   Number of port bits:             94
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 11
+     cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst      1
+     cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src      1
+     cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr      1
+     sg13g2_dfrbp_1                  4
+     sg13g2_nor2b_1                  4
+
+   Area for cell type \cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src is unknown!
+   Area for cell type \cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst is unknown!
+   Area for cell type \cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr is unknown!
+
+   Chip area for module '\cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req': 224.985600
+     of which used for sequential elements: 188.697600 (83.87%)
+
+=== cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp ===
+
+   Number of wires:                 76
+   Number of wire bits:            142
+   Number of public wires:          58
+   Number of public wire bits:     124
+   Number of ports:                 14
+   Number of port bits:             80
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 11
+     cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst      1
+     cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src      1
+     cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr      1
+     sg13g2_dfrbp_1                  4
+     sg13g2_nor2b_1                  4
+
+   Area for cell type \cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src is unknown!
+   Area for cell type \cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst is unknown!
+   Area for cell type \cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr is unknown!
+
+   Chip area for module '\cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp': 224.985600
+     of which used for sequential elements: 188.697600 (83.87%)
+
+=== cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst ===
+
+   Number of wires:                376
+   Number of wire bits:            456
+   Number of public wires:          95
+   Number of public wire bits:     175
+   Number of ports:                  9
+   Number of port bits:             89
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                145
+     sg13g2_a21o_1                   1
+     sg13g2_a22oi_1                  1
+     sg13g2_buf_8                    9
+     sg13g2_dfrbp_1                 43
+     sg13g2_mux2_1                  82
+     sg13g2_nand2b_1                 2
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   1
+     sg13g2_nor2b_1                  1
+     sg13g2_o21ai_1                  1
+     sg13g2_tiehi                    1
+     sg13g2_xor2_1                   1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst.i_sync is unknown!
+
+   Chip area for module '\cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst': 3830.160600
+     of which used for sequential elements: 2028.499200 (52.96%)
+
+=== cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst ===
+
+   Number of wires:                319
+   Number of wire bits:            385
+   Number of public wires:          81
+   Number of public wire bits:     147
+   Number of ports:                  9
+   Number of port bits:             75
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                123
+     sg13g2_a21o_1                   1
+     sg13g2_a22oi_1                  1
+     sg13g2_buf_16                   3
+     sg13g2_buf_8                    5
+     sg13g2_dfrbp_1                 36
+     sg13g2_mux2_1                  68
+     sg13g2_nand2b_1                 2
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   1
+     sg13g2_nor2b_1                  1
+     sg13g2_o21ai_1                  1
+     sg13g2_tiehi                    1
+     sg13g2_xor2_1                   1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst.i_sync is unknown!
+
+   Chip area for module '\cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst': 3287.655000
+     of which used for sequential elements: 1698.278400 (51.66%)
+
+=== cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src ===
+
+   Number of wires:                414
+   Number of wire bits:            494
+   Number of public wires:          94
+   Number of public wire bits:     174
+   Number of ports:                  9
+   Number of port bits:             89
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                144
+     sg13g2_a21oi_1                  2
+     sg13g2_and2_2                   1
+     sg13g2_buf_16                   1
+     sg13g2_buf_8                    8
+     sg13g2_dfrbp_1                 42
+     sg13g2_inv_1                    1
+     sg13g2_mux2_1                  82
+     sg13g2_nor2b_1                  2
+     sg13g2_o21ai_1                  1
+     sg13g2_or2_1                    1
+     sg13g2_tiehi                    1
+     sg13g2_xnor2_1                  1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src.i_sync is unknown!
+
+   Chip area for module '\cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src': 3795.724800
+     of which used for sequential elements: 1981.324800 (52.20%)
+
+=== cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src ===
+
+   Number of wires:                350
+   Number of wire bits:            416
+   Number of public wires:          80
+   Number of public wire bits:     146
+   Number of ports:                  9
+   Number of port bits:             75
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                122
+     sg13g2_a21oi_1                  2
+     sg13g2_and2_1                   1
+     sg13g2_buf_16                   3
+     sg13g2_buf_8                    5
+     sg13g2_dfrbp_1                 35
+     sg13g2_inv_1                    1
+     sg13g2_mux2_1                  68
+     sg13g2_nor2b_1                  2
+     sg13g2_o21ai_1                  1
+     sg13g2_or2_1                    1
+     sg13g2_tiehi                    1
+     sg13g2_xnor2_1                  1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src.i_sync is unknown!
+
+   Chip area for module '\cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src': 3229.632000
+     of which used for sequential elements: 1651.104000 (51.12%)
+
+=== cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst ===
+
+   Number of wires:                 76
+   Number of wire bits:             78
+   Number of public wires:          15
+   Number of public wire bits:      17
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 15
+     sg13g2_and2_1                   1
+     sg13g2_dfrbp_1                  3
+     sg13g2_nand2_1                  1
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   2
+     sg13g2_nor2_2                   1
+     sg13g2_nor3_1                   2
+     sg13g2_o21ai_1                  1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst': 237.686400
+     of which used for sequential elements: 141.523200 (59.54%)
+
+=== cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst ===
+
+   Number of wires:                 76
+   Number of wire bits:             78
+   Number of public wires:          15
+   Number of public wire bits:      17
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 15
+     sg13g2_and2_1                   1
+     sg13g2_dfrbp_1                  3
+     sg13g2_nand2_1                  1
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   2
+     sg13g2_nor2_2                   1
+     sg13g2_nor3_1                   2
+     sg13g2_o21ai_1                  1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst': 237.686400
+     of which used for sequential elements: 141.523200 (59.54%)
+
+=== cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst ===
+
+   Number of wires:                 76
+   Number of wire bits:             78
+   Number of public wires:          15
+   Number of public wire bits:      17
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 15
+     sg13g2_and2_1                   1
+     sg13g2_dfrbp_1                  3
+     sg13g2_nand2_1                  1
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   2
+     sg13g2_nor2_2                   1
+     sg13g2_nor3_1                   2
+     sg13g2_o21ai_1                  1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst': 237.686400
+     of which used for sequential elements: 141.523200 (59.54%)
+
+=== cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst ===
+
+   Number of wires:                 76
+   Number of wire bits:             78
+   Number of public wires:          15
+   Number of public wire bits:      17
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 15
+     sg13g2_and2_1                   1
+     sg13g2_dfrbp_1                  3
+     sg13g2_nand2_1                  1
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   2
+     sg13g2_nor2_2                   1
+     sg13g2_nor3_1                   2
+     sg13g2_o21ai_1                  1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst': 237.686400
+     of which used for sequential elements: 141.523200 (59.54%)
+
+=== cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src ===
+
+   Number of wires:                 97
+   Number of wire bits:             99
+   Number of public wires:          19
+   Number of public wire bits:      21
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 22
+     sg13g2_a21oi_1                  1
+     sg13g2_and2_1                   3
+     sg13g2_dfrbp_1                  5
+     sg13g2_inv_1                    2
+     sg13g2_inv_2                    1
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  1
+     sg13g2_nor2_1                   1
+     sg13g2_nor3_1                   1
+     sg13g2_nor3_2                   1
+     sg13g2_xor2_1                   1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src': 417.312000
+     of which used for sequential elements: 235.872000 (56.52%)
+
+=== cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src ===
+
+   Number of wires:                 97
+   Number of wire bits:             99
+   Number of public wires:          19
+   Number of public wire bits:      21
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 22
+     sg13g2_a21oi_1                  1
+     sg13g2_and2_1                   3
+     sg13g2_dfrbp_1                  5
+     sg13g2_inv_1                    2
+     sg13g2_inv_2                    1
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  1
+     sg13g2_nor2_1                   1
+     sg13g2_nor3_1                   1
+     sg13g2_nor3_2                   1
+     sg13g2_xor2_1                   1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src': 417.312000
+     of which used for sequential elements: 235.872000 (56.52%)
+
+=== cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src ===
+
+   Number of wires:                 97
+   Number of wire bits:             99
+   Number of public wires:          19
+   Number of public wire bits:      21
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 22
+     sg13g2_a21oi_1                  1
+     sg13g2_and2_1                   3
+     sg13g2_dfrbp_1                  5
+     sg13g2_inv_1                    2
+     sg13g2_inv_2                    1
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  1
+     sg13g2_nor2_1                   1
+     sg13g2_nor3_1                   1
+     sg13g2_nor3_2                   1
+     sg13g2_xor2_1                   1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src': 417.312000
+     of which used for sequential elements: 235.872000 (56.52%)
+
+=== cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src ===
+
+   Number of wires:                 97
+   Number of wire bits:             99
+   Number of public wires:          19
+   Number of public wire bits:      21
+   Number of ports:                  8
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 22
+     sg13g2_a21oi_1                  1
+     sg13g2_and2_1                   3
+     sg13g2_dfrbp_1                  5
+     sg13g2_inv_1                    2
+     sg13g2_inv_2                    1
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  1
+     sg13g2_nor2_1                   1
+     sg13g2_nor3_1                   1
+     sg13g2_nor3_2                   1
+     sg13g2_xor2_1                   1
+     sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync      1
+
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync is unknown!
+
+   Chip area for module '\cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src': 417.312000
+     of which used for sequential elements: 235.872000 (56.52%)
+
+=== cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr ===
+
+   Number of wires:                 22
+   Number of wire bits:             22
+   Number of public wires:          22
+   Number of public wire bits:      22
+   Number of ports:                 14
+   Number of port bits:             14
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a      1
+     cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b      1
+
+   Area for cell type \cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a is unknown!
+   Area for cell type \cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b is unknown!
+
+=== cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr ===
+
+   Number of wires:                 22
+   Number of wire bits:             22
+   Number of public wires:          22
+   Number of public wire bits:      22
+   Number of ports:                 14
+   Number of port bits:             14
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a      1
+     cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b      1
+
+   Area for cell type \cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a is unknown!
+   Area for cell type \cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b is unknown!
+
+=== cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a ===
+
+   Number of wires:                394
+   Number of wire bits:            396
+   Number of public wires:          35
+   Number of public wire bits:      37
+   Number of ports:                 13
+   Number of port bits:             15
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 74
+     cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst      1
+     cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src      1
+     sg13g2_a21o_1                   1
+     sg13g2_a21oi_1                  4
+     sg13g2_a21oi_2                  1
+     sg13g2_a221oi_1                 2
+     sg13g2_a22oi_1                  1
+     sg13g2_and2_1                   2
+     sg13g2_and3_1                   1
+     sg13g2_buf_16                   2
+     sg13g2_dfrbp_1                  6
+     sg13g2_inv_1                    6
+     sg13g2_mux2_1                   5
+     sg13g2_nand2_1                  2
+     sg13g2_nand2b_1                 3
+     sg13g2_nand2b_2                 1
+     sg13g2_nand3_1                  2
+     sg13g2_nand3b_1                 2
+     sg13g2_nor2_1                   7
+     sg13g2_nor2b_1                  4
+     sg13g2_nor2b_2                  1
+     sg13g2_nor3_1                   8
+     sg13g2_nor4_1                   1
+     sg13g2_nor4_2                   1
+     sg13g2_o21ai_1                  4
+     sg13g2_or2_1                    1
+     sg13g2_or3_1                    1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xor2_1                   1
+
+   Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src is unknown!
+   Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst is unknown!
+
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a': 1023.283800
+     of which used for sequential elements: 283.046400 (27.66%)
+
+=== cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b ===
+
+   Number of wires:                407
+   Number of wire bits:            409
+   Number of public wires:          35
+   Number of public wire bits:      37
+   Number of ports:                 13
+   Number of port bits:             15
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 87
+     cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst      1
+     cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src      1
+     sg13g2_a21o_1                   2
+     sg13g2_a21o_2                   1
+     sg13g2_a21oi_1                  9
+     sg13g2_a22oi_1                  1
+     sg13g2_and2_1                   2
+     sg13g2_buf_16                   1
+     sg13g2_buf_2                    2
+     sg13g2_buf_4                    1
+     sg13g2_dfrbp_1                  6
+     sg13g2_inv_1                    7
+     sg13g2_mux2_1                   3
+     sg13g2_mux4_1                   1
+     sg13g2_nand2_1                  6
+     sg13g2_nand2b_1                 5
+     sg13g2_nand3_1                  2
+     sg13g2_nand3b_1                 1
+     sg13g2_nor2_1                   7
+     sg13g2_nor2b_1                  4
+     sg13g2_nor3_1                   5
+     sg13g2_nor4_2                   1
+     sg13g2_o21ai_1                 12
+     sg13g2_or2_1                    2
+     sg13g2_or3_1                    1
+     sg13g2_or4_1                    1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+
+   Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src is unknown!
+   Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst is unknown!
+
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b': 1084.973400
+     of which used for sequential elements: 283.046400 (26.09%)
+
+=== cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a ===
+
+   Number of wires:                398
+   Number of wire bits:            400
+   Number of public wires:          35
+   Number of public wire bits:      37
+   Number of ports:                 13
+   Number of port bits:             15
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 78
+     cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst      1
+     cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src      1
+     sg13g2_a21oi_1                  5
+     sg13g2_a221oi_1                 2
+     sg13g2_and2_1                   2
+     sg13g2_buf_4                    1
+     sg13g2_buf_8                    2
+     sg13g2_dfrbp_1                  6
+     sg13g2_inv_1                    5
+     sg13g2_inv_2                    1
+     sg13g2_inv_4                    1
+     sg13g2_mux2_1                   7
+     sg13g2_nand2_1                  7
+     sg13g2_nand2_2                  1
+     sg13g2_nand2b_1                 3
+     sg13g2_nand3_1                  1
+     sg13g2_nand3b_1                 2
+     sg13g2_nor2_1                   8
+     sg13g2_nor2b_1                  1
+     sg13g2_nor3_1                   8
+     sg13g2_nor3_2                   1
+     sg13g2_nor4_1                   1
+     sg13g2_o21ai_1                  8
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xor2_1                   1
+
+   Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src is unknown!
+   Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst is unknown!
+
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a': 1001.548800
+     of which used for sequential elements: 283.046400 (28.26%)
+
+=== cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b ===
+
+   Number of wires:                398
+   Number of wire bits:            400
+   Number of public wires:          35
+   Number of public wire bits:      37
+   Number of ports:                 13
+   Number of port bits:             15
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 78
+     cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst      1
+     cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src      1
+     sg13g2_a21o_1                   1
+     sg13g2_a21oi_1                  7
+     sg13g2_a22oi_1                  3
+     sg13g2_and2_1                   1
+     sg13g2_buf_16                   1
+     sg13g2_buf_2                    2
+     sg13g2_dfrbp_1                  6
+     sg13g2_inv_1                    8
+     sg13g2_mux2_1                   5
+     sg13g2_nand2_1                  4
+     sg13g2_nand2b_1                 4
+     sg13g2_nand3_1                  4
+     sg13g2_nand3b_1                 2
+     sg13g2_nor2_1                   5
+     sg13g2_nor2b_1                  4
+     sg13g2_nor3_1                   7
+     sg13g2_nor4_1                   1
+     sg13g2_o21ai_1                  8
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xor2_1                   1
+
+   Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src is unknown!
+   Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst is unknown!
+
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b': 974.219400
+     of which used for sequential elements: 283.046400 (29.05%)
+
+=== core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap ===
+
+   Number of wires:              17983
+   Number of wire bits:          18187
+   Number of public wires:        2195
+   Number of public wire bits:    2399
+   Number of ports:                 25
+   Number of port bits:            229
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               5258
+     $scopeinfo                     12
+     cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i      1
+     cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i      1
+     sg13g2_a21o_1                  93
+     sg13g2_a21oi_1                562
+     sg13g2_a21oi_2                  4
+     sg13g2_a221oi_1               154
+     sg13g2_a22oi_1                128
+     sg13g2_and2_1                 114
+     sg13g2_and2_2                   1
+     sg13g2_and3_1                  33
+     sg13g2_and3_2                   2
+     sg13g2_and4_1                  14
+     sg13g2_buf_1                  322
+     sg13g2_buf_16                   8
+     sg13g2_buf_2                   20
+     sg13g2_buf_4                    1
+     sg13g2_buf_8                    3
+     sg13g2_dfrbp_1                367
+     sg13g2_inv_1                  214
+     sg13g2_inv_2                    1
+     sg13g2_mux2_1                 548
+     sg13g2_mux4_1                  69
+     sg13g2_nand2_1                511
+     sg13g2_nand2_2                  6
+     sg13g2_nand2b_1               109
+     sg13g2_nand2b_2                 1
+     sg13g2_nand3_1                192
+     sg13g2_nand3b_1                24
+     sg13g2_nand4_1                 50
+     sg13g2_nor2_1                 445
+     sg13g2_nor2_2                   8
+     sg13g2_nor2b_1                 83
+     sg13g2_nor2b_2                  1
+     sg13g2_nor3_1                 167
+     sg13g2_nor3_2                   3
+     sg13g2_nor4_1                  41
+     sg13g2_nor4_2                   9
+     sg13g2_o21ai_1                637
+     sg13g2_or2_1                   66
+     sg13g2_or2_2                    1
+     sg13g2_or3_1                   16
+     sg13g2_or3_2                    1
+     sg13g2_or4_1                   14
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                148
+     sg13g2_xor2_1                  51
+
+   Area for cell type $scopeinfo is unknown!
+   Area for cell type \cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i is unknown!
+   Area for cell type \cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i is unknown!
+
+   Chip area for module '\core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap': 69047.596800
+     of which used for sequential elements: 17313.004800 (25.07%)
+
+=== croc_chip ===
+
+   Number of wires:                157
+   Number of wire bits:            157
+   Number of public wires:         156
+   Number of public wire bits:     156
+   Number of ports:                 48
+   Number of port bits:             48
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 66
+     croc_soc$croc_chip.i_croc_soc      1
+     sg13g2_IOPadIOVdd               4
+     sg13g2_IOPadIOVss               4
+     sg13g2_IOPadIn                  9
+     sg13g2_IOPadInOut30mA          32
+     sg13g2_IOPadOut16mA             7
+     sg13g2_IOPadVdd                 4
+     sg13g2_IOPadVss                 4
+     sg13g2_tielo                    1
+
+   Area for cell type \croc_soc$croc_chip.i_croc_soc is unknown!
+
+   Chip area for module '\croc_chip': 921607.257600
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== croc_domain$croc_chip.i_croc_soc.i_croc ===
+
+   Number of wires:              33160
+   Number of wire bits:          33505
+   Number of public wires:        5897
+   Number of public wire bits:    6242
+   Number of ports:                 22
+   Number of port bits:            367
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               4389
+     $scopeinfo                     55
+     core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap      1
+     dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top      1
+     dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag      1
+     gpio$croc_chip.i_croc_soc.i_croc.i_gpio      1
+     reg_uart_wrap$croc_chip.i_croc_soc.i_croc.i_uart      1
+     sg13g2_a21o_1                  66
+     sg13g2_a21oi_1                390
+     sg13g2_a21oi_2                  3
+     sg13g2_a221oi_1               127
+     sg13g2_a22oi_1                122
+     sg13g2_and2_1                 113
+     sg13g2_and3_1                  54
+     sg13g2_and4_1                  11
+     sg13g2_buf_1                  374
+     sg13g2_buf_2                    6
+     sg13g2_buf_4                    1
+     sg13g2_dfrbp_1                184
+     sg13g2_inv_1                  171
+     sg13g2_mux2_1                  75
+     sg13g2_mux4_1                  34
+     sg13g2_nand2_1                238
+     sg13g2_nand2_2                  3
+     sg13g2_nand2b_1               170
+     sg13g2_nand3_1                756
+     sg13g2_nand3b_1                39
+     sg13g2_nand4_1                 75
+     sg13g2_nor2_1                 408
+     sg13g2_nor2_2                   2
+     sg13g2_nor2b_1                225
+     sg13g2_nor3_1                 232
+     sg13g2_nor3_2                   4
+     sg13g2_nor4_1                  81
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                196
+     sg13g2_or2_1                   95
+     sg13g2_or2_2                    1
+     sg13g2_or3_1                   27
+     sg13g2_or4_1                   11
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                 22
+     sg13g2_xor2_1                   5
+     soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl      1
+     tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[0].i_sram      1
+     tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[1].i_sram      1
+     timer_unit$croc_chip.i_croc_soc.i_croc.i_timer      1
+
+   Area for cell type $scopeinfo is unknown!
+   Area for cell type \core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap is unknown!
+   Area for cell type \dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag is unknown!
+   Area for cell type \tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[0].i_sram is unknown!
+   Area for cell type \tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[1].i_sram is unknown!
+   Area for cell type \soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl is unknown!
+   Area for cell type \reg_uart_wrap$croc_chip.i_croc_soc.i_croc.i_uart is unknown!
+   Area for cell type \gpio$croc_chip.i_croc_soc.i_croc.i_gpio is unknown!
+   Area for cell type \timer_unit$croc_chip.i_croc_soc.i_croc.i_timer is unknown!
+   Area for cell type \dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top is unknown!
+
+   Chip area for module '\croc_domain$croc_chip.i_croc_soc.i_croc': 47659.676400
+     of which used for sequential elements: 8680.089600 (18.21%)
+
+=== croc_soc$croc_chip.i_croc_soc ===
+
+   Number of wires:                287
+   Number of wire bits:            380
+   Number of public wires:         282
+   Number of public wire bits:     375
+   Number of ports:                 16
+   Number of port bits:            109
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 13
+     $scopeinfo                      2
+     croc_domain$croc_chip.i_croc_soc.i_croc      1
+     sg13g2_dfrbp_1                  4
+     sg13g2_tiehi                    1
+     sync$croc_chip.i_croc_soc.i_ext_intr_sync      1
+     tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_init_no      1
+     tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_n      1
+     tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_no      1
+     user_domain$croc_chip.i_croc_soc.i_user      1
+
+   Area for cell type $scopeinfo is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_ext_intr_sync is unknown!
+   Area for cell type \croc_domain$croc_chip.i_croc_soc.i_croc is unknown!
+   Area for cell type \user_domain$croc_chip.i_croc_soc.i_user is unknown!
+   Area for cell type \tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_n is unknown!
+   Area for cell type \tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_no is unknown!
+   Area for cell type \tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_init_no is unknown!
+
+   Chip area for module '\croc_soc$croc_chip.i_croc_soc': 195.955200
+     of which used for sequential elements: 188.697600 (96.30%)
+
+=== cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i ===
+
+   Number of wires:              18680
+   Number of wire bits:          19205
+   Number of public wires:        3093
+   Number of public wire bits:    3618
+   Number of ports:                 56
+   Number of port bits:            581
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               3357
+     $scopeinfo                     19
+     sg13g2_a21o_1                  36
+     sg13g2_a21oi_1                281
+     sg13g2_a21oi_2                  2
+     sg13g2_a221oi_1                67
+     sg13g2_a22oi_1                154
+     sg13g2_and2_1                 141
+     sg13g2_and2_2                   1
+     sg13g2_and3_1                  24
+     sg13g2_and3_2                   1
+     sg13g2_and4_1                  17
+     sg13g2_and4_2                   2
+     sg13g2_buf_1                  197
+     sg13g2_buf_2                   37
+     sg13g2_buf_4                    2
+     sg13g2_buf_8                    1
+     sg13g2_dfrbp_1                496
+     sg13g2_inv_1                   90
+     sg13g2_mux2_1                 423
+     sg13g2_mux4_1                  22
+     sg13g2_nand2_1                257
+     sg13g2_nand2b_1                67
+     sg13g2_nand3_1                113
+     sg13g2_nand3b_1                14
+     sg13g2_nand4_1                 54
+     sg13g2_nor2_1                 241
+     sg13g2_nor2_2                   2
+     sg13g2_nor2b_1                 45
+     sg13g2_nor3_1                 110
+     sg13g2_nor3_2                   3
+     sg13g2_nor4_1                  29
+     sg13g2_nor4_2                   7
+     sg13g2_o21ai_1                294
+     sg13g2_or2_1                   17
+     sg13g2_or3_1                    6
+     sg13g2_or4_1                    5
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                 55
+     sg13g2_xor2_1                  23
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i': 53860.086000
+     of which used for sequential elements: 23398.502400 (43.44%)
+
+=== cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i ===
+
+   Number of wires:               9251
+   Number of wire bits:           9356
+   Number of public wires:        1065
+   Number of public wire bits:    1170
+   Number of ports:                 10
+   Number of port bits:            115
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               3924
+     sg13g2_a21o_1                  64
+     sg13g2_a22oi_1                192
+     sg13g2_and2_1                   4
+     sg13g2_and2_2                   3
+     sg13g2_buf_1                  319
+     sg13g2_buf_2                   66
+     sg13g2_buf_4                    9
+     sg13g2_buf_8                    3
+     sg13g2_dfrbp_1                992
+     sg13g2_inv_1                    4
+     sg13g2_mux2_1                1696
+     sg13g2_mux4_1                 256
+     sg13g2_nand2_1                 79
+     sg13g2_nand2b_1                70
+     sg13g2_nand3_1                  1
+     sg13g2_nand3b_1                64
+     sg13g2_nand4_1                 65
+     sg13g2_nor2_1                  13
+     sg13g2_nor2_2                   3
+     sg13g2_nor2b_1                 12
+     sg13g2_nor2b_2                  1
+     sg13g2_nor3_1                   4
+     sg13g2_nor3_2                   3
+     sg13g2_tielo                    1
+
+   Chip area for module '\cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i': 96504.307200
+     of which used for sequential elements: 46797.004800 (48.49%)
+
+=== dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top ===
+
+   Number of wires:              18712
+   Number of wire bits:          19039
+   Number of public wires:        2107
+   Number of public wire bits:    2434
+   Number of ports:                 33
+   Number of port bits:            360
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               4808
+     $scopeinfo                      5
+     sg13g2_a21o_1                  29
+     sg13g2_a21oi_1                238
+     sg13g2_a221oi_1                47
+     sg13g2_a22oi_1                256
+     sg13g2_and2_1                  68
+     sg13g2_and2_2                   1
+     sg13g2_and3_1                   9
+     sg13g2_and3_2                   2
+     sg13g2_and4_1                   3
+     sg13g2_buf_1                  363
+     sg13g2_buf_2                    1
+     sg13g2_dfrbp_1                665
+     sg13g2_inv_1                  250
+     sg13g2_mux2_1                 224
+     sg13g2_mux4_1                 138
+     sg13g2_nand2_1                733
+     sg13g2_nand2b_1                66
+     sg13g2_nand3_1                193
+     sg13g2_nand3b_1                 8
+     sg13g2_nand4_1                 29
+     sg13g2_nor2_1                 383
+     sg13g2_nor2b_1                 55
+     sg13g2_nor3_1                  79
+     sg13g2_nor4_1                  17
+     sg13g2_o21ai_1                867
+     sg13g2_or2_1                   28
+     sg13g2_or3_1                    3
+     sg13g2_or4_1                    2
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                 22
+     sg13g2_xor2_1                  22
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top': 72602.611200
+     of which used for sequential elements: 31370.976000 (43.21%)
+
+=== dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag ===
+
+   Number of wires:               2976
+   Number of wire bits:           3049
+   Number of public wires:         442
+   Number of public wire bits:     515
+   Number of ports:                 16
+   Number of port bits:             89
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1031
+     $scopeinfo                      2
+     cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req      1
+     cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp      1
+     sg13g2_a21o_1                  42
+     sg13g2_a21oi_1                 72
+     sg13g2_a221oi_1                 7
+     sg13g2_a22oi_1                 56
+     sg13g2_and2_1                  19
+     sg13g2_and3_1                   5
+     sg13g2_buf_1                   64
+     sg13g2_buf_2                    5
+     sg13g2_buf_4                    1
+     sg13g2_buf_8                    4
+     sg13g2_dfrbp_1                168
+     sg13g2_inv_1                   47
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                103
+     sg13g2_nand2_2                  1
+     sg13g2_nand2b_1                39
+     sg13g2_nand3_1                165
+     sg13g2_nand3b_1                 3
+     sg13g2_nand4_1                  1
+     sg13g2_nor2_1                 100
+     sg13g2_nor2_2                   1
+     sg13g2_nor2b_1                 10
+     sg13g2_nor3_1                  45
+     sg13g2_nor3_2                   1
+     sg13g2_nor4_1                   1
+     sg13g2_nor4_2                   1
+     sg13g2_o21ai_1                 46
+     sg13g2_or2_1                    3
+     sg13g2_or3_1                    6
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                  1
+     sg13g2_xor2_1                   2
+     tc_clk_inverter$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_tck_inv      1
+     tc_clk_mux2$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_dft_tck_mux      1
+
+   Area for cell type $scopeinfo is unknown!
+   Area for cell type \tc_clk_inverter$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_tck_inv is unknown!
+   Area for cell type \tc_clk_mux2$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_dft_tck_mux is unknown!
+   Area for cell type \cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req is unknown!
+   Area for cell type \cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp is unknown!
+
+   Chip area for module '\dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag': 15525.518400
+     of which used for sequential elements: 7925.299200 (51.05%)
+
+=== gpio$croc_chip.i_croc_soc.i_croc.i_gpio ===
+
+   Number of wires:               4851
+   Number of wire bits:           5086
+   Number of public wires:        1469
+   Number of public wire bits:    1704
+   Number of ports:                  9
+   Number of port bits:            244
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1243
+     $scopeinfo                      1
+     sg13g2_a21o_1                  64
+     sg13g2_a21oi_1                 13
+     sg13g2_a221oi_1                32
+     sg13g2_a22oi_1                 64
+     sg13g2_and2_1                   4
+     sg13g2_and3_1                  33
+     sg13g2_buf_1                   32
+     sg13g2_buf_2                    7
+     sg13g2_buf_4                    3
+     sg13g2_buf_8                    2
+     sg13g2_dfrbp_1                270
+     sg13g2_inv_1                   68
+     sg13g2_mux2_1                 224
+     sg13g2_nand2_1                 99
+     sg13g2_nand2_2                  4
+     sg13g2_nand2b_1                37
+     sg13g2_nand3_1                 51
+     sg13g2_nand4_1                 37
+     sg13g2_nor2_1                  40
+     sg13g2_nor2_2                  12
+     sg13g2_nor2b_1                 25
+     sg13g2_nor3_1                   1
+     sg13g2_nor3_2                   9
+     sg13g2_nor4_1                  41
+     sg13g2_o21ai_1                 33
+     sg13g2_or2_1                    4
+     sg13g2_tielo                    1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[0].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[10].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[11].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[12].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[13].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[14].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[15].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[16].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[17].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[18].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[19].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[1].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[20].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[21].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[22].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[23].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[24].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[25].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[26].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[27].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[28].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[29].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[2].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[30].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[31].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[3].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[4].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[5].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[6].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[7].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[8].i_sync      1
+     sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[9].i_sync      1
+
+   Area for cell type $scopeinfo is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[0].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[1].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[2].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[3].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[4].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[5].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[6].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[7].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[8].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[9].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[10].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[11].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[12].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[13].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[14].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[15].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[16].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[17].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[18].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[19].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[20].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[21].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[22].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[23].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[24].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[25].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[26].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[27].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[28].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[29].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[30].i_sync is unknown!
+   Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[31].i_sync is unknown!
+
+   Chip area for module '\gpio$croc_chip.i_croc_soc.i_croc.i_gpio': 23659.171200
+     of which used for sequential elements: 12737.088000 (53.84%)
+
+=== reg_uart_wrap$croc_chip.i_croc_soc.i_croc.i_uart ===
+
+   Number of wires:              19792
+   Number of wire bits:          19894
+   Number of public wires:        1586
+   Number of public wire bits:    1688
+   Number of ports:                 15
+   Number of port bits:            117
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               6116
+     $scopeinfo                     30
+     sg13g2_a21o_1                  15
+     sg13g2_a21oi_1                 82
+     sg13g2_a221oi_1                10
+     sg13g2_a22oi_1                 27
+     sg13g2_and2_1                  19
+     sg13g2_and3_1                  13
+     sg13g2_and4_1                   6
+     sg13g2_buf_1                 1795
+     sg13g2_buf_2                   44
+     sg13g2_buf_8                    4
+     sg13g2_dfrbp_1               1479
+     sg13g2_inv_1                   60
+     sg13g2_inv_2                    1
+     sg13g2_mux2_1                1299
+     sg13g2_mux4_1                 400
+     sg13g2_nand2_1                174
+     sg13g2_nand2_2                 59
+     sg13g2_nand2b_1                40
+     sg13g2_nand2b_2                 1
+     sg13g2_nand3_1                 55
+     sg13g2_nand3b_1                 5
+     sg13g2_nand4_1                 19
+     sg13g2_nor2_1                 144
+     sg13g2_nor2b_1                 29
+     sg13g2_nor2b_2                  3
+     sg13g2_nor3_1                  66
+     sg13g2_nor3_2                   5
+     sg13g2_nor4_1                  13
+     sg13g2_nor4_2                   5
+     sg13g2_o21ai_1                 74
+     sg13g2_or2_1                   13
+     sg13g2_or3_1                    3
+     sg13g2_or4_1                    3
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                 66
+     sg13g2_xor2_1                  53
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\reg_uart_wrap$croc_chip.i_croc_soc.i_croc.i_uart': 132174.390600
+     of which used for sequential elements: 69770.937600 (52.79%)
+
+=== soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl ===
+
+   Number of wires:                898
+   Number of wire bits:           1069
+   Number of public wires:          97
+   Number of public wire bits:     268
+   Number of ports:                  7
+   Number of port bits:            178
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                259
+     $scopeinfo                     10
+     sg13g2_a21o_1                   1
+     sg13g2_a21oi_1                  4
+     sg13g2_a221oi_1                31
+     sg13g2_and3_1                   1
+     sg13g2_and4_1                   1
+     sg13g2_buf_1                    9
+     sg13g2_buf_8                    6
+     sg13g2_dfrbp_1                 67
+     sg13g2_inv_1                   35
+     sg13g2_mux2_1                  68
+     sg13g2_nand2_1                  4
+     sg13g2_nand2b_1                 1
+     sg13g2_nand3_1                  2
+     sg13g2_nand4_1                  2
+     sg13g2_nor2_1                   1
+     sg13g2_nor2b_1                  2
+     sg13g2_nor3_1                   3
+     sg13g2_nor3_2                   3
+     sg13g2_nor4_1                   1
+     sg13g2_o21ai_1                  3
+     sg13g2_or2_1                    1
+     sg13g2_or2_2                    1
+     sg13g2_or3_1                    1
+     sg13g2_tiehi                    1
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl': 5575.651200
+     of which used for sequential elements: 3160.684800 (56.69%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst.i_sync ===
+
+   Number of wires:                 10
+   Number of wire bits:             10
+   Number of public wires:           7
+   Number of public wire bits:       7
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  3
+     sg13g2_dfrbp_1                  3
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst.i_sync': 141.523200
+     of which used for sequential elements: 141.523200 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src.i_sync ===
+
+   Number of wires:                 10
+   Number of wire bits:             10
+   Number of public wires:           7
+   Number of public wire bits:       7
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  3
+     sg13g2_dfrbp_1                  3
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src.i_sync': 141.523200
+     of which used for sequential elements: 141.523200 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst.i_sync ===
+
+   Number of wires:                 10
+   Number of wire bits:             10
+   Number of public wires:           7
+   Number of public wire bits:       7
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  3
+     sg13g2_dfrbp_1                  3
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst.i_sync': 141.523200
+     of which used for sequential elements: 141.523200 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src.i_sync ===
+
+   Number of wires:                 10
+   Number of wire bits:             10
+   Number of public wires:           7
+   Number of public wire bits:       7
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  3
+     sg13g2_dfrbp_1                  3
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src.i_sync': 141.523200
+     of which used for sequential elements: 141.523200 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[0].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[0].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[10].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[10].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[11].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[11].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[12].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[12].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[13].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[13].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[14].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[14].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[15].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[15].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[16].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[16].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[17].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[17].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[18].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[18].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[19].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[19].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[1].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[1].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[20].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[20].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[21].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[21].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[22].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[22].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[23].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[23].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[24].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[24].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[25].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[25].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[26].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[26].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[27].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[27].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[28].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[28].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[29].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[29].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[2].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[2].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[30].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[30].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[31].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[31].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[3].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[3].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[4].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[4].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[5].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[5].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[6].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[6].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[7].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[7].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[8].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[8].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[9].i_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[9].i_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== sync$croc_chip.i_croc_soc.i_ext_intr_sync ===
+
+   Number of wires:                  8
+   Number of wire bits:              8
+   Number of public wires:           6
+   Number of public wire bits:       6
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  2
+     sg13g2_dfrbp_1                  2
+
+   Chip area for module '\sync$croc_chip.i_croc_soc.i_ext_intr_sync': 94.348800
+     of which used for sequential elements: 94.348800 (100.00%)
+
+=== tc_clk_inverter$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_tck_inv ===
+
+   Number of wires:                  2
+   Number of wire bits:              2
+   Number of public wires:           2
+   Number of public wire bits:       2
+   Number of ports:                  2
+   Number of port bits:              2
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     sg13g2_inv_1                    1
+
+   Chip area for module '\tc_clk_inverter$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_tck_inv': 5.443200
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== tc_clk_mux2$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_dft_tck_mux ===
+
+   Number of wires:                  4
+   Number of wire bits:              4
+   Number of public wires:           4
+   Number of public wire bits:       4
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     sg13g2_mux2_1                   1
+
+   Chip area for module '\tc_clk_mux2$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_dft_tck_mux': 18.144000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_init_no ===
+
+   Number of wires:                  4
+   Number of wire bits:              4
+   Number of public wires:           4
+   Number of public wire bits:       4
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     sg13g2_mux2_1                   1
+
+   Chip area for module '\tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_init_no': 18.144000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_n ===
+
+   Number of wires:                  4
+   Number of wire bits:              4
+   Number of public wires:           4
+   Number of public wire bits:       4
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     sg13g2_mux2_1                   1
+
+   Chip area for module '\tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_n': 18.144000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_no ===
+
+   Number of wires:                  4
+   Number of wire bits:              4
+   Number of public wires:           4
+   Number of public wire bits:       4
+   Number of ports:                  4
+   Number of port bits:              4
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     sg13g2_mux2_1                   1
+
+   Chip area for module '\tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_no': 18.144000
+     of which used for sequential elements: 0.000000 (0.00%)
+
+=== tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[0].i_sram ===
+
+   Number of wires:                263
+   Number of wire bits:            336
+   Number of public wires:         139
+   Number of public wire bits:     212
+   Number of ports:                 10
+   Number of port bits:             83
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 49
+     RM_IHPSG13_1P_256x64_c2_bm_bist      1
+     sg13g2_and2_1                   4
+     sg13g2_buf_16                   3
+     sg13g2_dfrbp_1                  1
+     sg13g2_inv_1                    1
+     sg13g2_mux2_1                  33
+     sg13g2_nor2b_1                  5
+     sg13g2_tielo                    1
+
+   Chip area for module '\tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[0].i_sram': 94056.889600
+     of which used for sequential elements: 47.174400 (0.05%)
+
+=== tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[1].i_sram ===
+
+   Number of wires:                263
+   Number of wire bits:            336
+   Number of public wires:         139
+   Number of public wire bits:     212
+   Number of ports:                 10
+   Number of port bits:             83
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 49
+     RM_IHPSG13_1P_256x64_c2_bm_bist      1
+     sg13g2_and2_1                   4
+     sg13g2_buf_16                   3
+     sg13g2_dfrbp_1                  1
+     sg13g2_inv_1                    1
+     sg13g2_mux2_1                  33
+     sg13g2_nor2b_1                  5
+     sg13g2_tielo                    1
+
+   Chip area for module '\tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[1].i_sram': 94056.889600
+     of which used for sequential elements: 47.174400 (0.05%)
+
+=== timer_unit$croc_chip.i_croc_soc.i_croc.i_timer ===
+
+   Number of wires:               5496
+   Number of wire bits:           5596
+   Number of public wires:         588
+   Number of public wire bits:     688
+   Number of ports:                 19
+   Number of port bits:            119
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1696
+     $scopeinfo                      4
+     sg13g2_a21o_1                   9
+     sg13g2_a21oi_1                117
+     sg13g2_a221oi_1                38
+     sg13g2_a22oi_1                  8
+     sg13g2_and2_1                  28
+     sg13g2_and3_1                  27
+     sg13g2_and4_1                  17
+     sg13g2_buf_1                   74
+     sg13g2_buf_4                    1
+     sg13g2_dfrbp_1                275
+     sg13g2_inv_1                   42
+     sg13g2_mux2_1                 147
+     sg13g2_nand2_1                124
+     sg13g2_nand2b_1                18
+     sg13g2_nand3_1                 49
+     sg13g2_nand3b_1                 8
+     sg13g2_nand4_1                 41
+     sg13g2_nor2_1                 202
+     sg13g2_nor2b_1                 46
+     sg13g2_nor3_1                  78
+     sg13g2_nor3_2                   2
+     sg13g2_nor4_1                  28
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                 80
+     sg13g2_or2_1                    6
+     sg13g2_or3_1                   13
+     sg13g2_or3_2                    1
+     sg13g2_or4_1                    6
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                 96
+     sg13g2_xor2_1                 107
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\timer_unit$croc_chip.i_croc_soc.i_croc.i_timer': 28113.825600
+     of which used for sequential elements: 12972.960000 (46.14%)
+
+=== user_domain$croc_chip.i_croc_soc.i_user ===
+
+   Number of wires:               1766
+   Number of wire bits:           2018
+   Number of public wires:         297
+   Number of public wire bits:     549
+   Number of ports:                 10
+   Number of port bits:            262
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                143
+     $scopeinfo                      7
+     sg13g2_a21o_1                   2
+     sg13g2_a21oi_1                  5
+     sg13g2_a22oi_1                  1
+     sg13g2_and2_1                   9
+     sg13g2_and3_2                   1
+     sg13g2_buf_1                    4
+     sg13g2_dfrbp_1                 17
+     sg13g2_inv_1                   10
+     sg13g2_mux2_1                  10
+     sg13g2_nand2_1                 13
+     sg13g2_nand2b_1                 6
+     sg13g2_nand3_1                  4
+     sg13g2_nand3b_1                 2
+     sg13g2_nand4_1                  1
+     sg13g2_nor2_1                  20
+     sg13g2_nor2b_1                  4
+     sg13g2_nor2b_2                  1
+     sg13g2_nor3_1                   1
+     sg13g2_nor4_1                   3
+     sg13g2_nor4_2                   4
+     sg13g2_o21ai_1                 12
+     sg13g2_or2_1                    1
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                  2
+     sg13g2_xor2_1                   1
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\user_domain$croc_chip.i_croc_soc.i_user': 1963.143000
+     of which used for sequential elements: 801.964800 (40.85%)
+
+=== design hierarchy ===
+
+   croc_chip                         1
+     croc_soc$croc_chip.i_croc_soc      1
+       croc_domain$croc_chip.i_croc_soc.i_croc      1
+         core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap      1
+           cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i      1
+           cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i      1
+         dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top      1
+         dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag      1
+           cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req      1
+             cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst      1
+               sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_dst.i_sync      1
+             cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src      1
+               sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_src.i_sync      1
+             cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr      1
+               cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a      1
+                 cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync      1
+                 cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync      1
+               cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b      1
+                 cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync      1
+                 cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync      1
+           cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp      1
+             cdc_2phase_dst_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst      1
+               sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_dst.i_sync      1
+             cdc_2phase_src_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src      1
+               sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_src.i_sync      1
+             cdc_reset_ctrlr$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr      1
+               cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a      1
+                 cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync      1
+                 cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src.i_sync      1
+               cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b      1
+                 cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst.i_sync      1
+                 cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src      1
+                   sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src.i_sync      1
+           tc_clk_inverter$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_tck_inv      1
+           tc_clk_mux2$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_dft_tck_mux      1
+         gpio$croc_chip.i_croc_soc.i_croc.i_gpio      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[0].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[10].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[11].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[12].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[13].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[14].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[15].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[16].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[17].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[18].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[19].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[1].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[20].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[21].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[22].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[23].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[24].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[25].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[26].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[27].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[28].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[29].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[2].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[30].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[31].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[3].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[4].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[5].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[6].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[7].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[8].i_sync      1
+           sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[9].i_sync      1
+         reg_uart_wrap$croc_chip.i_croc_soc.i_croc.i_uart      1
+         soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl      1
+         tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[0].i_sram      1
+         tc_sram_impl$croc_chip.i_croc_soc.i_croc.gen_sram_bank[1].i_sram      1
+         timer_unit$croc_chip.i_croc_soc.i_croc.i_timer      1
+       sync$croc_chip.i_croc_soc.i_ext_intr_sync      1
+       tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_init_no      1
+       tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_n      1
+       tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_no      1
+       user_domain$croc_chip.i_croc_soc.i_user      1
+
+   Number of wires:             138872
+   Number of wire bits:         142012
+   Number of public wires:       20637
+   Number of public wire bits:   23777
+   Number of ports:                712
+   Number of port bits:           3852
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:              33441
+     $scopeinfo                    147
+     RM_IHPSG13_1P_256x64_c2_bm_bist      2
+     sg13g2_IOPadIOVdd               4
+     sg13g2_IOPadIOVss               4
+     sg13g2_IOPadIn                  9
+     sg13g2_IOPadInOut30mA          32
+     sg13g2_IOPadOut16mA             7
+     sg13g2_IOPadVdd                 4
+     sg13g2_IOPadVss                 4
+     sg13g2_a21o_1                 427
+     sg13g2_a21o_2                   1
+     sg13g2_a21oi_1               1797
+     sg13g2_a21oi_2                 10
+     sg13g2_a221oi_1               517
+     sg13g2_a22oi_1               1015
+     sg13g2_and2_1                 551
+     sg13g2_and2_2                   7
+     sg13g2_and3_1                 200
+     sg13g2_and3_2                   6
+     sg13g2_and4_1                  69
+     sg13g2_and4_2                   2
+     sg13g2_buf_1                 3553
+     sg13g2_buf_16                  25
+     sg13g2_buf_2                  190
+     sg13g2_buf_4                   20
+     sg13g2_buf_8                   52
+     sg13g2_dfrbp_1               5300
+     sg13g2_inv_1                 1030
+     sg13g2_inv_2                    7
+     sg13g2_inv_4                    1
+     sg13g2_mux2_1                5124
+     sg13g2_mux4_1                 920
+     sg13g2_nand2_1               2362
+     sg13g2_nand2_2                 74
+     sg13g2_nand2b_1               642
+     sg13g2_nand2b_2                 3
+     sg13g2_nand3_1               1590
+     sg13g2_nand3b_1               180
+     sg13g2_nand4_1                374
+     sg13g2_nor2_1                2038
+     sg13g2_nor2_2                  32
+     sg13g2_nor2b_1                573
+     sg13g2_nor2b_2                  7
+     sg13g2_nor3_1                 826
+     sg13g2_nor3_2                  38
+     sg13g2_nor4_1                 258
+     sg13g2_nor4_2                  32
+     sg13g2_o21ai_1               2282
+     sg13g2_or2_1                  239
+     sg13g2_or2_2                    3
+     sg13g2_or3_1                   77
+     sg13g2_or3_2                    2
+     sg13g2_or4_1                   42
+     sg13g2_tiehi                   22
+     sg13g2_tielo                   21
+     sg13g2_xnor2_1                414
+     sg13g2_xor2_1                 273
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for top module '\croc_chip': 1682412.545000
+     of which used for sequential elements: 801.964800 (0.05%)
+

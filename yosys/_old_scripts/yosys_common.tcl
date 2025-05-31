@@ -13,9 +13,9 @@
 set variables {
     sv_flist    { SV_FLIST    "../croc.flist" }
     top_design  { TOP_DESIGN  "croc_chip"     }
-    out_dir     { OUT         out             }
-    tmp_dir     { TMP         tmp             }
-    rep_dir     { REPORTS     reports         }
+    out_dir     { OUT         "out"             }
+    tmp_dir     { TMP         "tmp"             }
+    rep_dir     { REPORTS     "reports"         }
 }
 
 
@@ -38,6 +38,8 @@ foreach var [dict keys $variables] {
     if {[envVarValid $env_var]} {
         puts "using: $var= '$::env($env_var)'"
         set $var $::env($env_var)
+    } else {
+        set $var $fallback
     }
 }
 
