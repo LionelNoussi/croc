@@ -35,8 +35,6 @@ report_checks -path_group clk_sys -path_delay max > "reports/sta_setup_${netlist
 report_checks -path_group clk_sys -path_delay min > "reports/sta_hold_${netlist_name}.rpt"
 
 
-
-
 # Print the final slack to the console.
 # -------------------------------------
 
