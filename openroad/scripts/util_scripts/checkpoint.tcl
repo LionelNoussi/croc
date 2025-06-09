@@ -10,37 +10,44 @@
 set time [elapsed_run_time]
 if { ![info exists save_dir] } {set save_dir "save"}
 
-proc save_checkpoint { checkpoint_name } {
+proc save_checkpoint { checkpoint_name args } {
     global save_dir time step_by_step_debug
+    set lvs [expr {[lsearch -exact $args "-lvs"] != -1}]
+
     utl::report "Saving checkpoint $checkpoint_name"
-    set checkpoint ${save_dir}/${checkpoint_name}
+
+    set checkpoint_dir ${save_dir}/${checkpoint_name}
+    set checkpoint ${save_dir}/${checkpoint_name}/${checkpoint_name}
+
+    exec mkdir -p $checkpoint_dir
 
     write_def ${checkpoint}.def
     write_verilog ${checkpoint}.v
     write_db ${checkpoint}.odb
     write_sdc ${checkpoint}.sdc
-    exec zip -j ${checkpoint}.zip ${checkpoint}.def ${checkpoint}.v ${checkpoint}.odb ${checkpoint}.sdc
-    file delete ${checkpoint}.def ${checkpoint}.v ${checkpoint}.odb ${checkpoint}.sdc
 
-    set deltaT [expr [elapsed_run_time] - $time]
-    set time [elapsed_run_time]
-    utl::report "Time: $time sec deltaT: $deltaT"
+    if { $lvs } {
+        write_verilog -include_pwr_gnd ${checkpoint}_lvs.v
+    }
+
     if { $step_by_step_debug } {
         utl::report "Pause at checkpoint: $checkpoint_name"
         gui::pause
     }
 }
 
-proc load_checkpoint { checkpoint_name } {
+proc load_checkpoint { checkpoint_name args } {
     global save_dir
+    set lvs [expr {[lsearch -exact $args "-lvs"] != -1}]
     utl::report "Loading checkpoint $checkpoint_name"
-    set checkpoint ${save_dir}/${checkpoint_name}
+    
+    set checkpoint_dir ${save_dir}/${checkpoint_name}
+    set checkpoint ${save_dir}/${checkpoint_name}/${checkpoint_name}
 
-    exec unzip -u ${checkpoint}.zip -d ${save_dir}/${checkpoint_name}
-    #read_verilog ${checkpoint}/$checkpoint_name.v
-    read_db ${checkpoint}/$checkpoint_name.odb
-    if { [file exists ${checkpoint}/$checkpoint_name.sdc] } {
-        read_sdc ${checkpoint}/$checkpoint_name.sdc
+    read_verilog ${checkpoint}.v
+    read_db ${checkpoint}.odb
+    if { [file exists ${checkpoint}.sdc] } {
+        read_sdc ${checkpoint}.sdc
     }
 }
 

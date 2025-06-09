@@ -1,0 +1,7 @@
+# source compile_post_pnr_netlist.tcl
+# couldn't read file "compile_post_pnr_netlist.tcl": no such file or directory
+#  source compile_tech.tcl
+# couldn't read file "compile_tech.tcl": no such file or directory
+#  source compile_tech_chip.tcl
+# couldn't read file "compile_tech_chip.tcl": no such file or directory
+#  exit

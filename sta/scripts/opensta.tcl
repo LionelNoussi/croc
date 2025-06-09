@@ -24,7 +24,8 @@ read_verilog ../yosys/out/${netlist_name}.v
 link_design croc_chip
 
 # Set constraints
-create_clock -name clk_sys -period 10 [get_ports clk_i]
+# 80 MHz -> 12.5 ns clock-period
+create_clock -name clk_sys -period 12.5 [get_ports clk_i]
 
 # Generate timing reports
 

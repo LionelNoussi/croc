@@ -180,6 +180,7 @@ yosys write_verilog "out/croc.techmapped.v"
 # ----------------------------------------------------------------------------------------------
 # -------------------- 5. Preparing for OpenROAD -----------------------------------------------
 # ----------------------------------------------------------------------------------------------
+yosys write_verilog -norename -noexpr -attr2comment out/croc_chip_yosys_debug.v
 
 # Split multi-bit nets
 yosys splitnets

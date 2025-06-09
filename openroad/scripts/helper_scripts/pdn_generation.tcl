@@ -40,6 +40,7 @@ if {$stripe_dist > 100} {set stripe_dist [expr $stripe_dist/2]}
 
 define_pdn_grid -name {core_grid} -voltage_domains {CORE}
 
+# TopMetal1 is horizontal; TopMetal2 is vertical
 add_pdn_ring -grid {core_grid}   \
    -layer        {TopMetal1 TopMetal2}       \
    -widths       "10 10"                     \
@@ -60,8 +61,15 @@ add_pdn_stripe -grid {core_grid} -layer {TopMetal2} -width 6 \
                -pitch 204 -spacing 60 -offset 60 \
                -extend_to_core_ring -snap_to_grid -number_of_straps 9
 
+# Standard cell stripes to power ring
 add_pdn_connect -grid {core_grid} -layers {Metal1 TopMetal2}
 
+add_pdn_connect -grid {core_grid} -layers {TopMetal2 Metal2}
+add_pdn_connect -grid {core_grid} -layers {TopMetal2 Metal4}
+# # power ring to standard cell rails
+add_pdn_connect -grid {core_grid} -layers {Metal3 Metal1}
+add_pdn_connect -grid {core_grid} -layers {Metal3 Metal2}
+add_pdn_connect -grid {core_grid} -layers {Metal4 Metal3}
 
 # SRAM POWER
 
@@ -83,8 +91,9 @@ add_pdn_ring -grid sram_256x64_grid \
 add_pdn_stripe -grid sram_256x64_grid -layer {TopMetal1} -width 6 -spacing 4 \
                -pitch $stripe_dist -offset 20 -extend_to_core_ring -starts_with POWER -snap_to_grid
 
-add_pdn_connect -grid sram_256x64_grid -layers {Metal4 TopMetal1}
-add_pdn_connect -grid sram_256x64_grid -layers {Metal3 TopMetal1}
-add_pdn_connect -grid sram_256x64_grid -layers {TopMetal1 TopMetal2}
+add_pdn_connect -grid sram_256x64_grid -layers {TopMetal1 Metal4}
+add_pdn_connect -grid sram_256x64_grid -layers {TopMetal1 Metal3}
+add_pdn_connect -grid sram_256x64_grid -layers {TopMetal2 TopMetal1}
+add_pdn_connect -grid sram_256x64_grid -layers {Metal3 Metal1}
 
 pdngen -failed_via_report reports/croc_pdngen.rpt

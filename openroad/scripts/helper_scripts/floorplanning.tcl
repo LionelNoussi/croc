@@ -21,11 +21,12 @@ proc placeInstance { name x y orient } {
 }
 
 # Define chip dimensions
-set chipW            2236.0
-set chipH            2236.0
+set chipW            2235;    # 2235 with bondpads
+set chipH            2235;    # 2235 with bondpads
 
 set padRing           180.0
-set coreMargin [expr $padRing + 35]
+set bondpad           70
+set coreMargin [expr $padRing + $bondpad + 35]
 
 # Initialize Floorplan
 initialize_floorplan -die_area "0 0 $chipW $chipH" \
@@ -57,7 +58,7 @@ set RamMaster256x64   [[ord::get_db] findMaster "RM_IHPSG13_1P_256x64_c2_bm_bist
 set RamSize256x64_W   [ord::dbu_to_microns [$RamMaster256x64 getWidth]]
 set RamSize256x64_H   [ord::dbu_to_microns [$RamMaster256x64 getHeight]]
 
-placeInstance $bank0_sram0 [expr $floor_midpointX - $RamSize256x64_W / 2] [expr $floor_topY - $RamSize256x64_H * 3] R0
-placeInstance $bank1_sram0 [expr $floor_midpointX - $RamSize256x64_W / 2] [expr $floor_topY - $RamSize256x64_H * 5] R0
+placeInstance $bank0_sram0 [expr $floor_midpointX - $RamSize256x64_W / 2] [expr $floor_topY - $RamSize256x64_H * 1] R0
+placeInstance $bank1_sram0 [expr $floor_midpointX - $RamSize256x64_W / 2] [expr $floor_topY - $RamSize256x64_H * 2.25] R0
 
 cut_rows -halo_width_x 2 -halo_width_y 1
