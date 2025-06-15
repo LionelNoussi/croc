@@ -13,10 +13,14 @@ source scripts/util_scripts/setup.tcl
 read_verilog ../yosys/out/croc.v
 link_design croc_chip
 
+utl::report "Creating Floorplan..."
 source scripts/helper_scripts/floorplanning.tcl
 makeTracks
+
+utl::report "Starting PDN generation..."
 source scripts/helper_scripts/pdn_generation.tcl
 
+utl::report "Finished!"
 save_checkpoint croc_floorplanned
 
 gui::show

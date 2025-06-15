@@ -152,6 +152,7 @@ yosys tee -q -o "reports/croc_optimized.rpt" stat -width
 # -------------------
 
 set period_ps 10000
+# set period_ps 12500
 # The other constraints are defined in 'yosys/src/abc.constr'
 set abc_comb_script scripts/abc-opt.script
 
@@ -169,6 +170,8 @@ yosys rename -wire -suffix _reg t:*DFF*
 
 # map only the flip flops first
 yosys dfflibmap -liberty $tech_cells_lib
+
+yosys write_verilog "out/croc.before_abc.v"
 
 yosys abc -liberty $tech_cells_lib \
          -D $period_ps -constr src/abc.constr \

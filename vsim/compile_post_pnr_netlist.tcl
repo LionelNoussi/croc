@@ -427,7 +427,7 @@ if {[catch { vlog -incr -sv \
     "+incdir+$ROOT/rtl/common_cells/include" \
     "+incdir+$ROOT/rtl/obi/include" \
     "+incdir+$ROOT/rtl/register_interface/include" \
-    "$ROOT/openroad/out_final/croc.v" \
+    "/scratch/vlsi2_45fs25/croc/openroad/checkpoints/croc_routed/croc_routed.v" \
 }]} {return 1}
 
 if {[catch { vlog -incr -sv \

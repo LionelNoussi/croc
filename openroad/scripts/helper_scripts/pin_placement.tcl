@@ -14,8 +14,11 @@ make_io_sites -horizontal_site sg13g2_ioSite \
 # Pad Placement #
 #################
 
-set bondPadW 70;
-set bondPadH 70;
+set chipW 2135 ;    # 2235 with sealring spacing
+set chipH 2135 ;    # 2235 with sealring spacing
+
+set bondpadW 70;
+set bondpadH 70;
 
 set padW 80 ;
 set padD 180 ;
@@ -24,13 +27,18 @@ set IO_row_w 1735 ;
 set IO_row_h 1735 ;
 
 set numPads 16 ;
-set offset 62.5 ;
+# set offset 62.5 ;
+set offset 12.5
 set pitch 102 ;
 
-set startLeft [expr 1985 - $offset - $padW]
-set startBottom [expr 250 + $offset]
-set startRight [expr 250 + $offset]
-set startTop [expr 1985 - $offset - $padW]
+# set startLeft [expr 1985 - $offset - $padW]
+# set startBottom [expr 250 + $offset]
+# set startRight [expr 250 + $offset]
+# set startTop [expr 1985 - $offset - $padW]
+set startLeft [expr $chipH - $bondpadH - $padD - $offset - $padW]
+set startBottom [expr $bondpadW + $padD + $offset]
+set startRight [expr $bondpadH + $padD + $offset]
+set startTop [expr $chipW - $bondpadW - $padD - $offset - $padW]
 
 # Edge: LEFT (top to bottom)
 

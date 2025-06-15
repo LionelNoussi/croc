@@ -43,22 +43,6 @@ utl::report "Repairing Antennas..."
 repair_antennas -iterations 5 ; # repair_antennas
 check_antennas;
 
-utl::report "Running detailed routing..."
-set_thread_count 6;
-detailed_route -output_drc reports/croc_route_drc.rpt \
-              -bottom_routing_layer Metal2 \
-              -top_routing_layer Metal5 \
-              -droute_end_iter 10 \
-              -clean_patches \
-              -verbose 1;
-
-utl::report "Placing filler cells..."
-filler_placement {sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1};
-global_connect;
-
-save_checkpoint croc_routed -lvs;
-write_verilog -include_pwr_gnd checkpoints/croc_routed/croc_routed_lvs.v
-
 utl::report "Done!"
-
+save_checkpoint croc_fixed_antennas;
 gui::show

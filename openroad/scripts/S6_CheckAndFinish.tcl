@@ -5,20 +5,22 @@ if {[info script] ne ""} {
 source scripts/util_scripts/setup.tcl
 load_checkpoint croc_routed
 
-set_wire_rc -clock -layer Metal4
-set_wire_rc -signal -layer Metal4
-estimate_parasitics -placement
+# gui::show
 
-set extRules ./src/IHP_rcx_patterns.rulesa
+
+set extRules ./src/IHP_rcx_patterns.rules
 define_process_corner -ext_model_index 0 tt
 extract_parasitics -ext_model_file $extRules
 write_spef ./checkpoints/croc_final/croc.spef
+# read_spef ./checkpoints/croc_final/croc.spef
 
 utl::report "Static power report"
 set_power_activity -input -activity 0.1
 set_power_activity -input_port rst_ni -activity 0
 report_power -corner tt
 report_power -corner ff
+
+# gui::show
 
 utl::report "Dynamic power report"
 

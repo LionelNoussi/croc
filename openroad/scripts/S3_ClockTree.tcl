@@ -5,7 +5,7 @@ if {[info script] ne ""} {
 }
 
 source scripts/util_scripts/setup.tcl
-load_checkpoint croc_chip_placed
+load_checkpoint croc_routed
 
 # DESIGNING THE CLOCK TREE
 
@@ -34,11 +34,15 @@ repair_design -verbose
 repair_timing -setup -skip_pin_swap -verbose
 
 utl::report "Report after repair:"
+set_wire_rc -clock -layer Metal4
+set_wire_rc -signal -layer Metal4
+estimate_parasitics -placement
 report_cts
 report_clock_latency -clock clk_sys
 report_design_area
 report_power -corner tt
 report_checks -path_group clk_sys
+report_check_types  -violators > reports/croc_w_clock_tree_violations.rpt
 
 save_checkpoint croc_w_clock_tree
 
