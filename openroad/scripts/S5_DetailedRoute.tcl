@@ -9,7 +9,7 @@ load_checkpoint croc_fixed_antennas
 
 set_wire_rc -clock -layer Metal4
 set_wire_rc -signal -layer Metal4
-estimate_parasitics -placement
+estimate_parasitics -global_routing
 
 set_routing_layers -signal Metal2-Metal5 -clock Metal2-Metal5
 
@@ -27,7 +27,6 @@ filler_placement {sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1};
 global_connect;
 
 save_checkpoint croc_routed -lvs;
-# write_verilog -include_pwr_gnd checkpoints/croc_routed/croc_routed_lvs.v
 
 utl::report "Done!"
 

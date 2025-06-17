@@ -151,8 +151,8 @@ yosys tee -q -o "reports/croc_optimized.rpt" stat -width
 # Setting Constraints
 # -------------------
 
-set period_ps 10000
-# set period_ps 12500
+# set period_ps 10000
+set period_ps 12500
 # The other constraints are defined in 'yosys/src/abc.constr'
 set abc_comb_script scripts/abc-opt.script
 
@@ -162,7 +162,7 @@ set abc_comb_script scripts/abc-opt.script
 # replace RTL cells with yosys internal gate-level cells
 yosys techmap
 
-# Flatten the design (except marked modules)
+# Flatten the design (except marked modules), clean and rename some nets
 yosys flatten
 yosys clean -purge
 yosys splitnets -format __v

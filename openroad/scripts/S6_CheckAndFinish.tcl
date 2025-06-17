@@ -12,6 +12,7 @@ set extRules ./src/IHP_rcx_patterns.rules
 define_process_corner -ext_model_index 0 tt
 extract_parasitics -ext_model_file $extRules
 write_spef ./checkpoints/croc_final/croc.spef
+estimate_parasitics -global_routing -spef_file ./checkpoints/croc_final/croc.spef
 # read_spef ./checkpoints/croc_final/croc.spef
 
 utl::report "Static power report"

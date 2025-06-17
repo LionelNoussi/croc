@@ -5,7 +5,7 @@ if {[info script] ne ""} {
 }
 
 source scripts/util_scripts/setup.tcl
-load_checkpoint croc_routed
+load_checkpoint croc_placed
 
 # DESIGNING THE CLOCK TREE
 

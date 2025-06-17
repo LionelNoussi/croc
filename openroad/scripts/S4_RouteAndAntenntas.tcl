@@ -40,8 +40,8 @@ global_route -end_incremental -allow_congestion -verbose
 estimate_parasitics -global_routing
 
 utl::report "Repairing Antennas..."
-repair_antennas -iterations 5 ; # repair_antennas
-check_antennas;
+# repair_antennas -iterations 1 ; # repair_antennas
+# check_antennas;
 
 utl::report "Done!"
 save_checkpoint croc_fixed_antennas;

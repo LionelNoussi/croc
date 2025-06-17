@@ -19,7 +19,7 @@ estimate_parasitics -placement
 
 utl::report "Starting global placement..."
 set_thread_count 8
-global_placement -density 0.6
+global_placement -density 0.65
 
 utl::report "Done with global placement. Reporting usage and violations:"
 report_cell_usage
@@ -43,6 +43,6 @@ utl::report "Starting detailed placement..."
 detailed_placement
 
 utl::report "Finished!"
-save_checkpoint croc_chip_placed
+save_checkpoint croc_placed
 
 gui::show
