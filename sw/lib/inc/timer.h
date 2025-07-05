@@ -41,3 +41,5 @@
 #define CFG_HIGH_REG_CLOCK_SOURCE_BIT 7
 
 void sleep_ms(uint32_t ms);
+void cycle_counter_reset();
+uint64_t cycle_counter_get();

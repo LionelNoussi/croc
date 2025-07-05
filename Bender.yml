@@ -47,6 +47,7 @@ sources:
       - rtl/user_domain.sv
       # add your design files with modules here
       - rtl/user_domain/user_rom.sv
+      - rtl/dma/dma.sv
       # Level 3
       - rtl/croc_soc.sv
 

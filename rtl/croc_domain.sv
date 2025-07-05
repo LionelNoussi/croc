@@ -103,6 +103,10 @@ module croc_domain import croc_pkg::*; #(
   sbr_obi_req_t [NumSramBanks-1:0] xbar_mem_bank_obi_req;
   sbr_obi_rsp_t [NumSramBanks-1:0] xbar_mem_bank_obi_rsp;
 
+  // dma bus
+  sbr_obi_req_t xbar_dma_obi_req;
+  sbr_obi_rsp_t xbar_dma_obi_rsp;
+
   // periph bus
   sbr_obi_req_t xbar_periph_obi_req;
   sbr_obi_rsp_t xbar_periph_obi_rsp;
@@ -113,6 +117,9 @@ module croc_domain import croc_pkg::*; #(
 
   assign xbar_error_obi_req          = all_sbr_obi_req[XbarError];
   assign all_sbr_obi_rsp[XbarError]  = xbar_error_obi_rsp;
+
+  assign xbar_dma_obi_req         = all_sbr_obi_req[XbarDma];
+  assign all_sbr_obi_rsp[XbarDma] = xbar_dma_obi_rsp;
 
   assign xbar_periph_obi_req         = all_sbr_obi_req[XbarPeriph];
   assign all_sbr_obi_rsp[XbarPeriph] = xbar_periph_obi_rsp;
@@ -325,14 +332,31 @@ module croc_domain import croc_pkg::*; #(
     .rst_ni,
     .testmode_i,
 
-    .sbr_ports_req_i  ( {core_instr_obi_req, core_data_obi_req, dbg_req_obi_req, user_mgr_obi_req_i } ), // from managers towards subordinates
-    .sbr_ports_rsp_o  ( {core_instr_obi_rsp, core_data_obi_rsp, dbg_req_obi_rsp, user_mgr_obi_rsp_o } ),
-    .mgr_ports_req_o  ( all_sbr_obi_req ), // connections to subordinates
-    .mgr_ports_rsp_i  ( all_sbr_obi_rsp ),
+    .sbr_ports_req_i  ( {core_instr_obi_req, core_data_obi_req, dbg_req_obi_req, user_mgr_obi_req_i } ), // requests from managers towards subordinates
+    .sbr_ports_rsp_o  ( {core_instr_obi_rsp, core_data_obi_rsp, dbg_req_obi_rsp, user_mgr_obi_rsp_o } ), // responses from subordinates to manager requests
+    .mgr_ports_req_o  ( all_sbr_obi_req ), // connections to subordinates, requests from subordinates to managers
+    .mgr_ports_rsp_i  ( all_sbr_obi_rsp ), // responses from managers to subordinates
 
     .addr_map_i       ( croc_addr_map   ),
     .en_default_idx_i ( 4'b1111          ),
     .default_idx_i    ( '0              )
+  );
+
+  // -----------------
+  // DMA
+  // -----------------
+  dma #(
+    .ObiCfg      ( SbrObiCfg     ),
+    .sbr_obi_req_t   ( sbr_obi_req_t ),
+    .sbr_obi_rsp_t   ( sbr_obi_rsp_t ),
+    .mgr_obi_req_t   ( mgr_obi_req_t ),
+    .mgr_obi_rsp_t   ( mgr_obi_rsp_t )
+  ) i_dma (
+    .clk_i,
+    .rst_ni,
+
+    .xbar_to_dma_port_req_i(xbar_dma_obi_req),
+    .xbar_to_dma_port_rsp_o(xbar_dma_obi_rsp)
   );
 
   // -----------------
@@ -433,6 +457,9 @@ module croc_domain import croc_pkg::*; #(
     .default_idx_i    ( '0 )
   );
 
+  // TODO change this to periph_demux_w_dma, which acts like a wrapper to obi_demux,
+  // but has an extra mux before all dma enabled peripherals, which can pick the input source
+  // to be either from the xbar or from the dma, depending on a dma enable signal
   obi_demux #(
     .ObiCfg      ( SbrObiCfg     ),
     .obi_req_t   ( sbr_obi_req_t ),

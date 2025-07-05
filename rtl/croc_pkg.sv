@@ -66,9 +66,12 @@ package croc_pkg;
   localparam int unsigned SramAddrRange     = NumSramBanks*SramBankNumWords*4;
 
   localparam bit [31:0]   UserBaseAddr      = 32'h2000_0000;
-  localparam bit [31:0]   UserAddrRange     = 32'h6000_0000;
+  localparam bit [31:0]   UserAddrRange     = 32'h5000_0000;
 
-  localparam int unsigned NumCrocDomainSubordinates = 2 + NumSramBanks; // Peripherals + Memory + User Domain
+  localparam bit [31:0]   DmaBaseAddr      = 32'h5000_0000;
+  localparam bit [31:0]   DmaAddrRange     = 32'h6000_0000;
+
+  localparam int unsigned NumCrocDomainSubordinates = 3 + NumSramBanks; // Peripherals + Memory + User Domain + DMA
   
   localparam int unsigned NumXbarManagers = 4; // Debug module, Core Instr, Core Data, User Domain
   localparam int unsigned NumXbarSbrRules = NumCrocDomainSubordinates; // number of address rules in the decoder
@@ -79,7 +82,8 @@ package croc_pkg;
     XbarError  = 0,
     XbarPeriph = 1,
     XbarBank0  = 2,
-    XbarUser   = 2 + NumSramBanks
+    XbarUser   = 2 + NumSramBanks,
+    XbarDma    = 3 + NumSramBanks
   } croc_xbar_outputs_e;
 
   // generate the address rules dependent on the number of SRAM banks
@@ -93,11 +97,15 @@ package croc_pkg;
       ret[i+1] = '{ idx: XbarBank0+i,
                     start_addr: SramBaseAddr + ( i    * SramBankNumWords*4),
                     end_addr:   SramBaseAddr + ((i+1) * SramBankNumWords*4)};
-
-      ret[NumXbarSbrRules-1] = '{ idx: XbarUser,
-                start_addr: UserBaseAddr,
-                end_addr:   UserBaseAddr+UserAddrRange};
     end
+
+    ret[NumXbarSbrRules-2] = '{ idx: XbarUser,
+              start_addr: UserBaseAddr,
+              end_addr:   UserBaseAddr+UserAddrRange};
+    
+    ret[NumXbarSbrRules-1] = '{ idx: XbarDma,
+              start_addr: DmaBaseAddr,
+              end_addr:   DmaBaseAddr+DmaAddrRange};
     return ret;
   endfunction
 

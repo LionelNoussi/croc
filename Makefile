@@ -103,7 +103,11 @@ verilator/obj_dir/Vtb_croc_soc: verilator/croc.f $(SW_HEX)
 verilator: verilator/obj_dir/Vtb_croc_soc
 	cd verilator; obj_dir/Vtb_croc_soc +binary="$(realpath $(SW_HEX))"
 
-.PHONY: verilator vsim vsim-yosys # verilator/croc.f
+verilator_all:
+	$(MAKE) -B verilator
+
+.PHONY: verilator_all
+.PHONY: verilator vsim vsim-yosys
 
 
 ####################

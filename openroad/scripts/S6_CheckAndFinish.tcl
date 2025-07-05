@@ -5,7 +5,7 @@ if {[info script] ne ""} {
 source scripts/util_scripts/setup.tcl
 load_checkpoint croc_routed
 
-# gui::show
+gui::show
 
 
 set extRules ./src/IHP_rcx_patterns.rules

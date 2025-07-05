@@ -41,6 +41,25 @@ void printf(const char *fmt, ...) {
                 for (int j = idx - 1; j >= 0; j--) {
                     putchar(buffer[j]);
                 }
+            } else if (*fmt == 'b') {
+                uint32_t val = va_arg(args, unsigned int);
+                for (int j = 31; j >= 0; j--) {
+                    putchar((val & (1U << j)) ? '1' : '0');
+                }
+            } else if (*fmt == 'u') {
+                uint32_t val = va_arg(args, unsigned int);
+                idx = 0;
+                if (val == 0) {
+                    putchar('0');
+                } else {
+                    while (val > 0) {
+                        buffer[idx++] = '0' + (val % 10);
+                        val /= 10;
+                    }
+                    for (int j = idx - 1; j >= 0; j--) {
+                        putchar(buffer[j]);
+                    }
+                }
             } else if (*fmt == 'c') {
                 char ch = (char)va_arg(args, int);  // char promoted to int in varargs
                 putchar(ch);
