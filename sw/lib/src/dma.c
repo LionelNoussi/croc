@@ -32,12 +32,12 @@ void dma_test() {
                   ((uint32_t)(byte_mode & 0x1) << 1) |
                   (activate & 0x1);
     uint32_t condition = (
-        (uint32_t) 10 << 24 |
-        (uint32_t) 20 << 16 |
-        (uint32_t) ((uint32_t) 2 & 0x3)
+        (uint32_t) 1 << 24 |
+        (uint32_t) 1 << 16 |
+        (uint32_t) ((uint32_t) 1 & 0x3)
     );
 
-    volatile uint8_t test_source[1] = {0x1A};
+    volatile uint8_t test_source[2] = {0x1A, 1};    // Value to copy, condition
     volatile uint8_t test_array[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
     // printf("Source address: %x \r\n", test_source);

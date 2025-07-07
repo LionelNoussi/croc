@@ -68,14 +68,15 @@ logic       condition_valid_d, condition_valid_q;
 typedef enum logic [2:0] {
   REICEIVER_IDLE,
   REICEVER_WAIT_FOR_FIFO_SPACE,
-  CONDITION_PHASE,
-  REICEVER_WAIT_FOR_GNT,
+  RECEIVER_WAIT_FOR_COND_GNT,
+  RECEIVER_WAIT_FOR_COND_RVALID,
+  RECEIVER_WAIT_FOR_GNT,
   REICEVER_WAIT_FOR_RVALID
 } receiver_states_t;
 
 receiver_states_t RCV_STARTING_STATE;
 logic [31:0] RCV_STARTING_ADDR;
-assign RCV_STARTING_STATE = condition_valid_q ? CONDITION_PHASE : REICEVER_WAIT_FOR_GNT;
+assign RCV_STARTING_STATE = condition_valid_q ? RECEIVER_WAIT_FOR_COND_GNT : RECEIVER_WAIT_FOR_GNT;
 assign RCV_STARTING_ADDR = condition_valid_q ? (src_addr_q + condition_offset_q) : (src_addr_q + offset_q);
 
 receiver_states_t receiver_state_d, receiver_state_q;
@@ -288,7 +289,10 @@ end
 
 // -------- RECEIVER STATE MACHINE -------------
 
+logic[7:0] condition_satisfied;
 always_comb begin: RECEIVER_STATE_MACHINE
+  condition_satisfied = '0;
+
   receiver_state_d = receiver_state_q;
   receiver_counter_d = receiver_counter_q;
   read_addr_d = read_addr_q;
@@ -318,15 +322,45 @@ always_comb begin: RECEIVER_STATE_MACHINE
       end
     end
 
-    CONDITION_PHASE: begin
+    RECEIVER_WAIT_FOR_COND_GNT: begin
       if (interrupt_signal_q) begin
         receiver_state_d = REICEIVER_IDLE;
       end else begin
-        // TODO
+        if (dma_to_periph_port_rsp_i.gnt) begin
+          // TODO do I already need to check for rvalid here?
+          receiver_state_d = RECEIVER_WAIT_FOR_COND_RVALID;
+        end else begin // request hasn't been granted yet, request again
+          receiver_req_d = 1'b1;
+        end
       end
     end
 
-    REICEVER_WAIT_FOR_GNT: begin
+    RECEIVER_WAIT_FOR_COND_RVALID: begin
+      if (interrupt_signal_q) begin
+        receiver_state_d = REICEIVER_IDLE;
+      end else begin
+        if (dma_to_periph_port_rsp_i.rvalid && !dma_to_periph_port_rsp_i.r.err) begin
+          condition_satisfied = dma_to_periph_port_rsp_i.r.rdata >> (8 * read_addr_q[1:0]) & 8'hFF;
+
+          condition_satisfied = condition_satisfied & condition_mask_q;
+          if (condition_negate_q) begin
+            condition_satisfied = !condition_satisfied;
+          end
+
+          if (condition_satisfied) begin
+            receiver_state_d = RECEIVER_WAIT_FOR_GNT;
+            read_addr_d = src_addr_q + offset_q;
+            receiver_req_d = 1'b1;
+          end else begin
+            receiver_state_d = RECEIVER_WAIT_FOR_COND_GNT;
+            read_addr_d = src_addr_q + condition_offset_q;
+            receiver_req_d = 1'b1;
+          end
+        end
+      end
+    end
+
+    RECEIVER_WAIT_FOR_GNT: begin
       if (interrupt_signal_q) begin
         receiver_state_d = REICEIVER_IDLE;
       end else begin
