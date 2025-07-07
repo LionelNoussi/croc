@@ -48,6 +48,7 @@ sources:
       # add your design files with modules here
       - rtl/user_domain/user_rom.sv
       - rtl/dma/dma.sv
+      - rtl/dma/dma_fifo_buffer.sv
       # Level 3
       - rtl/croc_soc.sv
 

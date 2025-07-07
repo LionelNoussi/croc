@@ -104,6 +104,12 @@ module croc_domain import croc_pkg::*; #(
   sbr_obi_rsp_t [NumSramBanks-1:0] xbar_mem_bank_obi_rsp;
 
   // dma bus
+  mgr_obi_req_t dma_to_periph_port_req;
+  mgr_obi_rsp_t dma_to_periph_port_rsp;
+
+  mgr_obi_req_t dma_to_xbar_port_req;
+  mgr_obi_rsp_t dma_to_xbar_port_rsp;
+
   sbr_obi_req_t xbar_dma_obi_req;
   sbr_obi_rsp_t xbar_dma_obi_rsp;
 
@@ -332,8 +338,8 @@ module croc_domain import croc_pkg::*; #(
     .rst_ni,
     .testmode_i,
 
-    .sbr_ports_req_i  ( {core_instr_obi_req, core_data_obi_req, dbg_req_obi_req, user_mgr_obi_req_i } ), // requests from managers towards subordinates
-    .sbr_ports_rsp_o  ( {core_instr_obi_rsp, core_data_obi_rsp, dbg_req_obi_rsp, user_mgr_obi_rsp_o } ), // responses from subordinates to manager requests
+    .sbr_ports_req_i  ( {core_instr_obi_req, core_data_obi_req, dbg_req_obi_req, user_mgr_obi_req_i, dma_to_periph_port_req, dma_to_xbar_port_req} ), // requests from managers towards subordinates
+    .sbr_ports_rsp_o  ( {core_instr_obi_rsp, core_data_obi_rsp, dbg_req_obi_rsp, user_mgr_obi_rsp_o, dma_to_periph_port_rsp, dma_to_xbar_port_rsp} ), // responses from subordinates to manager requests
     .mgr_ports_req_o  ( all_sbr_obi_req ), // connections to subordinates, requests from subordinates to managers
     .mgr_ports_rsp_i  ( all_sbr_obi_rsp ), // responses from managers to subordinates
 
@@ -354,6 +360,12 @@ module croc_domain import croc_pkg::*; #(
   ) i_dma (
     .clk_i,
     .rst_ni,
+
+    .dma_to_periph_port_req_o(dma_to_periph_port_req),
+    .dma_to_periph_port_rsp_i(dma_to_periph_port_rsp),
+    
+    .dma_to_xbar_port_req_o(dma_to_xbar_port_req),
+    .dma_to_xbar_port_rsp_i(dma_to_xbar_port_rsp),
 
     .xbar_to_dma_port_req_i(xbar_dma_obi_req),
     .xbar_to_dma_port_rsp_o(xbar_dma_obi_rsp)
