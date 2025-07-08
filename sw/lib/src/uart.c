@@ -28,6 +28,13 @@ int uart_read_ready() {
     return *reg8(UART_BASE_ADDR, UART_LINE_STATUS_REG_OFFSET) & (1 << UART_LINE_STATUS_DATA_READY_BIT);
 }
 
+void uart_read_flush() {
+    uint8_t flush;
+    while (uart_read_ready()) {
+        flush = *reg8(UART_BASE_ADDR, UART_RBR_REG_OFFSET);
+    }
+}
+
 static inline int __uart_write_ready() {
     return *reg8(UART_BASE_ADDR, UART_LINE_STATUS_REG_OFFSET) & (1 << UART_LINE_STATUS_THR_EMPTY_BIT);
 }

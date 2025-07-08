@@ -37,6 +37,8 @@ void uart_init();
 
 int uart_read_ready();
 
+void uart_read_flush();
+
 void uart_write(uint8_t byte);
 
 void uart_write_str(void *src, uint32_t len);

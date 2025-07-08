@@ -53,6 +53,8 @@ logic[31:0] src_addr_d, src_addr_q;
 logic[31:0] dst_addr_d, dst_addr_q;
 logic[7:0]  offset_d, offset_q; // for source address
 logic[10:0] repeat_d, repeat_q;
+logic       increment_src_d, increment_src_q;
+logic       increment_dest_d, increment_dest_q;
 logic       byte_mode_d, byte_mode_q;
 logic       activate_signal_d, activate_signal_q;
 logic       interrupt_signal_d, interrupt_signal_q;
@@ -99,7 +101,7 @@ logic        fifo_wr_en_d,    fifo_wr_en_q;
 logic [31:0] fifo_wr_data_d,  fifo_wr_data_q;
 
 // FIFO read side (inputs)
-logic        fifo_rd_en_d,    fifo_rd_en_q;
+logic        fifo_rd_en;
 
 // FIFO outputs
 logic        fifo_full;
@@ -109,7 +111,7 @@ logic        fifo_almost_empty;
 logic [31:0] fifo_rd_data;
 
 dma_fifo_buffer #(
-  .DEPTH(4)
+  .DEPTH(2)
 ) i_dma_fifo_buffer (
   .clk_i          (clk_i),
   .rst_ni         (rst_ni),
@@ -119,7 +121,7 @@ dma_fifo_buffer #(
   .full_o         (fifo_full),
   .almost_full_o  (fifo_almost_full),
 
-  .rd_en_i        (fifo_rd_en_q),
+  .rd_en_i        (fifo_rd_en),
   .rd_data_o      (fifo_rd_data),
   .empty_o        (fifo_empty),
   .almost_empty_o (fifo_almost_empty)
@@ -200,6 +202,8 @@ always_comb begin
   dst_addr_d = dst_addr_q;
   offset_d = offset_q;
   repeat_d = repeat_q;
+  increment_src_d = increment_src_q;
+  increment_dest_d = increment_dest_q;
   byte_mode_d = byte_mode_q;
   activate_signal_d = '0;
   interrupt_signal_d = '0;
@@ -228,6 +232,8 @@ always_comb begin
           REG_CONTROL: begin
             offset_d            = wdata_q[31:24];
             repeat_d            = wdata_q[23:13];
+            increment_src_d     = wdata_q[3];
+            increment_dest_d    = wdata_q[2];
             byte_mode_d         = wdata_q[1];
             activate_signal_d   = wdata_q[0];
           end
@@ -263,7 +269,9 @@ always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
     dst_addr_q          <= '0;
     offset_q            <= '0;
     repeat_q            <= '0;
-    byte_mode_q  <= '0;
+    increment_src_q     <= '0;
+    increment_dest_q    <= '0;
+    byte_mode_q         <= '0;
     activate_signal_q   <= '0;
     interrupt_signal_q  <= '0;
 
@@ -276,6 +284,8 @@ always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
     dst_addr_q          <= dst_addr_d;
     offset_q            <= offset_d;
     repeat_q            <= repeat_d;
+    increment_src_q     <= increment_src_d;
+    increment_dest_q    <= increment_dest_d;
     byte_mode_q         <= byte_mode_d;
     activate_signal_q   <= activate_signal_d;
     interrupt_signal_q  <= interrupt_signal_d;
@@ -433,7 +443,7 @@ always_comb begin: SENDER_STATE_MACHINE
   sender_req_d = '0;
   sender_be_d = sender_be_q;
   sender_wdata_d = sender_wdata_q;
-  fifo_rd_en_d = '0;
+  fifo_rd_en = '0;
 
   // dma_to_xbar_port_req_o.a.wdata = 32'hADAC_ABAA;
 
@@ -462,7 +472,7 @@ always_comb begin: SENDER_STATE_MACHINE
           sender_be_d = 4'b1111;
         end
         
-        fifo_rd_en_d = 1'b1;  // Tell the fifo that we read the inputs.
+        fifo_rd_en = 1'b1;  // Tell the fifo that we read the inputs.
         sender_req_d = 1'b1;  // Send a write request
         sender_state_d = SENDER_WAIT_FOR_GNT;  // Switch to state which waits until the write request is granted
 
@@ -504,7 +514,7 @@ always_comb begin: SENDER_STATE_MACHINE
               sender_wdata_d = fifo_rd_data;
             end
 
-            fifo_rd_en_d = 1'b1;  // Tell the fifo that we read the inputs.
+            fifo_rd_en = 1'b1;  // Tell the fifo that we read the inputs.
             sender_req_d = 1'b1;  // Send an obi request.
             sender_state_d = SENDER_WAIT_FOR_GNT;
           end else begin
@@ -535,7 +545,6 @@ always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
     send_addr_q <= '0;
     sender_be_q <= '0;
     sender_wdata_q <= '0;
-    fifo_rd_en_q <= '0;
   end else begin
     sender_counter_q <= sender_counter_d;
     sender_state_q <= sender_state_d;
@@ -543,7 +552,6 @@ always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
     sender_be_q <= sender_be_d;
     send_addr_q <= send_addr_d;
     sender_wdata_q <= sender_wdata_d;
-    fifo_rd_en_q <= fifo_rd_en_d;
   end
 
 end

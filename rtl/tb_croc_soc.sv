@@ -362,6 +362,26 @@ module tb_croc_soc #(
         #UartBaudPeriod;
     endtask
 
+    // send an array via uart if the correct start byte was read
+    // Send this array: uint8_t sourc_array[8] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
+    initial begin
+        byte_bt source_array[8] = {8'h11, 8'h22, 8'h33, 8'h44, 8'h55, 8'h66, 8'h77, 8'h88};
+        byte_bt start_bite;
+        
+        @(posedge fetch_en_i);
+        
+        forever begin
+            uart_read_byte(start_bite);
+
+            if (start_bite == 8'hAA) begin
+                foreach (source_array[i]) begin
+                    uart_write_byte(source_array[i]);
+                end
+            end
+            
+        end
+    end
+
     // Continually read characters and print lines
     // TODO: we should be able to support CR properly, but buffers are hard to deal with...
     initial begin
@@ -372,6 +392,8 @@ module tb_croc_soc #(
         uart_read_buf.delete();
         forever begin
             uart_read_byte(bite);
+
+            if (bite == 8'hAA) continue;
             
             if (bite == "\n" || uart_read_buf.size() > 80) begin
                  if (uart_read_buf.size() > 0) begin
@@ -381,8 +403,8 @@ module tb_croc_soc #(
                     end
                     
                     $display("@%t | [UART] %s", $time, uart_str);
-                    uart_read_buf.push_back(bite);
-                    $display("@%t | [UART] raw: %p", $time, uart_read_buf);
+                    // uart_read_buf.push_back(bite);
+                    // $display("@%t | [UART] raw: %p", $time, uart_read_buf);
   
                 end else begin
                     $display("@%t | [UART] ???", $time);
@@ -506,11 +528,11 @@ module tb_croc_soc #(
         $timeformat(-9, 0, "ns", 12); // 1: scale (ns=-9), 2: decimals, 3: suffix, 4: print-field width
         // configure VCD dump
         `ifdef TRACE_WAVE
+        $display("Tracing simulation...");
         $dumpfile("croc.vcd");
         $dumpvars(1, i_croc_soc);
         `endif
 
-        uart_rx_i  = 1'b0;
         fetch_en_i = 1'b0;
         
         // wait for reset

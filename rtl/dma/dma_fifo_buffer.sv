@@ -54,6 +54,7 @@ module dma_fifo_buffer #(
     // Sequential logic
     // -------------------------------
     always_ff @(posedge clk_i or negedge rst_ni) begin
+        
         if (!rst_ni) begin
             wr_ptr_q   <= '0;
             rd_ptr_q   <= '0;
