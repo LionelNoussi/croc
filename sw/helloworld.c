@@ -11,6 +11,7 @@
 #include "gpio.h"
 #include "util.h"
 #include "dma.h"
+#include "test_dma.h"
 
 /// @brief Example integer square root
 /// @return integer square root of n
@@ -61,7 +62,7 @@ int main() {
     // ROM TEST END ---------------------------------
 
     // DMA TEST
-    dma_test();
+    test_dma();
 
     // toggling some GPIOs
     gpio_set_direction(0xFFFF, 0x000F); // lowest four as outputs

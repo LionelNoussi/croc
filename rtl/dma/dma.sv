@@ -35,7 +35,8 @@ localparam logic [7:0] REG_DST_ADDR       = 8'h04;
 localparam logic [7:0] REG_CONTROL        = 8'h08;
 localparam logic [7:0] REG_CONDITION      = 8'h0C;
 localparam logic [7:0] REG_INTERRUPT      = 8'h10;
-localparam logic [7:0] REG_STATUS         = 8'h14;
+localparam logic [7:0] REG_ACTIVATE       = 8'h14;
+localparam logic [7:0] REG_STATUS         = 8'h18;
 
 // Registers to buffer setup requests
 logic req_d, req_q;
@@ -244,6 +245,7 @@ always_comb begin
             condition_valid_d   = wdata_q[0];
           end
           REG_INTERRUPT: interrupt_signal_d = 1'b1;
+          REG_ACTIVATE:  activate_signal_d = 1'b1;
           default: rsp_err = 1'b1;
         endcase
       end

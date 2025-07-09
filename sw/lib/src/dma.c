@@ -6,125 +6,62 @@
 #include "uart.h"
 
 
+static volatile uint32_t* const dma_src_reg         = DMA_REG(DMA_SRC_REG_OFFSET);
+static volatile uint32_t* const dma_dst_reg         = DMA_REG(DMA_TGT_REG_OFFSET);
+static volatile uint32_t* const dma_ctrl_reg        = DMA_REG(DMA_CONTROL_REG_OFFSET);
+static volatile uint32_t* const dma_cond_reg        = DMA_REG(DMA_CONDITION_REG_OFFSET);
+static volatile uint32_t* const dma_activate_reg    = DMA_REG(DMA_ACTIVATE_OFFSET);
+static volatile uint32_t* const dma_irq_reg         = DMA_REG(DMA_INTERRUPT_OFFSET);
+static volatile uint32_t* const dma_status_reg      = DMA_REG(DMA_STATUS_OFFSET);
+
+
+static inline uint32_t encode_dma_options(dma_options_t opts, uint32_t activate) {
+    return ((opts.src_offset        & DMA_CTRL_SRC_OFFSET_MASK)      << DMA_CTRL_SRC_OFFSET_SHIFT)     |
+           ((opts.num_transfers     & DMA_CTRL_REPEAT_MASK)          << DMA_CTRL_REPEAT_SHIFT)         |
+           ((opts.increment_source  & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
+           ((opts.increment_dest    & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
+           ((opts.size              & DMA_CTRL_TRANSFER_SIZE_MASK)   << DMA_CTRL_TRANSFER_SIZE_SHIFT)  |
+           ((activate               & DMA_CTRL_ACTIVATE_MASK)        << DMA_CTRL_ACTIVATE_SHIFT);
+}
+
+static inline uint32_t encode_dma_condition(dma_condition_t cond) {
+    return ((cond.cond_addr_offset  & DMA_COND_OFFSET_MASK)          << DMA_COND_OFFSET_SHIFT)         |
+           ((cond.bitmask           & DMA_COND_MASK_MASK)            << DMA_COND_MASK_SHIFT)           |
+           ((cond.negate            & DMA_COND_NEGATE_MASK)          << DMA_COND_NEGATE_SHIFT)         |
+           ((cond.enable            & DMA_COND_ENABLE_MASK)          << DMA_COND_ENABLE_SHIFT);
+}
+
+void program_dma(const dma_config_t* cfg, uint32_t activate) {
+    *dma_src_reg    = cfg->src_addr;
+    *dma_dst_reg    = cfg->dest_addr;
+    *dma_cond_reg   = encode_dma_condition(cfg->condition);
+    *dma_ctrl_reg   = encode_dma_options(cfg->options, activate);
+}
+
+void activate_dma() {
+    *dma_activate_reg = 1;
+}
+
+void interrupt_dma() {
+    do {
+        *dma_irq_reg = 1;
+    } while (dma_busy());
+}
+
+dma_status_t read_dma_status() {
+    uint32_t raw_status = *dma_status_reg;
+
+    dma_status_t status = {
+        .active = (raw_status >> DMA_STATUS_ACTIVE_SHIFT) & DMA_STATUS_ACTIVE_MASK
+    };
+
+    return status;
+}
+
 int dma_busy() {
-    return *reg32(DMA_BASE_ADDR, DMA_CONTROL_REG_OFFSET) & 0x1;
+    return *dma_status_reg & DMA_STATUS_ACTIVE_MASK;
 }
 
 int dma_ready() {
-    return !dma_busy();
-}
-
-void *memset(void *s, int c, unsigned long n) {
-    unsigned char *p = s;
-    while (n--) {
-        *p++ = (unsigned char)c;
-    }
-    return s;
-}
-
-void dma_test() {
-    uint64_t start, end;
-    uint8_t offset = UART_RBR_REG_OFFSET;
-    uint32_t repeat = 8;
-    uint8_t byte_mode = 1;
-    uint8_t activate = 1;
-    uint32_t control = ((uint32_t)offset << 24) |
-                  ((repeat & 0x7FF) << 13) |
-                  ((uint32_t)(byte_mode & 0x1) << 1) |
-                  (activate & 0x1);
-    uint32_t condition = (
-        (uint32_t) UART_LINE_STATUS_REG_OFFSET << 24 |
-        (uint32_t) (1 << UART_LINE_STATUS_DATA_READY_BIT) << 16 |
-        (uint32_t) ((uint32_t) 1 & 0x3)
-    );
-
-    // volatile uint8_t test_source[2] = {0x1A, 1};    // Value to copy, condition
-    volatile uint8_t test_array[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-
-    // printf("Source address: %x \r\n", test_source);
-    // printf("Destiantion address: %x \r\n", test_array);
-
-    volatile uint32_t* dma_src = reg32(DMA_BASE_ADDR, DMA_SRC_REG_OFFSET);
-    volatile uint32_t* dma_tgt = reg32(DMA_BASE_ADDR, DMA_TGT_REG_OFFSET);
-    volatile uint32_t* dma_ctr = reg32(DMA_BASE_ADDR, DMA_CONTROL_REG_OFFSET);
-    volatile uint32_t* dma_cond = reg32(DMA_BASE_ADDR, DMA_CONDITION_REG_OFFSET);
-    volatile uint32_t* dma_interrupt = reg32(DMA_BASE_ADDR, DMA_INTERRUPT_OFFSET);
-
-    // Start the transmission, by sending the start byte
-    uart_read_flush();
-    uart_write((uint8_t) 0xAA);
-    sleep_ms(50);
-
-    start = get_mcycle();
-    // for (int i = 0; i < 8; i++) {
-    //     test_array[i] = uart_read();
-    // }
-    test_array[0] = uart_read();
-    test_array[1] = uart_read();
-    test_array[2] = uart_read();
-    test_array[3] = uart_read();
-    test_array[4] = uart_read();
-    test_array[5] = uart_read();
-    test_array[6] = uart_read();
-    test_array[7] = uart_read();
-    end = get_mcycle();
-
-    printf("Reading manually takes %u cycles.\r\n", (uint32_t) (end - start));
-    printf("Data read from UART manually: [");
-    for (int i = 0; i < 7; i++) {
-        printf("%x, ", test_array[i]);
-    }
-    printf("%x]\n", test_array[7]);
-
-    for (int i = 0; i < 8; i++) {
-        test_array[i] = 0;
-    }
-    uart_read_flush();
-    uart_write((uint8_t) 0xAA);
-    sleep_ms(50);
-
-    start = get_mcycle();
-    *dma_src = (uint32_t) UART_BASE_ADDR;
-    *dma_tgt = (uint32_t) &test_array[0];
-    *dma_cond = condition;
-    *dma_ctr = control;
-    // uint32_t controls_on = *dma_ctr;
-    // uint32_t src_addr = *dma_src;
-    // uint32_t tgt_addr = *dma_tgt;
-    // uint32_t read_condition = *dma_cond;
-
-    while (dma_busy()) {;}
-
-    // uint32_t controls_off = *dma_ctr;
-    end = get_mcycle();
-
-    printf("Required cycles by DMA: %u \r\n", (uint32_t) (end - start));
-    // printf("Written source addr: %x \r\n", src_addr);
-    // printf("Written target addr: %x \r\n", tgt_addr);
-    // printf("Written condition registers: %b \r\n", read_condition);
-    // printf("Written control registers: %b \r\n", controls_on);
-    // printf("Read control registers: %b \r\n", controls_off);
-
-    printf("Data read stored by DMA from UART: [");
-    for (int i = 0; i < 7; i++) {
-        printf("%x, ", test_array[i]);
-    }
-    printf("%x]\n", test_array[7]);
-}
-
-
-void uart_dma_receive(void *dst, uint32_t len) {
-    // 1. Write destination address to dma
-    // 2. Write UART base address to dma
-    // 3. Write the correct condition, which waits for UART to be ready, to dma
-    // In one write:
-        // Set the corect offset to read a byte
-        // Set the repeat amount to len
-        // Set range/offset-select to offset
-        // Set 8/32bit-select to 8-bit
-        // Activate dma
-}
-
-void uart_dma_transmit(void *src, uint32_t len) {
-    
+    return !(*dma_status_reg & DMA_STATUS_ACTIVE_MASK);
 }
