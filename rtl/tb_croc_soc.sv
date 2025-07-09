@@ -373,7 +373,7 @@ module tb_croc_soc #(
         forever begin
             uart_read_byte(start_bite);
 
-            if (start_bite == 8'hAA) begin
+            if (start_bite == 8'h00) begin
                 foreach (source_array[i]) begin
                     uart_write_byte(source_array[i]);
                 end
@@ -393,7 +393,7 @@ module tb_croc_soc #(
         forever begin
             uart_read_byte(bite);
 
-            if (bite == 8'hAA) continue;
+            if (bite == 8'h00) continue;
             
             if (bite == "\n" || uart_read_buf.size() > 80) begin
                  if (uart_read_buf.size() > 0) begin

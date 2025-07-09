@@ -43,22 +43,14 @@ int main() {
 
     // ROM TEST -------------------------------------
     // Read from the Rom and print the result
+    uint32_t val;
     printf("ROM content: ");
-    char c = ' ';
-    // Loop through ROM until end token is read
-    for (int i = 0; c != '\0' | i < USER_ROM_ADDR_RANGE; i += 4) {
-        // Read 4 chars from ROM
-        uint32_t val = *reg32(USER_ROM_BASE_ADDR, i);
-        char *chars = (char *)&val;
-        // Loop through the chars and print each one individually
-        for (int b = 0; b < 4; b++) {
-            c = chars[b];
-            // If the end token is read, stop the loop.
-            if (c == '\0') break;
-            putchar(c);
-        }
+    // Reading 12 characters. Should be "LN&LK's ASIC"
+    for (int i = 0; i < 12; i += 4) {
+        val = *reg32(USER_ROM_BASE_ADDR, i);    // Reads 4 chars from ROM at once
+        printf((const char*) &val);     // Cast to char array and printf
     }
-    putchar('\n');
+    uart_write('\n');
     // ROM TEST END ---------------------------------
 
     // DMA TEST

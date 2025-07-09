@@ -50,20 +50,24 @@ logic [ObiCfg.DataWidth-1:0] rsp_data; // Data field of the obi response
 logic rsp_err; // Error field of the obi response
 
 // DMA-setup state-registers
-logic[31:0] src_addr_d, src_addr_q;
-logic[31:0] dst_addr_d, dst_addr_q;
-logic[7:0]  offset_d, offset_q; // for source address
+logic[31:0] src_base_addr_d, src_base_addr_q;
+logic[31:0] dst_base_addr_d, dst_base_addr_q;
+logic[7:0]  src_offset_d, src_offset_q;
+logic[7:0]  dst_offset_d, dst_offset_q;
 logic[10:0] repeat_d, repeat_q;
 logic       increment_src_d, increment_src_q;
-logic       increment_dest_d, increment_dest_q;
+logic       increment_dst_d, increment_dst_q;
 logic       byte_mode_d, byte_mode_q;
 logic       activate_signal_d, activate_signal_q;
 logic       interrupt_signal_d, interrupt_signal_q;
 
 logic[7:0]  condition_offset_d, condition_offset_q;
 logic[7:0]  condition_mask_d, condition_mask_q;
+logic       condition_type_r0w1_d, condition_type_r0w1_q;
 logic       condition_negate_d, condition_negate_q;
 logic       condition_valid_d, condition_valid_q;
+logic[31:0] condition_address;
+assign condition_address = condition_type_r0w1_q ? (dst_base_addr_q + condition_offset_q) : (src_base_addr_q + condition_offset_q);
 
 // RECEIVER STATE MACHINE REGISTERS AND SIGNALS
 // --------------------------------------------
@@ -77,17 +81,16 @@ typedef enum logic [2:0] {
   REICEVER_WAIT_FOR_RVALID
 } receiver_states_t;
 
-receiver_states_t RCV_STARTING_STATE;
-logic [31:0] RCV_STARTING_ADDR;
-assign RCV_STARTING_STATE = condition_valid_q ? RECEIVER_WAIT_FOR_COND_GNT : RECEIVER_WAIT_FOR_GNT;
-assign RCV_STARTING_ADDR = condition_valid_q ? (src_addr_q + condition_offset_q) : (src_addr_q + offset_q);
-
 receiver_states_t receiver_state_d, receiver_state_q;
 logic[10:0]       receiver_counter_d, receiver_counter_q;
-logic[31:0]       read_addr_d, read_addr_q;
+logic[31:0]       src_addr_d, src_addr_q;
 logic             receiver_req_d, receiver_req_q;
 
+logic receiver_condition_enable;
+assign receiver_condition_enable = condition_valid_q; //(condition_valid_q & !condition_type_r0w1_q);
+
 // ASSIGN DMA TO PERIPHERAL REQUEST SIGNAL
+logic[31:0]       read_addr_d, read_addr_q;
 assign dma_to_periph_port_req_o.a.addr = read_addr_q;
 assign dma_to_periph_port_req_o.a.we = 1'b0;
 assign dma_to_periph_port_req_o.req = receiver_req_q;
@@ -144,13 +147,13 @@ sender_states_t   sender_state_d, sender_state_q;
 logic[10:0]       sender_counter_d, sender_counter_q;
 logic             sender_req_d, sender_req_q;
 logic[3:0]        sender_be_d, sender_be_q;
-logic[31:0]       send_addr_d, send_addr_q;
 logic[31:0]       sender_wdata_d, sender_wdata_q;
 
 logic             dma_is_active;
 assign            dma_is_active = (sender_state_q != SENDER_IDLE);
 
 // ASSIGN DMA TO XBAR REQUEST SIGNAL
+logic[31:0]       send_addr_d, send_addr_q;
 assign dma_to_xbar_port_req_o.a.addr = send_addr_q;
 assign dma_to_xbar_port_req_o.a.we = 1'b1;
 assign dma_to_xbar_port_req_o.req = sender_req_q;
@@ -199,18 +202,20 @@ assign xbar_to_dma_port_rsp_o.r.r_optional = '0;
 // Update internal state and set response signals
 logic[7:0] reg_addr;
 always_comb begin
-  src_addr_d = src_addr_q;
-  dst_addr_d = dst_addr_q;
-  offset_d = offset_q;
+  src_base_addr_d = src_base_addr_q;
+  dst_base_addr_d = dst_base_addr_q;
+  src_offset_d = src_offset_q;
+  dst_offset_d = dst_offset_q;
   repeat_d = repeat_q;
   increment_src_d = increment_src_q;
-  increment_dest_d = increment_dest_q;
+  increment_dst_d = increment_dst_q;
   byte_mode_d = byte_mode_q;
   activate_signal_d = '0;
   interrupt_signal_d = '0;
 
   condition_offset_d = condition_offset_q;
   condition_mask_d = condition_mask_q;
+  condition_type_r0w1_d = condition_type_r0w1_q;
   condition_negate_d = condition_negate_q;
   condition_valid_d = condition_valid_q;
 
@@ -228,21 +233,23 @@ always_comb begin
         rsp_err = 1'b1; // Block writes while DMA is active, unless it's an interrupt
       end else begin
         case (reg_addr)
-          REG_SRC_ADDR:     src_addr_d = wdata_q;
-          REG_DST_ADDR:     dst_addr_d = wdata_q;
+          REG_SRC_ADDR:     src_base_addr_d = wdata_q;
+          REG_DST_ADDR:     dst_base_addr_d = wdata_q;
           REG_CONTROL: begin
-            offset_d            = wdata_q[31:24];
-            repeat_d            = wdata_q[23:13];
+            src_offset_d        = wdata_q[31:24];
+            dst_offset_d        = wdata_q[23:16];
+            repeat_d            = wdata_q[15:5];
             increment_src_d     = wdata_q[3];
-            increment_dest_d    = wdata_q[2];
+            increment_dst_d     = wdata_q[2];
             byte_mode_d         = wdata_q[1];
             activate_signal_d   = wdata_q[0];
           end
           REG_CONDITION: begin
-            condition_offset_d  = wdata_q[31:24];
-            condition_mask_d    = wdata_q[23:16];
-            condition_negate_d  = wdata_q[1];
-            condition_valid_d   = wdata_q[0];
+            condition_offset_d    = wdata_q[31:24];
+            condition_mask_d      = wdata_q[23:16];
+            condition_type_r0w1_d = wdata_q[2];
+            condition_negate_d    = wdata_q[1];
+            condition_valid_d     = wdata_q[0];
           end
           REG_INTERRUPT: interrupt_signal_d = 1'b1;
           REG_ACTIVATE:  activate_signal_d = 1'b1;
@@ -253,9 +260,9 @@ always_comb begin
     // Process read requests
     end else begin
       case (reg_addr)
-        REG_SRC_ADDR: rsp_data = src_addr_q;                                                    // Used to debug for now
-        REG_DST_ADDR: rsp_data = dst_addr_q;                                                    // Used to debug for now
-        REG_CONTROL: rsp_data = {offset_q, repeat_q, 11'b0, byte_mode_q, dma_is_active};  // Used to debug for now
+        REG_SRC_ADDR: rsp_data = src_base_addr_q;                                                    // Used to debug for now
+        REG_DST_ADDR: rsp_data = dst_base_addr_q;                                                    // Used to debug for now
+        REG_CONTROL: rsp_data = {src_offset_q, dst_offset_q, repeat_q, 1'b0, increment_src_q, increment_dst_q, byte_mode_q, dma_is_active};  // Used to debug for now
         REG_CONDITION: rsp_data = {condition_offset_q, condition_mask_q, 14'b0, condition_negate_q, condition_valid_q};
         REG_STATUS: rsp_data = {31'b0, dma_is_active};   // All status registers
         default: rsp_err = 1'b1;
@@ -267,56 +274,69 @@ end
 // Internal-State Registers
 always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
   if (!rst_ni) begin
-    src_addr_q          <= '0;
-    dst_addr_q          <= '0;
-    offset_q            <= '0;
-    repeat_q            <= '0;
-    increment_src_q     <= '0;
-    increment_dest_q    <= '0;
-    byte_mode_q         <= '0;
-    activate_signal_q   <= '0;
-    interrupt_signal_q  <= '0;
+    src_base_addr_q         <= '0;
+    dst_base_addr_q         <= '0;
+    src_offset_q            <= '0;
+    dst_offset_q            <= '0;
+    repeat_q                <= '0;
+    increment_src_q         <= '0;
+    increment_dst_q         <= '0;
+    byte_mode_q             <= '0;
+    activate_signal_q       <= '0;
+    interrupt_signal_q      <= '0;
 
-    condition_offset_q  <= '0;
-    condition_mask_q    <= '0;
-    condition_negate_q  <= '0;
-    condition_valid_q   <= '0;
+    condition_offset_q      <= '0;
+    condition_mask_q        <= '0;
+    condition_type_r0w1_q   <= '0;
+    condition_negate_q      <= '0;
+    condition_valid_q       <= '0;
   end else begin
-    src_addr_q          <= src_addr_d;
-    dst_addr_q          <= dst_addr_d;
-    offset_q            <= offset_d;
-    repeat_q            <= repeat_d;
-    increment_src_q     <= increment_src_d;
-    increment_dest_q    <= increment_dest_d;
-    byte_mode_q         <= byte_mode_d;
-    activate_signal_q   <= activate_signal_d;
-    interrupt_signal_q  <= interrupt_signal_d;
+    src_base_addr_q           <= src_base_addr_d;
+    dst_base_addr_q           <= dst_base_addr_d;
+    src_offset_q              <= src_offset_d;
+    dst_offset_q              <= dst_offset_d;
+    repeat_q                  <= repeat_d;
+    increment_src_q           <= increment_src_d;
+    increment_dst_q           <= increment_dst_d;
+    byte_mode_q               <= byte_mode_d;
+    activate_signal_q         <= activate_signal_d;
+    interrupt_signal_q        <= interrupt_signal_d;
 
-    condition_offset_q  <= condition_offset_d;
-    condition_mask_q    <= condition_mask_d;
-    condition_negate_q  <= condition_negate_d;
-    condition_valid_q   <= condition_valid_d;
+    condition_offset_q        <= condition_offset_d;
+    condition_mask_q          <= condition_mask_d;
+    condition_type_r0w1_q     <= condition_type_r0w1_d;
+    condition_negate_q        <= condition_negate_d;
+    condition_valid_q         <= condition_valid_d;
   end
 end
 
 // -------- RECEIVER STATE MACHINE -------------
 
-logic[7:0] condition_satisfied;
+logic[7:0] rcv_condition_satisfied;
 always_comb begin: RECEIVER_STATE_MACHINE
-  condition_satisfied = '0;
+  rcv_condition_satisfied = '0;
 
   receiver_state_d = receiver_state_q;
   receiver_counter_d = receiver_counter_q;
-  read_addr_d = read_addr_q;
+  src_addr_d = src_addr_q;
   receiver_req_d = '0;
+
+  read_addr_d = read_addr_q;
+  
   fifo_wr_en_d = '0;
   fifo_wr_data_d = fifo_wr_data_q;
 
   case (receiver_state_q)
     REICEIVER_IDLE: begin
       if (activate_signal_q) begin
-        receiver_state_d = RCV_STARTING_STATE;
-        read_addr_d = RCV_STARTING_ADDR;
+        if (receiver_condition_enable) begin
+          receiver_state_d = RECEIVER_WAIT_FOR_COND_GNT;
+          read_addr_d = condition_address;
+        end else begin
+          receiver_state_d = RECEIVER_WAIT_FOR_GNT;
+          read_addr_d = src_base_addr_q + src_offset_q;
+        end
+        src_addr_d = src_base_addr_q + src_offset_q;
         receiver_req_d = 1'b1;
         receiver_counter_d = 1'b1;
       end
@@ -327,8 +347,13 @@ always_comb begin: RECEIVER_STATE_MACHINE
         receiver_state_d = REICEIVER_IDLE;
       end else begin
         if (!fifo_full) begin
-          receiver_state_d = RCV_STARTING_STATE;
-          read_addr_d = RCV_STARTING_ADDR;
+          if (receiver_condition_enable) begin
+            read_addr_d = condition_address;
+            receiver_state_d = RECEIVER_WAIT_FOR_COND_GNT;
+          end else begin
+            read_addr_d = src_addr_q;
+            receiver_state_d = RECEIVER_WAIT_FOR_GNT;
+          end
           receiver_req_d = 1'b1;
         end
       end
@@ -339,7 +364,6 @@ always_comb begin: RECEIVER_STATE_MACHINE
         receiver_state_d = REICEIVER_IDLE;
       end else begin
         if (dma_to_periph_port_rsp_i.gnt) begin
-          // TODO do I already need to check for rvalid here?
           receiver_state_d = RECEIVER_WAIT_FOR_COND_RVALID;
         end else begin // request hasn't been granted yet, request again
           receiver_req_d = 1'b1;
@@ -352,22 +376,20 @@ always_comb begin: RECEIVER_STATE_MACHINE
         receiver_state_d = REICEIVER_IDLE;
       end else begin
         if (dma_to_periph_port_rsp_i.rvalid && !dma_to_periph_port_rsp_i.r.err) begin
-          condition_satisfied = dma_to_periph_port_rsp_i.r.rdata >> (8 * read_addr_q[1:0]) & 8'hFF;
+          rcv_condition_satisfied = dma_to_periph_port_rsp_i.r.rdata >> (8 * read_addr_q[1:0]) & 8'hFF;
 
-          condition_satisfied = condition_satisfied & condition_mask_q;
+          rcv_condition_satisfied = rcv_condition_satisfied & condition_mask_q;
           if (condition_negate_q) begin
-            condition_satisfied = !condition_satisfied;
+            rcv_condition_satisfied = !rcv_condition_satisfied;
           end
 
-          if (condition_satisfied) begin
+          if (rcv_condition_satisfied) begin
             receiver_state_d = RECEIVER_WAIT_FOR_GNT;
-            read_addr_d = src_addr_q + offset_q;
-            receiver_req_d = 1'b1;
+            read_addr_d = src_addr_q;
           end else begin
             receiver_state_d = RECEIVER_WAIT_FOR_COND_GNT;
-            read_addr_d = src_addr_q + condition_offset_q;
-            receiver_req_d = 1'b1;
           end
+          receiver_req_d = 1'b1;
         end
       end
     end
@@ -377,9 +399,6 @@ always_comb begin: RECEIVER_STATE_MACHINE
         receiver_state_d = REICEIVER_IDLE;
       end else begin
         if (dma_to_periph_port_rsp_i.gnt) begin
-          // TODO do I already need to check for rvalid here,
-          // or is it impossible to have the return data in the same
-          // cycle as a request is made and granted?
           receiver_state_d = REICEVER_WAIT_FOR_RVALID;
         end else begin // request hasn't been granted yet, request again
           receiver_req_d = 1'b1;
@@ -393,16 +412,37 @@ always_comb begin: RECEIVER_STATE_MACHINE
       end else begin
         if (dma_to_periph_port_rsp_i.rvalid && !dma_to_periph_port_rsp_i.r.err) begin
           fifo_wr_en_d = 1'b1;
-          fifo_wr_data_d = dma_to_periph_port_rsp_i.r.rdata;
+          if (byte_mode_q) begin
+            // fifo_wr_data_d = (dma_to_periph_port_rsp_i.r.rdata >> (8 * (src_addr_q % 4))) & 32'hFF;
+            // fifo_wr_data_d = (dma_to_periph_port_rsp_i.r.rdata >> (src_addr_q[1:0] << 3)) & 32'hFF;
+            case (src_addr_q[1:0])
+              2'b00: fifo_wr_data_d = {24'b0, dma_to_periph_port_rsp_i.r.rdata[7:0]};
+              2'b01: fifo_wr_data_d = {24'b0, dma_to_periph_port_rsp_i.r.rdata[15:8]};
+              2'b10: fifo_wr_data_d = {24'b0, dma_to_periph_port_rsp_i.r.rdata[23:16]};
+              2'b11: fifo_wr_data_d = {24'b0, dma_to_periph_port_rsp_i.r.rdata[31:24]};
+              default: fifo_wr_data_d = fifo_wr_data_q;
+            endcase
+          end else begin
+            fifo_wr_data_d = dma_to_periph_port_rsp_i.r.rdata;
+          end
 
           receiver_counter_d = receiver_counter_q + 1;
+          if (increment_src_q) begin
+            src_addr_d = byte_mode_q ? (src_addr_q + 1) : (src_addr_q + 4);
+          end
 
           if (receiver_counter_q == repeat_q) begin
             receiver_state_d = REICEIVER_IDLE;
           end else if (!fifo_almost_full) begin
 
-            receiver_state_d = RCV_STARTING_STATE;
-            read_addr_d = RCV_STARTING_ADDR;
+            if (receiver_condition_enable) begin
+              receiver_state_d = RECEIVER_WAIT_FOR_COND_GNT;
+              read_addr_d = condition_address;
+            end else begin
+              receiver_state_d = RECEIVER_WAIT_FOR_GNT;
+              read_addr_d = src_addr_d;
+            end
+
             receiver_req_d = 1'b1;
 
           end else begin
@@ -418,34 +458,40 @@ end
 
 always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
   if (!rst_ni) begin
-    receiver_state_q <= REICEIVER_IDLE;
-    receiver_counter_q <= '0;
-    read_addr_q <= '0;
-    receiver_req_q <= '0;
-    
-    fifo_wr_en_q <= '0;
-    fifo_wr_data_q <= '0;
-  end else begin
-    receiver_counter_q <= receiver_counter_d;
-    receiver_state_q <= receiver_state_d;
-    read_addr_q <= read_addr_d;
-    receiver_req_q <= receiver_req_d;
+    receiver_state_q    <= REICEIVER_IDLE;
+    receiver_counter_q  <= '0;
+    src_addr_q          <= '0;
+    receiver_req_q      <= '0;
 
-    fifo_wr_en_q <= fifo_wr_en_d;
-    fifo_wr_data_q <= fifo_wr_data_d;
+    read_addr_q         <= '0;
+    
+    fifo_wr_en_q        <= '0;
+    fifo_wr_data_q      <= '0;
+  end else begin
+    receiver_counter_q  <= receiver_counter_d;
+    receiver_state_q    <= receiver_state_d;
+    src_addr_q          <= src_addr_d;
+    receiver_req_q      <= receiver_req_d;
+
+    read_addr_q         <= read_addr_d;
+
+    fifo_wr_en_q        <= fifo_wr_en_d;
+    fifo_wr_data_q      <= fifo_wr_data_d;
   end
 end
 
 // -------- SENDER STATE MACHINE -----------
 
 always_comb begin: SENDER_STATE_MACHINE
-  sender_counter_d = sender_counter_q;
-  send_addr_d = send_addr_q;
   sender_state_d = sender_state_q;
+  sender_counter_d = sender_counter_q;
   sender_req_d = '0;
   sender_be_d = sender_be_q;
   sender_wdata_d = sender_wdata_q;
+  
   fifo_rd_en = '0;
+
+  send_addr_d = send_addr_q;
 
   // dma_to_xbar_port_req_o.a.wdata = 32'hADAC_ABAA;
 
@@ -456,7 +502,7 @@ always_comb begin: SENDER_STATE_MACHINE
         // TODO add asserts here that check the validity of all the fields, before activating the dma
         sender_counter_d = 11'd1;
         sender_state_d = SENDER_WAIT_FOR_NEW_INPUTS;
-        send_addr_d = dst_addr_q;
+        send_addr_d = dst_base_addr_q + dst_offset_q;
       end
     end
 
@@ -497,11 +543,14 @@ always_comb begin: SENDER_STATE_MACHINE
 
           // Increase address and set proper byte_enable
           if (byte_mode_q) begin
-            send_addr_d = send_addr_q + 1;
-            sender_be_d = 4'b0001 << ((send_addr_q + 1) % 4);
+            if (increment_dst_q) begin
+              send_addr_d = send_addr_q + 1;
+              sender_be_d = 4'b0001 << ((send_addr_q + 1) % 4);
+            end
           end else begin // if not in byte mode, then we are in word-mode
-            send_addr_d = send_addr_q + 4;
-            sender_be_d = 4'b1111;
+            if (increment_dst_q) begin
+              send_addr_d = send_addr_q + 4;
+            end
           end
 
           // Check if finished or if new inputs are ready
@@ -541,19 +590,21 @@ end
 always_ff @(posedge (clk_i) or negedge (rst_ni)) begin
 
   if (!rst_ni) begin
-    sender_counter_q <= '0;
     sender_state_q <= SENDER_IDLE;
+    sender_counter_q <= '0;
     sender_req_q <= '0;
-    send_addr_q <= '0;
     sender_be_q <= '0;
     sender_wdata_q <= '0;
+    
+    send_addr_q <= '0;
   end else begin
-    sender_counter_q <= sender_counter_d;
     sender_state_q <= sender_state_d;
+    sender_counter_q <= sender_counter_d;
     sender_req_q <= sender_req_d;
     sender_be_q <= sender_be_d;
-    send_addr_q <= send_addr_d;
     sender_wdata_q <= sender_wdata_d;
+    
+    send_addr_q <= send_addr_d;
   end
 
 end

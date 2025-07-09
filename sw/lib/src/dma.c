@@ -17,9 +17,10 @@ static volatile uint32_t* const dma_status_reg      = DMA_REG(DMA_STATUS_OFFSET)
 
 static inline uint32_t encode_dma_options(dma_options_t opts, uint32_t activate) {
     return ((opts.src_offset        & DMA_CTRL_SRC_OFFSET_MASK)      << DMA_CTRL_SRC_OFFSET_SHIFT)     |
-           ((opts.num_transfers     & DMA_CTRL_REPEAT_MASK)          << DMA_CTRL_REPEAT_SHIFT)         |
-           ((opts.increment_source  & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
-           ((opts.increment_dest    & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
+           ((opts.dst_offset        & DMA_CTRL_DST_OFFSET_MASK)      << DMA_CTRL_DST_OFFSET_SHIFT)     |
+           ((opts.num_transfers     & DMA_CTRL_NUM_TRANSFERS_MASK)   << DMA_CTRL_NUM_TRANSFERS_SHIFT)  |
+           ((opts.increment_src     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
+           ((opts.increment_dst     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
            ((opts.size              & DMA_CTRL_TRANSFER_SIZE_MASK)   << DMA_CTRL_TRANSFER_SIZE_SHIFT)  |
            ((activate               & DMA_CTRL_ACTIVATE_MASK)        << DMA_CTRL_ACTIVATE_SHIFT);
 }
@@ -27,6 +28,7 @@ static inline uint32_t encode_dma_options(dma_options_t opts, uint32_t activate)
 static inline uint32_t encode_dma_condition(dma_condition_t cond) {
     return ((cond.cond_addr_offset  & DMA_COND_OFFSET_MASK)          << DMA_COND_OFFSET_SHIFT)         |
            ((cond.bitmask           & DMA_COND_MASK_MASK)            << DMA_COND_MASK_SHIFT)           |
+           ((cond.conditional_type  & DMA_COND_TYPE_MASK)            << DMA_COND_TYPE_SHIFT)           |
            ((cond.negate            & DMA_COND_NEGATE_MASK)          << DMA_COND_NEGATE_SHIFT)         |
            ((cond.enable            & DMA_COND_ENABLE_MASK)          << DMA_COND_ENABLE_SHIFT);
 }
@@ -60,8 +62,4 @@ dma_status_t read_dma_status() {
 
 int dma_busy() {
     return *dma_status_reg & DMA_STATUS_ACTIVE_MASK;
-}
-
-int dma_ready() {
-    return !(*dma_status_reg & DMA_STATUS_ACTIVE_MASK);
 }
