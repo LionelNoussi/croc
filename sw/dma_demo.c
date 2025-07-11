@@ -8,6 +8,7 @@
 #include "dma.h"
 #include "uart.h"
 #include "gpio.h"
+#include "print.h"
 
 void trap_entry(void) __attribute__((interrupt));
 void trap_entry(void) {
@@ -22,8 +23,7 @@ void trap_entry(void) {
 #define N 32
 #define NUM_WINDOWS 4
 
-// #define USE_DMA
-
+#define USE_DMA
 
 void* memcpy(void* dest, const void* src, unsigned len) {
     unsigned char* d = (unsigned char*) dest;
@@ -39,7 +39,7 @@ int ret_val = 0;
 int compute(uint8_t* buffer) {
     // Fake compute function for now.
     volatile int x = 0;
-    for (int i = 0; i < 3000; i++) {
+    for (int i = 0; i < 2000; i++) {
         x = x + 1;
     }
     if (ret_val) {
@@ -135,8 +135,9 @@ int compute(uint8_t* buffer) {
             dma_controls ^= ((N & DMA_CTRL_DST_OFFSET_MASK) << DMA_CTRL_DST_OFFSET_SHIFT);
             
             // Wait for the dma to finish loading data into the current buffer
-            if (dma_busy()) {
-                asm volatile("wfi");
+            while (dma_busy()) {
+                dma_status_t status = read_dma_status();
+                printf("DMA STATUS: RCV: %u TRM: %u ACTIVE: %u", status.completed_receives, status.completed_transmissions, status.active);
             }
 
             // Write 00_ to GPIO to signal setup state state
@@ -145,14 +146,14 @@ int compute(uint8_t* buffer) {
             // Start DMA to fill next buffer, except in last iteration
             if (win != NUM_WINDOWS - 1) {
                 // Write 01_ to GPIO signal loading state
-                gpio_write(2+result);
                 
                 // Tell testbench to send another array
                 uart_write(0x0);
-
+                
                 // Start dma again with new offset
                 enable_dma_irq();
                 *dma_ctrl_reg = dma_controls;
+                gpio_write(2+result);
             }
             
             // Write 11_ to GPIO to indicate computing state
