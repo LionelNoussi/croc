@@ -1,4 +1,8 @@
-#include "test_dma.h"
+#include "dma.h"
+#include "util.h"
+#include "print.h"
+#include "timer.h"
+#include "uart.h"
 
 #define DMA_TEST_WORD_TRANSFER
 
@@ -251,7 +255,7 @@ void test_data_transfer() {;}
 #endif
 
 
-void test_dma() {
+void main() {
     test_output_stream();
     test_input_stream();
     test_data_transfer();
