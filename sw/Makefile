@@ -6,7 +6,6 @@
 # - Paul Scheffler <paulsc@iis.ee.ethz.ch>
 # - Philippe Sauter <phsauter@iis.ee.ethz.ch>
 
-
 SRCDIR  ?= lib/src
 INCDIR  ?= lib/inc
 
@@ -98,8 +97,3 @@ clean:
 	rm -f $(STATIC_LIB)
 
 compile: $(BINDIR) $(ALL_TARGETS)
-
-print-lib:
-	@echo LIB_SOURCES: $(LIB_SOURCES)
-	@echo LIB_OBJS:    $(LIB_OBJS)
-	@echo ALL_TARGETS: $(ALL_TARGETS)
