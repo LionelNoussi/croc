@@ -30,6 +30,7 @@ sources:
 
   - rtl/croc_pkg.sv
   - rtl/user_pkg.sv
+  - rtl/dma/dma_pkg.sv
   - rtl/soc_ctrl/soc_ctrl_reg_pkg.sv
   - rtl/gpio/gpio_reg_pkg.sv
   # add your design files containing anything but modules (packages) here
@@ -49,6 +50,7 @@ sources:
       - rtl/user_domain/user_rom.sv
       - rtl/dma/dma.sv
       - rtl/dma/dma_fifo_buffer.sv
+      - rtl/dma/dma_interrupt_handler.sv
       # Level 3
       - rtl/croc_soc.sv
 

@@ -54,7 +54,7 @@ int main() {
     // ROM TEST END ---------------------------------
 
     // DMA TEST
-    test_dma();
+    // test_dma();
 
     // toggling some GPIOs
     gpio_set_direction(0xFFFF, 0x000F); // lowest four as outputs

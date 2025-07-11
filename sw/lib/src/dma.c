@@ -15,29 +15,34 @@ static volatile uint32_t* const dma_irq_reg         = DMA_REG(DMA_INTERRUPT_OFFS
 static volatile uint32_t* const dma_status_reg      = DMA_REG(DMA_STATUS_OFFSET);
 
 
-static inline uint32_t encode_dma_options(dma_options_t opts, uint32_t activate) {
-    return ((opts.src_offset        & DMA_CTRL_SRC_OFFSET_MASK)      << DMA_CTRL_SRC_OFFSET_SHIFT)     |
-           ((opts.dst_offset        & DMA_CTRL_DST_OFFSET_MASK)      << DMA_CTRL_DST_OFFSET_SHIFT)     |
-           ((opts.num_transfers     & DMA_CTRL_NUM_TRANSFERS_MASK)   << DMA_CTRL_NUM_TRANSFERS_SHIFT)  |
-           ((opts.increment_src     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
-           ((opts.increment_dst     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
-           ((opts.size              & DMA_CTRL_TRANSFER_SIZE_MASK)   << DMA_CTRL_TRANSFER_SIZE_SHIFT)  |
-           ((activate               & DMA_CTRL_ACTIVATE_MASK)        << DMA_CTRL_ACTIVATE_SHIFT);
+// Encodes DMA control word from control struct
+dma_control_t encode_dma_controls(const dma_control_struct_t* opts) {
+    return ((opts->src_offset        & DMA_CTRL_SRC_OFFSET_MASK)      << DMA_CTRL_SRC_OFFSET_SHIFT)     |
+           ((opts->dst_offset        & DMA_CTRL_DST_OFFSET_MASK)      << DMA_CTRL_DST_OFFSET_SHIFT)     |
+           ((opts->num_transfers     & DMA_CTRL_NUM_TRANSFERS_MASK)   << DMA_CTRL_NUM_TRANSFERS_SHIFT)  |
+           ((opts->interrupt_enable  & DMA_CTRL_IRQ_ENABLE_MASK)      << DMA_CTRL_IRQ_ENABLE_SHIFT)     |
+           ((opts->increment_src     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
+           ((opts->increment_dst     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
+           ((opts->transfer_size     & DMA_CTRL_TRANSFER_SIZE_MASK)   << DMA_CTRL_TRANSFER_SIZE_SHIFT)  |
+           ((opts->activate          & DMA_CTRL_ACTIVATE_MASK)         << DMA_CTRL_ACTIVATE_SHIFT);
 }
 
-static inline uint32_t encode_dma_condition(dma_condition_t cond) {
-    return ((cond.cond_addr_offset  & DMA_COND_OFFSET_MASK)          << DMA_COND_OFFSET_SHIFT)         |
-           ((cond.bitmask           & DMA_COND_MASK_MASK)            << DMA_COND_MASK_SHIFT)           |
-           ((cond.conditional_type  & DMA_COND_TYPE_MASK)            << DMA_COND_TYPE_SHIFT)           |
-           ((cond.negate            & DMA_COND_NEGATE_MASK)          << DMA_COND_NEGATE_SHIFT)         |
-           ((cond.enable            & DMA_COND_ENABLE_MASK)          << DMA_COND_ENABLE_SHIFT);
+
+// Encodes DMA condition word from condition struct
+dma_condition_t encode_dma_condition(const dma_condition_struct_t* cond) {
+    return ((cond->cond_addr_offset  & DMA_COND_OFFSET_MASK)          << DMA_COND_OFFSET_SHIFT)         |
+           ((cond->bitmask           & DMA_COND_MASK_MASK)            << DMA_COND_MASK_SHIFT)           |
+           ((cond->conditional_type  & DMA_COND_TYPE_MASK)            << DMA_COND_TYPE_SHIFT)           |
+           ((cond->negate            & DMA_COND_NEGATE_MASK)          << DMA_COND_NEGATE_SHIFT)         |
+           ((cond->enable            & DMA_COND_ENABLE_MASK)          << DMA_COND_ENABLE_SHIFT);
 }
 
-void program_dma(const dma_config_t* cfg, uint32_t activate) {
-    *dma_src_reg    = cfg->src_addr;
-    *dma_dst_reg    = cfg->dest_addr;
-    *dma_cond_reg   = encode_dma_condition(cfg->condition);
-    *dma_ctrl_reg   = encode_dma_options(cfg->options, activate);
+
+void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t options, dma_condition_t condition) {
+    *dma_src_reg    = src_addr;
+    *dma_dst_reg    = dst_addr;
+    *dma_cond_reg   = condition;
+    *dma_ctrl_reg   = options;
 }
 
 void activate_dma() {
@@ -54,12 +59,14 @@ dma_status_t read_dma_status() {
     uint32_t raw_status = *dma_status_reg;
 
     dma_status_t status = {
-        .active = (raw_status >> DMA_STATUS_ACTIVE_SHIFT) & DMA_STATUS_ACTIVE_MASK
+        .completed_receives =      (raw_status >> DMA_STATUS_COMPLETED_RCVS_SHIFT) & DMA_STATUS_COMPLETED_RCVS_MASK -1,
+        .completed_transmissions = (raw_status >> DMA_STATUS_COMPLETED_TRMS_SHIFT) & DMA_STATUS_COMPLETED_TRMS_MASK -1,
+        .active =                  (raw_status >> DMA_STATUS_ACTIVE_SHIFT) & DMA_STATUS_ACTIVE_MASK
     };
 
     return status;
 }
 
 int dma_busy() {
-    return *dma_status_reg & DMA_STATUS_ACTIVE_MASK;
+    return (*dma_status_reg >> DMA_STATUS_ACTIVE_SHIFT) & DMA_STATUS_ACTIVE_MASK;
 }

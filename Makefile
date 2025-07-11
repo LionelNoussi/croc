@@ -48,17 +48,23 @@ clean-deps:
 ############
 # Software #
 ############
-SW_HEX := sw/bin/helloworld.hex
+# SW_HEX := sw/bin/helloworld.hex
+SW_HEX := sw/bin/dma_demo.hex
 
 $(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld
 	$(MAKE) -C sw/ compile
 
 ## Build all top-level programs in sw/
-software: $(SW_HEX)
+software:
+	$(MAKE) -C sw/ compile
 
-sw: $(SW_HEX)
+sw:
+	$(MAKE) -C sw/ compile
 
-.PHONY: software sw
+swclean:
+	$(MAKE) -C sw/ clean
+
+.PHONY: software sw swclean
 
 ##################
 # RTL Simulation #

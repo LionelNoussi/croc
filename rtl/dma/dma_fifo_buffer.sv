@@ -1,5 +1,6 @@
 module dma_fifo_buffer #(
-    parameter DEPTH = 16  // Must be power of 2
+    parameter DEPTH = 16,  // Must be power of 2
+    parameter DATA_WIDTH = 32
 )(
     input  logic        clk_i,
     input  logic        rst_ni,
@@ -18,7 +19,7 @@ module dma_fifo_buffer #(
 );
 
     // Internal memory
-    logic [31:0] mem_q [0:DEPTH-1];
+    logic [DATA_WIDTH-1:0] mem_q [0:DEPTH-1];
 
     // Pointers and counter
     localparam PTR_W = $clog2(DEPTH);

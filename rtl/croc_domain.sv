@@ -56,13 +56,15 @@ module croc_domain import croc_pkg::*; #(
   logic gpio_irq;
   logic timer0_irq0;
   logic timer0_irq1;
+  logic dma_irq;
   logic [15:0] interrupts;
   always_comb begin
     interrupts    = '0;
     interrupts[0] = timer0_irq1;
     interrupts[1] = uart_irq;
     interrupts[2] = gpio_irq;
-    interrupts[3+:NumExternalIrqs] = interrupts_i;
+    interrupts[3] = dma_irq;
+    interrupts[4+:NumExternalIrqs] = interrupts_i;
   end
 
   // ----------------------------
@@ -104,14 +106,14 @@ module croc_domain import croc_pkg::*; #(
   sbr_obi_rsp_t [NumSramBanks-1:0] xbar_mem_bank_obi_rsp;
 
   // dma bus
-  mgr_obi_req_t dma_to_periph_port_req;
-  mgr_obi_rsp_t dma_to_periph_port_rsp;
+  mgr_obi_req_t dma_receive_obi_req;
+  mgr_obi_rsp_t dma_receive_obi_rsp;
 
-  mgr_obi_req_t dma_to_xbar_port_req;
-  mgr_obi_rsp_t dma_to_xbar_port_rsp;
+  mgr_obi_req_t dma_transmit_obi_req;
+  mgr_obi_rsp_t dma_transmit_obi_rsp;
 
-  sbr_obi_req_t xbar_dma_obi_req;
-  sbr_obi_rsp_t xbar_dma_obi_rsp;
+  sbr_obi_req_t dma_subordinate_obi_req;
+  sbr_obi_rsp_t dma_subordinate_obi_rsp;
 
   // periph bus
   sbr_obi_req_t xbar_periph_obi_req;
@@ -124,8 +126,8 @@ module croc_domain import croc_pkg::*; #(
   assign xbar_error_obi_req          = all_sbr_obi_req[XbarError];
   assign all_sbr_obi_rsp[XbarError]  = xbar_error_obi_rsp;
 
-  assign xbar_dma_obi_req         = all_sbr_obi_req[XbarDma];
-  assign all_sbr_obi_rsp[XbarDma] = xbar_dma_obi_rsp;
+  assign dma_subordinate_obi_req     = all_sbr_obi_req[XbarDma];
+  assign all_sbr_obi_rsp[XbarDma]    = dma_subordinate_obi_rsp;
 
   assign xbar_periph_obi_req         = all_sbr_obi_req[XbarPeriph];
   assign all_sbr_obi_rsp[XbarPeriph] = xbar_periph_obi_rsp;
@@ -338,8 +340,8 @@ module croc_domain import croc_pkg::*; #(
     .rst_ni,
     .testmode_i,
 
-    .sbr_ports_req_i  ( {core_instr_obi_req, core_data_obi_req, dbg_req_obi_req, user_mgr_obi_req_i, dma_to_periph_port_req, dma_to_xbar_port_req} ), // requests from managers towards subordinates
-    .sbr_ports_rsp_o  ( {core_instr_obi_rsp, core_data_obi_rsp, dbg_req_obi_rsp, user_mgr_obi_rsp_o, dma_to_periph_port_rsp, dma_to_xbar_port_rsp} ), // responses from subordinates to manager requests
+    .sbr_ports_req_i  ( {core_instr_obi_req, core_data_obi_req, dbg_req_obi_req, user_mgr_obi_req_i, dma_receive_obi_req, dma_transmit_obi_req} ), // requests from managers towards subordinates
+    .sbr_ports_rsp_o  ( {core_instr_obi_rsp, core_data_obi_rsp, dbg_req_obi_rsp, user_mgr_obi_rsp_o, dma_receive_obi_rsp, dma_transmit_obi_rsp} ), // responses from subordinates to manager requests
     .mgr_ports_req_o  ( all_sbr_obi_req ), // connections to subordinates, requests from subordinates to managers
     .mgr_ports_rsp_i  ( all_sbr_obi_rsp ), // responses from managers to subordinates
 
@@ -352,7 +354,8 @@ module croc_domain import croc_pkg::*; #(
   // DMA
   // -----------------
   dma #(
-    .ObiCfg      ( SbrObiCfg     ),
+    .SbrObiCfg       ( SbrObiCfg     ),
+    .MgrObiCfg       ( MgrObiCfg     ),
     .sbr_obi_req_t   ( sbr_obi_req_t ),
     .sbr_obi_rsp_t   ( sbr_obi_rsp_t ),
     .mgr_obi_req_t   ( mgr_obi_req_t ),
@@ -361,14 +364,16 @@ module croc_domain import croc_pkg::*; #(
     .clk_i,
     .rst_ni,
 
-    .dma_to_periph_port_req_o(dma_to_periph_port_req),
-    .dma_to_periph_port_rsp_i(dma_to_periph_port_rsp),
+    .dma_receive_obi_req_o(dma_receive_obi_req),
+    .dma_receive_obi_rsp_i(dma_receive_obi_rsp),
     
-    .dma_to_xbar_port_req_o(dma_to_xbar_port_req),
-    .dma_to_xbar_port_rsp_i(dma_to_xbar_port_rsp),
+    .dma_transmit_obi_req_o(dma_transmit_obi_req),
+    .dma_transmit_obi_rsp_i(dma_transmit_obi_rsp),
 
-    .xbar_to_dma_port_req_i(xbar_dma_obi_req),
-    .xbar_to_dma_port_rsp_o(xbar_dma_obi_rsp)
+    .dma_subordinate_obi_req_i(dma_subordinate_obi_req),
+    .dma_subordinate_obi_rsp_o(dma_subordinate_obi_rsp),
+
+    .dma_irq_o(dma_irq)
   );
 
   // -----------------
