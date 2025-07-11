@@ -3,8 +3,8 @@
 #define DMA_TEST_WORD_TRANSFER
 
 #define DMA_TEST_INPUT_STREAM
-// #define DMA_TEST_OUTPUT_STREAM
-// #define DMA_TEST_DATA_TRANSFER
+#define DMA_TEST_OUTPUT_STREAM
+#define DMA_TEST_DATA_TRANSFER
 
 
 void* memcpy(void* dest, const void* src, unsigned len) {
@@ -28,7 +28,6 @@ void clear_array(volatile uint8_t* arr, unsigned len)
 }
 
 #define MAX_N 32
-dma_config_t dma_config;
 #ifdef DMA_TEST_WORD_TRANSFER
 static volatile uint32_t src_array[MAX_N];
 static volatile uint32_t dst_array[MAX_N];
@@ -58,28 +57,27 @@ void test_input_stream() {
 
     clear_array(dst_array, MAX_N);
 
-    dma_config = (dma_config_t) {
-        .src_addr = UART_BASE_ADDR,
-        .dest_addr = (uint32_t)dst_array,
-        .options = {
-            .src_offset = UART_RBR_REG_OFFSET,
-            .dst_offset = 0,
-            .num_transfers = N,
-            .increment_src = 0,
-            .increment_dst = 1,
-        #ifdef DMA_TEST_WORD_TRANSFER
-            .size = DMA_TRANSFER_WORD
-        #else
-            .size = DMA_TRANSFER_BYTE
-        #endif
-        },
-        .condition = {
-            .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
-            .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
-            .conditional_type = CONDITIONAL_READ,
-            .negate = 0,
-            .enable = 1
-        }
+    dma_control_struct_t dma_control_struct = {
+        .src_offset = UART_RBR_REG_OFFSET,
+        .dst_offset = 0,
+        .num_transfers = N,
+        .interrupt_enable = 0,
+        .increment_src = 0,
+        .increment_dst = 1,
+    #ifdef DMA_TEST_WORD_TRANSFER
+        .transfer_size = DMA_TRANSFER_WORD,
+    #else
+        .transfer_size = DMA_TRANSFER_BYTE,
+    #endif
+        .activate = 1
+    };
+
+    dma_condition_struct_t dma_condition_struct = {
+        .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
+        .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
+        .conditional_type = CONDITIONAL_READ,
+        .negate = 0,
+        .enable = 1
     };
 
     clear_array(dst_array, MAX_N);
@@ -90,9 +88,11 @@ void test_input_stream() {
     uart_write(0x00);
     // sleep_ms(1);
 
+    int len = N;
+    volatile uint32_t* d = dst_array;
     uint64_t start = get_mcycle();
-    for (unsigned i = 0; i < N; i++) {
-        dst_array[i] = uart_read();
+    while (len--) {
+        *d++ = uart_read();
     }
     uint64_t end = get_mcycle();
 
@@ -106,12 +106,14 @@ void test_input_stream() {
     uart_write(0x00);
     // sleep_ms(1);
 
-    program_dma(&dma_config, 0);
     start = get_mcycle();
-    activate_dma();
+    program_dma(UART_BASE_ADDR, (uint32_t) dst_array, encode_dma_controls(&dma_control_struct), encode_dma_condition(&dma_condition_struct));
+    // activate_dma();
     while (dma_busy()) {;}
     end = get_mcycle();
-
+    
+    dma_status_t dma_status = read_dma_status();
+    printf("Read DMA Status: Receives: %u | Transmissions: %u | Active: %u \n", dma_status.completed_receives, dma_status.completed_transmissions, dma_status.active);
     printf("DMA read took %u cycles.\r\n", (uint32_t)(end - start));
     printf("Data read stored by DMA from UART: ");
     print_array_hex(dst_array, N);
@@ -130,28 +132,27 @@ void test_output_stream() {
         src_array[i] = 65 + (i % 26);
     }
 
-    dma_config = (dma_config_t) {
-        .src_addr = (uint32_t)src_array,
-        .dest_addr = UART_BASE_ADDR,
-        .options = {
-            .src_offset = 0,
-            .dst_offset = UART_RBR_REG_OFFSET,
-            .num_transfers = N,
-            .increment_src = 1,
-            .increment_dst = 0,
-        #ifdef DMA_TEST_WORD_TRANSFER
-            .size = DMA_TRANSFER_WORD
-        #else
-            .size = DMA_TRANSFER_BYTE
-        #endif
-        },
-        .condition = {
-            .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
-            .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
-            .conditional_type = CONDITIONAL_WRITE,
-            .negate = 0,
-            .enable = 1
-        }
+    dma_control_struct_t dma_control_struct = {
+        .src_offset = 0,
+        .dst_offset = UART_RBR_REG_OFFSET,
+        .num_transfers = N,
+        .interrupt_enable = 0,
+        .increment_src = 1,
+        .increment_dst = 0,
+    #ifdef DMA_TEST_WORD_TRANSFER
+        .transfer_size = DMA_TRANSFER_WORD,
+    #else
+        .transfer_size = DMA_TRANSFER_BYTE,
+    #endif
+        .activate = 1
+    };
+
+    dma_condition_struct_t dma_condition_struct = {
+        .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
+        .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
+        .conditional_type = CONDITIONAL_WRITE,
+        .negate = 0,
+        .enable = 1
     };
 
     // Manual UART Write
@@ -162,17 +163,17 @@ void test_output_stream() {
     uint64_t end = get_mcycle();
     putchar('\n');
 
-    printf("Manual UART write took %u cycles.\r\n", (uint32_t)(end - start));
+    printf("Manual UART write took %u cycles.\r\n", (uint32_t) (end - start));
 
     // DMA write
     start = get_mcycle();
-    program_dma(&dma_config, 1);
+    program_dma((uint32_t) src_array, UART_BASE_ADDR, encode_dma_controls(&dma_control_struct), encode_dma_condition(&dma_condition_struct));
     // activate_dma();
     while (dma_busy()) {;}
     end = get_mcycle();
     putchar('\n');
 
-    printf("DMA write took %u cycles.\r\n", (uint32_t)(end - start));
+    printf("DMA write took %u cycles.\r\n", (uint32_t) (end - start));
 }
 #else
 void test_output_stream() {;}
@@ -205,28 +206,19 @@ void test_data_transfer() {
         src_array[i] = 65 + (i % 26);
     }
 
-    dma_config = (dma_config_t) {
-        .src_addr = (uint32_t)src_array,
-        .dest_addr = (uint32_t)dst_array,
-        .options = {
-            .src_offset = 0,
-            .dst_offset = 0,
-            .num_transfers = N,
-            .increment_src = 1,
-            .increment_dst = 1,
-        #ifdef DMA_TEST_WORD_TRANSFER
-            .size = DMA_TRANSFER_WORD
-        #else
-            .size = DMA_TRANSFER_BYTE
-        #endif
-        },
-        .condition = {
-            .cond_addr_offset = 0,
-            .bitmask = 0,
-            .conditional_type = 0,
-            .negate = 0,
-            .enable = 0
-        }
+    dma_control_struct_t dma_control_struct = {
+        .src_offset = 0,
+        .dst_offset = 0,
+        .num_transfers = N,
+        .interrupt_enable = 0,
+        .increment_src = 1,
+        .increment_dst = 1,
+    #ifdef DMA_TEST_WORD_TRANSFER
+        .transfer_size = DMA_TRANSFER_WORD,
+    #else
+        .transfer_size = DMA_TRANSFER_BYTE,
+    #endif
+        .activate = 1
     };
 
     // Manual Data Transfer
@@ -246,7 +238,7 @@ void test_data_transfer() {
 
     // DMA Data Transfer
     start = get_mcycle();
-    program_dma(&dma_config, 1);
+    program_dma((uint32_t) src_array, (uint32_t) dst_array, encode_dma_controls(&dma_control_struct), 0);
     while (dma_busy()) {;}
     end = get_mcycle();
 
@@ -264,5 +256,3 @@ void test_dma() {
     test_input_stream();
     test_data_transfer();
 }
-
-

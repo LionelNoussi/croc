@@ -6,6 +6,7 @@
 # - Paul Scheffler <paulsc@iis.ee.ethz.ch>
 # - Philippe Sauter <phsauter@iis.ee.ethz.ch>
 
+
 SRCDIR  ?= lib/src
 INCDIR  ?= lib/inc
 
@@ -23,6 +24,7 @@ RISCV_AS      ?= $(RISCV_PREFIX)as
 RISCV_AR      ?= $(RISCV_PREFIX)ar
 RISCV_LD      ?= $(RISCV_PREFIX)ld
 RISCV_STRIP   ?= $(RISCV_PREFIX)strip
+RISCV_SIZE    ?= $(RISCV_PREFIX)size
 
 RISCV_FLAGS    ?= -march=$(RISCV_MARCH) -mabi=$(RISCV_MABI) -mcmodel=medany -static -std=gnu99 -Os -nostdlib -fno-builtin -ffreestanding
 RISCV_CCFLAGS  ?= $(RISCV_FLAGS) -Iinclude -I$(INCDIR) -I$(CURDIR)
@@ -38,8 +40,11 @@ BINDIR 	?= bin
 CRT0 	?= crt0.S
 LINK 	?= link.ld
 
+LIBDIR      ?= lib
 LIB_SOURCES := $(wildcard $(SRCDIR)/*.[cS])
-LIB_OBJS    := $(LIB_SOURCES:$(SRCDIR)/%=$(SRCDIR)/%.o)
+# LIB_OBJS    := $(LIB_SOURCES:$(SRCDIR)/%=$(SRCDIR)/%.o)
+LIB_OBJS 	:= $(LIB_SOURCES:$(SRCDIR)/%=$(BINDIR)/%.o)
+STATIC_LIB  := $(LIBDIR)/libcroc.a
 
 # Build all assembly and C files in the top level as seperate binaries
 TOP_SOURCES ?= $(filter-out $(CRT0), $(wildcard *.[cS]))
@@ -51,17 +56,28 @@ ALL_TARGETS := $(TOP_BASENAMES:%=$(BINDIR)/%.elf) $(TOP_BASENAMES:%=$(BINDIR)/%.
 $(BINDIR):
 	mkdir -p $(BINDIR)
 
+$(BINDIR)/%.S.o: $(SRCDIR)/%.S | $(BINDIR)
+	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
+
+$(BINDIR)/%.c.o: $(SRCDIR)/%.c | $(BINDIR)
+	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
+
 %.S.o: %.S
-	$(RISCV_CC) $(RISCV_CCFLAGS) -c $< -o $@
+	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
 
 %.c.o: %.c
-	$(RISCV_CC) $(RISCV_CCFLAGS) -c $< -o $@
+	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
 
-$(BINDIR)/%.elf: %.S.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
-	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
+# $(BINDIR)/%.elf: %.S.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
+# 	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
 
-$(BINDIR)/%.elf: %.c.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
-	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
+# $(BINDIR)/%.elf: %.c.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
+# 	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
+
+# IMPORTANT NOTE: New Make target, which links to static library and filters unused sections, to reduce .text size of code
+$(BINDIR)/%.elf: %.c.o $(CRT0).o $(STATIC_LIB) | $(BINDIR)
+	$(RISCV_CC) -o $@ $< $(CRT0).o -Wl,--gc-sections -Wl,--start-group $(STATIC_LIB) -Wl,--end-group $(RISCV_LDFLAGS) -T$(LINK)
+	$(RISCV_SIZE) $@
 
 $(BINDIR)/%.dump: $(BINDIR)/%.elf
 	$(RISCV_OBJDUMP) -D -s $< >$@
@@ -69,11 +85,21 @@ $(BINDIR)/%.dump: $(BINDIR)/%.elf
 $(BINDIR)/%.hex: $(BINDIR)/%.elf
 	$(RISCV_OBJCOPY) -O verilog $< $@
 
+$(STATIC_LIB): $(LIB_OBJS)
+	$(RISCV_AR) rcs $@ $^
+
 # Phonies
 .PHONY: all clean compile
 
 clean:
 	rm -rf $(BINDIR)
 	rm -f *.o
+	rm -rf $(SRCDIR)/*.c.o
+	rm -f $(STATIC_LIB)
 
 compile: $(BINDIR) $(ALL_TARGETS)
+
+print-lib:
+	@echo LIB_SOURCES: $(LIB_SOURCES)
+	@echo LIB_OBJS:    $(LIB_OBJS)
+	@echo ALL_TARGETS: $(ALL_TARGETS)

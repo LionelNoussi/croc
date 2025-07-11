@@ -362,25 +362,49 @@ module tb_croc_soc #(
         #UartBaudPeriod;
     endtask
 
-    // send an array via uart if the correct start byte was read
-    // Send this array: uint8_t sourc_array[8] = {0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88};
-    initial begin
-        byte_bt source_array[8] = {8'h11, 8'h22, 8'h33, 8'h44, 8'h55, 8'h66, 8'h77, 8'h88};
-        byte_bt start_bite;
-        
-        @(posedge fetch_en_i);
-        
-        forever begin
-            uart_read_byte(start_bite);
 
+    initial begin
+        parameter int N = 32;
+        byte_bt source_array[N];
+        int fd, code;
+        string line;
+        byte_bt val;
+
+        fd = $fopen("dft_test_input.hex", "r");
+        if (fd == 0) begin
+            $fatal("Failed to open input file.");
+        end
+        $display("Opened file.");
+
+        for (int i = 0; i < N; i++) begin
+            code = $fgets(line, fd);
+            if (code <= 0) begin
+                $fatal("Error reading input file at byte %0d", i);
+            end
+            $sscanf(line, "%h", val);
+            source_array[i] = val;
+        end
+        $fclose(fd);
+        $display("Loaded input array.″");
+
+        @(posedge fetch_en_i);
+
+        forever begin
+            byte_bt start_bite;
+            uart_read_byte(start_bite);
             if (start_bite == 8'h00) begin
-                foreach (source_array[i]) begin
+                for (int i = 0; i < N; i++) begin
                     uart_write_byte(source_array[i]);
                 end
             end
-            
         end
     end
+
+    logic keyword_detected, loading, computing;
+    assign keyword_detected = gpio_o[0];
+    assign loading = gpio_o[1];
+    assign computing = gpio_o[2];
+
 
     // Continually read characters and print lines
     // TODO: we should be able to support CR properly, but buffers are hard to deal with...
@@ -560,7 +584,8 @@ module tb_croc_soc #(
         jtag_wait_for_eoc(tb_data);
 
         // finish simulation
-        repeat(50) @(posedge clk);
+        repeat(500) @(posedge clk);
+        // repeat(50) @(posedge clk);
         `ifdef TRACE_WAVE
         $dumpflush;
         `endif

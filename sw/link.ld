@@ -12,20 +12,39 @@ ENTRY(_start)
 
 MEMORY
 {
-  SRAM     (rw) : ORIGIN = 0x10000000, LENGTH = 4K
+  SRAM (rwxail) : ORIGIN = 0x10000000, LENGTH = 4K
 }
 
 SECTIONS
 {
   /DISCARD/ : { *(.riscv.attributes) *(.comment) }
 
-  .text._start 0x10000000 : { *(.text._start) } >SRAM
-  .text : { *(.text) *(.text.*) } >SRAM
-  .data : { *(.data) } >SRAM
-  .bss  : { *(.bss COMMON) } >SRAM
+  .text._start : ALIGN(4) {
+      *(.text._start)
+  } >SRAM
 
-  __global_pointer$ = ADDR(.data) + SIZEOF(.data) / 2;
-  PROVIDE(__stack_pointer$ = ORIGIN(SRAM) + LENGTH(SRAM));
+  .misc : ALIGN(4) {
+    *(.sdata)
+    *(.sbss)
+    *(.data*)
+    *(.bss*)
+    *(.rodata*)
+    *(COMMON)
+    *(.ctors)
+    *(.dtors)
+    *(.init_array)
+    *(.fini_array)
+    *(.eh_frame)
+    *(.gcc_except_table)
+  } > SRAM
 
-  status  = 0x03000008;
+  .text : ALIGN(4) {
+    *(.text)
+    *(.text.*)
+  } > SRAM
 }
+
+/* Global absolute symbols */
+PROVIDE(__global_pointer$ = ADDR(.misc) + SIZEOF(.misc)/2);
+PROVIDE(__stack_pointer$ = ORIGIN(SRAM) + LENGTH(SRAM));
+PROVIDE(status = 0x03000008);
