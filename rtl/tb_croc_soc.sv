@@ -323,8 +323,8 @@ module tb_croc_soc #(
     logic   uart_reading_byte;
 
     initial begin
-        uart_rx_i         = 1;
-        uart_reading_byte = 0;
+        uart_rx_i         = 1'b1;
+        uart_reading_byte = 1'b0;
     end
 
     task automatic uart_read_byte(output byte_bt bite);

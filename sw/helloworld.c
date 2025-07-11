@@ -33,6 +33,8 @@ uint32_t isqrt(uint32_t n) {
     return res;
 }
 
+char receive_buff[16] = {0};
+
 int main() {
     uart_init(); // setup the uart peripheral
 
