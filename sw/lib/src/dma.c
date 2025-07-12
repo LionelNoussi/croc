@@ -24,7 +24,7 @@ dma_control_t encode_dma_controls(const dma_control_struct_t* opts) {
            ((opts->increment_src     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
            ((opts->increment_dst     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
            ((opts->transfer_size     & DMA_CTRL_TRANSFER_SIZE_MASK)   << DMA_CTRL_TRANSFER_SIZE_SHIFT)  |
-           ((opts->activate          & DMA_CTRL_ACTIVATE_MASK)         << DMA_CTRL_ACTIVATE_SHIFT);
+           ((opts->activate          & DMA_CTRL_ACTIVATE_MASK)        << DMA_CTRL_ACTIVATE_SHIFT);
 }
 
 
@@ -69,4 +69,19 @@ dma_status_t read_dma_status() {
 
 int dma_busy() {
     return (*dma_status_reg >> DMA_STATUS_ACTIVE_SHIFT) & DMA_STATUS_ACTIVE_MASK;
+}
+
+void enable_dma_irq(void) {
+    // Enable DMA fast interrupt bit 3
+    asm volatile("csrs mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
+    // Enable global interrupts
+    asm volatile("csrsi mstatus, 8" ::: "memory");
+}
+
+void disable_dma_irq(void) {
+    asm volatile("csrc mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
+}
+
+void dma_irq_handler() {
+    *DMA_REG(DMA_INTERRUPT_OFFSET);
 }

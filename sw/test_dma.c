@@ -4,10 +4,10 @@
 #include "timer.h"
 #include "uart.h"
 
-#define DMA_TEST_WORD_TRANSFER
+// #define DMA_TEST_WORD_TRANSFER
 
-#define DMA_TEST_INPUT_STREAM
-#define DMA_TEST_OUTPUT_STREAM
+// #define DMA_TEST_INPUT_STREAM
+// #define DMA_TEST_OUTPUT_STREAM
 #define DMA_TEST_DATA_TRANSFER
 
 
@@ -36,8 +36,8 @@ void clear_array(volatile uint8_t* arr, unsigned len)
 static volatile uint32_t src_array[MAX_N];
 static volatile uint32_t dst_array[MAX_N];
 #else
-static volatile uint8_t src_array[MAX_N];
-static volatile uint8_t dst_array[MAX_N];
+uint8_t src_array[MAX_N];
+uint8_t dst_array[MAX_N];
 #endif
 
 
@@ -57,7 +57,8 @@ void print_array_hex(volatile uint8_t* arr, unsigned len)
 }
 
 void test_input_stream() {
-    const unsigned N = 8;
+    const unsigned N = 32;
+    uint64_t start, end;
 
     clear_array(dst_array, MAX_N);
 
@@ -65,7 +66,7 @@ void test_input_stream() {
         .src_offset = UART_RBR_REG_OFFSET,
         .dst_offset = 0,
         .num_transfers = N,
-        .interrupt_enable = 0,
+        .interrupt_enable = 1,
         .increment_src = 0,
         .increment_dst = 1,
     #ifdef DMA_TEST_WORD_TRANSFER
@@ -92,35 +93,38 @@ void test_input_stream() {
     uart_write(0x00);
     // sleep_ms(1);
 
+    start = get_mcycle();
     int len = N;
-    volatile uint32_t* d = dst_array;
-    uint64_t start = get_mcycle();
+    volatile uint8_t* d = dst_array;
     while (len--) {
         *d++ = uart_read();
     }
-    uint64_t end = get_mcycle();
+    // for (int i = 0; i < N; i++) {
+    //     dst_array[i] = uart_read();
+    // }
+    end = get_mcycle();
 
     printf("Manual UART read took %u cycles.\r\n", (uint32_t)(end - start));
-    printf("Data read from UART manually: ");
-    print_array_hex(dst_array, N);
+    // printf("Data read from UART manually: ");
+    // print_array_hex(dst_array, N);
 
     clear_array(dst_array, MAX_N);
 
     // DMA read
-    uart_write(0x00);
     // sleep_ms(1);
-
+    
+    uart_write(0x00);
     start = get_mcycle();
+    enable_dma_irq();
     program_dma(UART_BASE_ADDR, (uint32_t) dst_array, encode_dma_controls(&dma_control_struct), encode_dma_condition(&dma_condition_struct));
-    // activate_dma();
-    while (dma_busy()) {;}
+    asm volatile("wfi");
     end = get_mcycle();
     
-    dma_status_t dma_status = read_dma_status();
-    printf("Read DMA Status: Receives: %u | Transmissions: %u | Active: %u \n", dma_status.completed_receives, dma_status.completed_transmissions, dma_status.active);
+    // dma_status_t dma_status = read_dma_status();
+    // printf("Read DMA Status: Receives: %u | Transmissions: %u | Active: %u \n", dma_status.completed_receives, dma_status.completed_transmissions, dma_status.active);
     printf("DMA read took %u cycles.\r\n", (uint32_t)(end - start));
-    printf("Data read stored by DMA from UART: ");
-    print_array_hex(dst_array, N);
+    // printf("Data read stored by DMA from UART: ");
+    // print_array_hex(dst_array, N);
 }
 #else
 void test_input_stream() {;}
@@ -214,7 +218,7 @@ void test_data_transfer() {
         .src_offset = 0,
         .dst_offset = 0,
         .num_transfers = N,
-        .interrupt_enable = 0,
+        .interrupt_enable = 1,
         .increment_src = 1,
         .increment_dst = 1,
     #ifdef DMA_TEST_WORD_TRANSFER
@@ -228,35 +232,48 @@ void test_data_transfer() {
     // Manual Data Transfer
     uint64_t start = get_mcycle();
     uint8_t len = MAX_N;
-    volatile uint32_t* d = dst_array;
-    volatile uint32_t* s = src_array;
+    uint8_t* d = dst_array;
+    uint8_t* s = src_array;
     while (len--) {
         *d++ = *s++;
     }
     uint64_t end = get_mcycle();
 
     printf("Manual data transfer took %u cycles.\r\n", (uint32_t)(end - start));
-    printf("Destination array: ");
-    print_array_char(dst_array, N);
+    // printf("Destination array: ");
+    // print_array_char(dst_array, N);
     clear_array(dst_array, MAX_N);
 
     // DMA Data Transfer
     start = get_mcycle();
+    enable_dma_irq();
     program_dma((uint32_t) src_array, (uint32_t) dst_array, encode_dma_controls(&dma_control_struct), 0);
-    while (dma_busy()) {;}
+    if (dma_busy()) {
+        asm volatile("wfi");
+    }
     end = get_mcycle();
 
     printf("DMA data transfer took %u cycles.\r\n", (uint32_t)(end - start));
-    printf("Destination array: ");
-    print_array_char(dst_array, N);
+    // printf("Destination array: ");
+    // print_array_char(dst_array, N);
 }
 #else
 void test_data_transfer() {;}
 #endif
 
 
-void main() {
+int main() {
+
+
+    // Setup UART
+    uart_init();
+
     test_output_stream();
     test_input_stream();
     test_data_transfer();
+
+    for (int i = 0; i < 1000; i++) {
+        asm volatile ("nop");
+    }
+    return 1;
 }

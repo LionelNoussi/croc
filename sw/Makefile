@@ -67,16 +67,21 @@ $(BINDIR)/%.c.o: $(SRCDIR)/%.c | $(BINDIR)
 %.c.o: %.c
 	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
 
+# Compile flow 1
 # $(BINDIR)/%.elf: %.S.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
 # 	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
 
 # $(BINDIR)/%.elf: %.c.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
 # 	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
+# 	$(RISCV_SIZE) $@
 
 # IMPORTANT NOTE: New Make target, which links to static library and filters unused sections, to reduce .text size of code
 $(BINDIR)/%.elf: %.c.o $(CRT0).o $(STATIC_LIB) | $(BINDIR)
 	$(RISCV_CC) -o $@ $< $(CRT0).o -Wl,--gc-sections -Wl,--start-group $(STATIC_LIB) -Wl,--end-group $(RISCV_LDFLAGS) -T$(LINK)
 	$(RISCV_SIZE) $@
+
+$(STATIC_LIB): $(LIB_OBJS)
+	$(RISCV_AR) rcs $@ $^
 
 $(BINDIR)/%.dump: $(BINDIR)/%.elf
 	$(RISCV_OBJDUMP) -D -s $< >$@
@@ -84,8 +89,6 @@ $(BINDIR)/%.dump: $(BINDIR)/%.elf
 $(BINDIR)/%.hex: $(BINDIR)/%.elf
 	$(RISCV_OBJCOPY) -O verilog $< $@
 
-$(STATIC_LIB): $(LIB_OBJS)
-	$(RISCV_AR) rcs $@ $^
 
 # Phonies
 .PHONY: all clean compile

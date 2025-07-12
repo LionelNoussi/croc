@@ -48,8 +48,9 @@ clean-deps:
 ############
 # Software #
 ############
-# SW_HEX := sw/bin/helloworld.hex
-SW_HEX := sw/bin/dma_demo.hex
+SW_HEX := sw/bin/helloworld.hex
+# SW_HEX := sw/bin/dma_demo.hex
+# SW_HEX := sw/bin/test_dma.hex
 
 $(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld
 	$(MAKE) -C sw/ compile
@@ -63,6 +64,9 @@ sw:
 
 swclean:
 	$(MAKE) -C sw/ clean
+
+sw_objdump:
+	riscv64-unknown-elf-objdump -d $(patsubst %.hex,%.elf,$(SW_HEX))
 
 .PHONY: software sw swclean
 

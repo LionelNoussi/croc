@@ -151,19 +151,10 @@ int dma_busy();
 // Machine-Interrupt-Enable Direct-Memory-Access Interrupt-Request Bit 
 #define MIE_DMA_IRQ_BIT (1 << 19)
 
-static inline void enable_dma_irq(void) {
-    // Enable DMA fast interrupt bit 3
-    asm volatile("csrs mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
-    // Enable global interrupts
-    asm volatile("csrsi mstatus, 8" ::: "memory");
-}
+void enable_dma_irq(void);
 
-static inline void disable_dma_irq(void) {
-    asm volatile("csrc mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
-}
+void disable_dma_irq(void);
 
-static inline void dma_irq_handler(void) {
-    *DMA_REG(DMA_INTERRUPT_OFFSET) = 1;
-}
+void dma_irq_handler() __attribute__((used, externally_visible));
 
 #endif // DMA_H

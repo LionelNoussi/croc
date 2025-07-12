@@ -11,7 +11,7 @@
 #include "gpio.h"
 #include "util.h"
 #include "dma.h"
-#include "test_dma.h"
+
 
 /// @brief Example integer square root
 /// @return integer square root of n

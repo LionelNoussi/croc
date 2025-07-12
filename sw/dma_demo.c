@@ -8,17 +8,6 @@
 #include "dma.h"
 #include "uart.h"
 #include "gpio.h"
-
-void trap_entry(void) __attribute__((interrupt));
-void trap_entry(void) {
-    uint32_t mcause_val;
-    asm volatile ("csrr %0, mcause" : "=r"(mcause_val));
-    
-    if ((mcause_val & 0x80000000) && ((mcause_val & 0x1F) == 19)) {
-        dma_irq_handler();  // Your function to handle + clear DMA IRQ
-    }
-}
-
 #define N 32
 #define NUM_WINDOWS 4
 
@@ -167,9 +156,6 @@ int compute(uint8_t* buffer) {
 
 
 int main() {
-    // Setup interupt trap entry
-    asm volatile("csrw mtvec, %0" :: "r"(trap_entry));
-
     // Setup UART
     uart_init();
 
