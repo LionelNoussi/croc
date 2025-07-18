@@ -33,6 +33,8 @@ uint32_t isqrt(uint32_t n) {
     return res;
 }
 
+char receive_buff[16] = {0};
+
 int main() {
     uart_init(); // setup the uart peripheral
 
@@ -55,6 +57,22 @@ int main() {
 
     // DMA TEST
     // test_dma();
+
+    // uart loopback
+    uart_loopback_enable();
+    printf("internal msg\n");
+    sleep_ms(1);
+    for(uint8_t idx = 0; idx<15; idx++) {
+        receive_buff[idx] = uart_read();
+        if(receive_buff[idx] == '\n') {
+            break;
+        }
+    }
+    uart_loopback_disable();
+
+    printf("Loopback received: ");
+    printf(receive_buff);
+    uart_write_flush();
 
     // toggling some GPIOs
     gpio_set_direction(0xFFFF, 0x000F); // lowest four as outputs
