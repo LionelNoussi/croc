@@ -80,4 +80,4 @@ openroad/checkpoints/
 #/openroad/src
 #yosys
 /yosys/out
-.vscode
+.vscode.DS_Store

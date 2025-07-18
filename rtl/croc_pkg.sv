@@ -131,7 +131,10 @@ package croc_pkg;
   localparam bit [31:0] TimerAddrOffset   = 32'h0300_A000;
   localparam bit [31:0] TimerAddrRange    = 32'h0000_1000;
 
-  localparam int unsigned NumPeriphRules  = 5;
+  localparam bit [31:0] SPIAddrOffset     = 32'h0300_C000;
+  localparam bit [31:0] SPIAddrRange      = 32'h0000_1000;
+
+  localparam int unsigned NumPeriphRules  = 6;
   localparam int unsigned NumPeriphs      = NumPeriphRules + 1; // additional OBI error
 
   // Enum for bus indices
@@ -141,7 +144,8 @@ package croc_pkg;
     PeriphSocCtrl  = 2,
     PeriphUart     = 3,
     PeriphGpio     = 4,
-    PeriphTimer    = 5
+    PeriphTimer    = 5,
+    PeriphSPI      = 6
   } periph_outputs_e;
 
   localparam addr_map_rule_t [NumPeriphRules-1:0] periph_addr_map = '{                                       // 0: OBI Error (default)
@@ -149,7 +153,8 @@ package croc_pkg;
     '{ idx: PeriphSocCtrl,  start_addr: SocCtrlAddrOffset,  end_addr: SocCtrlAddrOffset + SocCtrlAddrRange}, // 2: SoC control
     '{ idx: PeriphUart,     start_addr: UartAddrOffset,     end_addr: UartAddrOffset    + UartAddrRange},    // 3: UART
     '{ idx: PeriphGpio,     start_addr: GpioAddrOffset,     end_addr: GpioAddrOffset    + GpioAddrRange},    // 4: GPIO
-    '{ idx: PeriphTimer,    start_addr: TimerAddrOffset,    end_addr: TimerAddrOffset   + TimerAddrRange}    // 5: Timer
+    '{ idx: PeriphTimer,    start_addr: TimerAddrOffset,    end_addr: TimerAddrOffset   + TimerAddrRange},    // 5: Timer
+    '{ idx: PeriphSPI,      start_addr: SPIAddrOffset,      end_addr: SPIAddrOffset     + SPIAddrRange}    // 6: SPI
   };
 
   // OBI is configured as 32 bit data, 32 bit address width

@@ -51,6 +51,9 @@ sources:
       - rtl/dma/dma.sv
       - rtl/dma/dma_fifo_buffer.sv
       - rtl/dma/dma_interrupt_handler.sv
+      - rtl/spi/spi_reg_pkg.sv
+      - rtl/spi/spi_reg_top.sv
+      - rtl/spi/spi.sv
       # Level 3
       - rtl/croc_soc.sv
 
