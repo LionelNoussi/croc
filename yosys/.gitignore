@@ -80,3 +80,6 @@
 #/openroad/src
 #yosys
 /yosys/out
+/yosys/reports
+#sta
+./sta/reports/

@@ -106,6 +106,8 @@ assign dma_receive_obi_req_o.req = receiver_obi_req_q;
 assign dma_receive_obi_req_o.a.be = 4'b1111;
 assign dma_receive_obi_req_o.a.wdata = '0;
 assign dma_receive_obi_req_o.a.addr = receiver_obi_addr_q;
+assign dma_receive_obi_req_o.a.a_optional = '0;
+assign dma_receive_obi_req_o.a.aid = '0;
 
 // FIFO BUFFER REGISTERS, SIGNALS AND INSTANTIATION
 // -----------------------------------------------------------------------
@@ -164,6 +166,8 @@ assign dma_transmit_obi_req_o.req = transmitter_obi_req_q;
 assign dma_transmit_obi_req_o.a.be = transmitter_obi_be_q;
 assign dma_transmit_obi_req_o.a.wdata = transmitter_obi_wdata_q;
 assign dma_transmit_obi_req_o.a.addr = transmitter_obi_addr_q;
+assign dma_transmit_obi_req_o.a.a_optional = '0;
+assign dma_transmit_obi_req_o.a.aid = '0;
 
 
 // #############################################################################################################

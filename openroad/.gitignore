@@ -1,4 +1,5 @@
 *.log
+checkpoints
 save
 reports
 IHP_rcx_patterns.rules

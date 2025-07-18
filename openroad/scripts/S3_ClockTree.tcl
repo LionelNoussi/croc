@@ -32,6 +32,7 @@ report_checks -path_group clk_sys
 utl::report "Repairing design..."
 repair_design -verbose
 repair_timing -setup -skip_pin_swap -verbose
+repair_timing -hold -skip_pin_swap -verbose
 
 utl::report "Report after repair:"
 set_wire_rc -clock -layer Metal4

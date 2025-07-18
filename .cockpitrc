@@ -23,7 +23,7 @@
   #                   ixc013g2_iocell_rev1.1.0
   #                   ixc013g2_iocell_rev1.2.0
   #                   ixc013g2_iocell_rev1.2.1
-  #                   open_io_v0.1
+  #                   open_io_v0.2
   #   bondpad       : bondpad_70x70_v0
   #
   #   STD cell      : ixc013g2ng_stdcell_rev0.0.4
@@ -51,7 +51,7 @@
 
   libs    = SG13G2_1.3.1 \
             open_stdcell_v3.2 \
-            open_io_v0.1 \ 
+            open_io_v0.2 \ 
             open_sram_v2.1
 
 

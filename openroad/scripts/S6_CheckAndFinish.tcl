@@ -5,8 +5,7 @@ if {[info script] ne ""} {
 source scripts/util_scripts/setup.tcl
 load_checkpoint croc_routed
 
-gui::show
-
+# gui::show
 
 set extRules ./src/IHP_rcx_patterns.rules
 define_process_corner -ext_model_index 0 tt
@@ -15,13 +14,13 @@ write_spef ./checkpoints/croc_final/croc.spef
 estimate_parasitics -global_routing -spef_file ./checkpoints/croc_final/croc.spef
 # read_spef ./checkpoints/croc_final/croc.spef
 
+gui::show
+
 utl::report "Static power report"
 set_power_activity -input -activity 0.1
 set_power_activity -input_port rst_ni -activity 0
 report_power -corner tt
 report_power -corner ff
-
-# gui::show
 
 utl::report "Dynamic power report"
 

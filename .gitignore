@@ -81,3 +81,5 @@ openroad/checkpoints/
 #yosys
 /yosys/out
 .vscode
+yosys/reports
+sta/reports
