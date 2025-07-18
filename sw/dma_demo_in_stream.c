@@ -9,9 +9,9 @@
 #include "uart.h"
 #include "gpio.h"
 #define N 32
-#define NUM_WINDOWS 4
+#define NUM_WINDOWS 8
 
-// #define USE_DMA
+#define USE_DMA
 
 
 void* memcpy(void* dest, const void* src, unsigned len) {
@@ -70,13 +70,12 @@ int compute(uint8_t* buffer) {
     }
 #else
     void keyword_detection_dma() {
-        // Turn GPIO 0 off
-        gpio_write(2);
+        // Send start signal to testbench
+        uart_write(0x00);
         
         // One buffer of double length for double buffering
         // For clarity: buffer0 = buffer; buffer1 = buffer + N
         int8_t  buffer[2*N];
-
         uint8_t dst_offset = 0;     // 0 for buffer0, N for buffer1
         int8_t* current_buffer;     // buffer + offset;
         
@@ -101,12 +100,7 @@ int compute(uint8_t* buffer) {
             .activate = 1
         };
         
-        // Memory mapped address of dma control, so to only change controls later and not the rest
-        static volatile dma_control_t* const dma_ctrl_reg = DMA_REG(DMA_CONTROL_REG_OFFSET);
         dma_control_t dma_controls = encode_dma_controls(&dma_control_struct);
-        
-        // Send start signal to testbench
-        uart_write(0x00);
         
         // Start the DMA
         enable_dma_irq();
@@ -128,7 +122,7 @@ int compute(uint8_t* buffer) {
                 asm volatile("wfi");
             }
 
-            // Write 00_ to GPIO to signal setup state state
+            // Write 00_ to GPIO to signal setup state
             gpio_write(result);   
 
             // Start DMA to fill next buffer, except in last iteration
@@ -141,7 +135,7 @@ int compute(uint8_t* buffer) {
 
                 // Start dma again with new offset
                 enable_dma_irq();
-                *dma_ctrl_reg = dma_controls;
+                control_dma(dma_controls);
             }
             
             // Write 11_ to GPIO to indicate computing state
@@ -150,7 +144,7 @@ int compute(uint8_t* buffer) {
         }
         
         gpio_write(result);
-        disable_dma_irq();
+        disable_dma_irq();  // just to be sure
     }
 #endif
 

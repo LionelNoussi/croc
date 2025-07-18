@@ -18,11 +18,11 @@
 === addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_addr_decode ===
 
    Number of wires:                  7
-   Number of wire bits:            425
+   Number of wire bits:            521
    Number of public wires:           7
-   Number of public wire bits:     425
+   Number of public wire bits:     521
    Number of ports:                  7
-   Number of port bits:            425
+   Number of port bits:            521
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -32,11 +32,11 @@
 === addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[1].i_addr_decode ===
 
    Number of wires:                  7
-   Number of wire bits:            425
+   Number of wire bits:            521
    Number of public wires:           7
-   Number of public wire bits:     425
+   Number of public wire bits:     521
    Number of ports:                  7
-   Number of port bits:            425
+   Number of port bits:            521
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -46,11 +46,11 @@
 === addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_addr_decode ===
 
    Number of wires:                  7
-   Number of wire bits:            425
+   Number of wire bits:            521
    Number of public wires:           7
-   Number of public wire bits:     425
+   Number of public wire bits:     521
    Number of ports:                  7
-   Number of port bits:            425
+   Number of port bits:            521
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -60,16 +60,44 @@
 === addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_addr_decode ===
 
    Number of wires:                  7
-   Number of wire bits:            425
+   Number of wire bits:            521
    Number of public wires:           7
-   Number of public wire bits:     425
+   Number of public wire bits:     521
    Number of ports:                  7
-   Number of port bits:            425
+   Number of port bits:            521
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                  1
      addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_addr_decode.i_addr_decode_dync      1
+
+=== addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_addr_decode ===
+
+   Number of wires:                  7
+   Number of wire bits:            521
+   Number of public wires:           7
+   Number of public wire bits:     521
+   Number of ports:                  7
+   Number of port bits:            521
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_addr_decode.i_addr_decode_dync      1
+
+=== addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_addr_decode ===
+
+   Number of wires:                  7
+   Number of wire bits:            521
+   Number of public wires:           7
+   Number of public wire bits:     521
+   Number of ports:                  7
+   Number of port bits:            521
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  1
+     addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_addr_decode.i_addr_decode_dync      1
 
 === addr_decode$croc_chip.i_croc_soc.i_user.i_addr_decode_periphs ===
 
@@ -108,87 +136,129 @@
 
 === addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_addr_decode.i_addr_decode_dync ===
 
-   Number of wires:                115
-   Number of wire bits:            593
+   Number of wires:                140
+   Number of wire bits:            721
    Number of public wires:           9
-   Number of public wire bits:     430
+   Number of public wire bits:     527
    Number of ports:                  8
-   Number of port bits:            426
+   Number of port bits:            522
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 50
-     $ge_32                          4
-     $logic_and_1                    4
-     $logic_not_32                   4
-     $logic_or_1                     4
-     $lt_32                          4
-     $mux_1                         13
-     $mux_3                          9
-     $not_1                          8
+   Number of cells:                 62
+     $ge_32                          5
+     $logic_and_1                    5
+     $logic_not_32                   5
+     $logic_or_1                     5
+     $lt_32                          5
+     $mux_1                         16
+     $mux_3                         11
+     $not_1                         10
 
 === addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[1].i_addr_decode.i_addr_decode_dync ===
 
-   Number of wires:                115
-   Number of wire bits:            593
+   Number of wires:                140
+   Number of wire bits:            721
    Number of public wires:           9
-   Number of public wire bits:     430
+   Number of public wire bits:     527
    Number of ports:                  8
-   Number of port bits:            426
+   Number of port bits:            522
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 50
-     $ge_32                          4
-     $logic_and_1                    4
-     $logic_not_32                   4
-     $logic_or_1                     4
-     $lt_32                          4
-     $mux_1                         13
-     $mux_3                          9
-     $not_1                          8
+   Number of cells:                 62
+     $ge_32                          5
+     $logic_and_1                    5
+     $logic_not_32                   5
+     $logic_or_1                     5
+     $lt_32                          5
+     $mux_1                         16
+     $mux_3                         11
+     $not_1                         10
 
 === addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_addr_decode.i_addr_decode_dync ===
 
-   Number of wires:                115
-   Number of wire bits:            593
+   Number of wires:                140
+   Number of wire bits:            721
    Number of public wires:           9
-   Number of public wire bits:     430
+   Number of public wire bits:     527
    Number of ports:                  8
-   Number of port bits:            426
+   Number of port bits:            522
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 50
-     $ge_32                          4
-     $logic_and_1                    4
-     $logic_not_32                   4
-     $logic_or_1                     4
-     $lt_32                          4
-     $mux_1                         13
-     $mux_3                          9
-     $not_1                          8
+   Number of cells:                 62
+     $ge_32                          5
+     $logic_and_1                    5
+     $logic_not_32                   5
+     $logic_or_1                     5
+     $lt_32                          5
+     $mux_1                         16
+     $mux_3                         11
+     $not_1                         10
 
 === addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_addr_decode.i_addr_decode_dync ===
 
-   Number of wires:                115
-   Number of wire bits:            593
+   Number of wires:                140
+   Number of wire bits:            721
    Number of public wires:           9
-   Number of public wire bits:     430
+   Number of public wire bits:     527
    Number of ports:                  8
-   Number of port bits:            426
+   Number of port bits:            522
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 50
-     $ge_32                          4
-     $logic_and_1                    4
-     $logic_not_32                   4
-     $logic_or_1                     4
-     $lt_32                          4
-     $mux_1                         13
-     $mux_3                          9
-     $not_1                          8
+   Number of cells:                 62
+     $ge_32                          5
+     $logic_and_1                    5
+     $logic_not_32                   5
+     $logic_or_1                     5
+     $lt_32                          5
+     $mux_1                         16
+     $mux_3                         11
+     $not_1                         10
+
+=== addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_addr_decode.i_addr_decode_dync ===
+
+   Number of wires:                140
+   Number of wire bits:            721
+   Number of public wires:           9
+   Number of public wire bits:     527
+   Number of ports:                  8
+   Number of port bits:            522
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 62
+     $ge_32                          5
+     $logic_and_1                    5
+     $logic_not_32                   5
+     $logic_or_1                     5
+     $lt_32                          5
+     $mux_1                         16
+     $mux_3                         11
+     $not_1                         10
+
+=== addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_addr_decode.i_addr_decode_dync ===
+
+   Number of wires:                140
+   Number of wire bits:            721
+   Number of public wires:           9
+   Number of public wire bits:     527
+   Number of ports:                  8
+   Number of port bits:            522
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 62
+     $ge_32                          5
+     $logic_and_1                    5
+     $logic_not_32                   5
+     $logic_or_1                     5
+     $lt_32                          5
+     $mux_1                         16
+     $mux_3                         11
+     $not_1                         10
 
 === addr_decode_dync$croc_chip.i_croc_soc.i_user.i_addr_decode_periphs.i_addr_decode_dync ===
 
@@ -787,21 +857,22 @@
 
 === croc_domain$croc_chip.i_croc_soc.i_croc ===
 
-   Number of wires:                 96
-   Number of wire bits:           3746
-   Number of public wires:          92
-   Number of public wire bits:    3742
+   Number of wires:                103
+   Number of wire bits:           4239
+   Number of public wires:          99
+   Number of public wire bits:    4235
    Number of ports:                 22
-   Number of port bits:            367
+   Number of port bits:            369
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 22
+   Number of cells:                 23
      $not_1                          3
      $or_1                           1
      addr_decode$croc_chip.i_croc_soc.i_croc.i_addr_decode_periphs      1
      core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap      1
      dm_obi_top$croc_chip.i_croc_soc.i_croc.i_dm_top      1
+     dma$croc_chip.i_croc_soc.i_croc.i_dma      1
      dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag      1
      gpio$croc_chip.i_croc_soc.i_croc.i_gpio      1
      obi_demux$croc_chip.i_croc_soc.i_croc.i_obi_demux      1
@@ -821,9 +892,9 @@
 === croc_soc$croc_chip.i_croc_soc ===
 
    Number of wires:                 24
-   Number of wire bits:            369
+   Number of wire bits:            371
    Number of public wires:          24
-   Number of public wire bits:     369
+   Number of public wire bits:     371
    Number of ports:                 16
    Number of port bits:            109
    Number of memories:               0
@@ -1703,6 +1774,42 @@
      $mux_2                         10
      $sub_2                          1
 
+=== delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_demux.i_counter ===
+
+   Number of wires:                 44
+   Number of wire bits:             62
+   Number of public wires:          12
+   Number of public wire bits:      14
+   Number of ports:                 10
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 14
+     $add_2                          1
+     $aldff_2                        1
+     $logic_not_1                    1
+     $mux_2                         10
+     $sub_2                          1
+
+=== delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_demux.i_counter ===
+
+   Number of wires:                 44
+   Number of wire bits:             62
+   Number of public wires:          12
+   Number of public wire bits:      14
+   Number of ports:                 10
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 14
+     $add_2                          1
+     $aldff_2                        1
+     $logic_not_1                    1
+     $mux_2                         10
+     $sub_2                          1
+
 === delta_counter$croc_chip.i_croc_soc.i_croc.i_obi_demux.i_counter ===
 
    Number of wires:                 44
@@ -1876,20 +1983,20 @@
 === dm_obi_top$croc_chip.i_croc_soc.i_croc.i_dm_top ===
 
    Number of wires:                 47
-   Number of wire bits:            353
+   Number of wire bits:            358
    Number of public wires:          37
-   Number of public wire bits:     339
+   Number of public wire bits:     342
    Number of ports:                 35
-   Number of port bits:            335
+   Number of port bits:            337
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                  6
      $aldff_1                        1
-     $aldff_3                        1
+     $aldff_4                        1
      $logic_not_1                    1
      $mux_1                          1
-     $mux_3                          1
+     $mux_4                          1
      dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top      1
 
 === dm_sba$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_sba ===
@@ -1950,6 +2057,102 @@
      dm_csrs$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_csrs      1
      dm_mem$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_mem      1
      dm_sba$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_sba      1
+
+=== dma$croc_chip.i_croc_soc.i_croc.i_dma ===
+
+   Number of wires:               1474
+   Number of wire bits:          10518
+   Number of public wires:          94
+   Number of public wire bits:    1251
+   Number of ports:                  9
+   Number of port bits:            336
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                786
+     $add_32                        11
+     $aldff_1                       14
+     $aldff_11                       3
+     $aldff_2                        1
+     $aldff_3                        1
+     $aldff_32                       9
+     $aldff_4                        2
+     $aldff_8                        4
+     $and_8                          1
+     $eq_11                          2
+     $eq_2                          59
+     $eq_3                          71
+     $eq_8                          31
+     $logic_and_1                    3
+     $logic_not_1                    9
+     $logic_not_2                    7
+     $logic_not_3                   12
+     $logic_not_8                    5
+     $mod_32                         2
+     $mul_32                         1
+     $mux_1                        198
+     $mux_11                        24
+     $mux_2                         21
+     $mux_3                         53
+     $mux_32                       144
+     $mux_4                         23
+     $mux_8                         50
+     $ne_8                           1
+     $pmux_1                         6
+     $pmux_11                        2
+     $pmux_2                         1
+     $pmux_3                         1
+     $pmux_32                        6
+     $pmux_4                         1
+     $reduce_bool_2                  1
+     $reduce_bool_8                  1
+     $shl_32                         2
+     $shr_32                         1
+     dma_fifo_buffer$croc_chip.i_croc_soc.i_croc.i_dma.i_dma_fifo_buffer      1
+     dma_interrupt_handler$croc_chip.i_croc_soc.i_croc.i_dma.i_dma_interupt_handler      1
+
+=== dma_fifo_buffer$croc_chip.i_croc_soc.i_croc.i_dma.i_dma_fifo_buffer ===
+
+   Number of wires:                 56
+   Number of wire bits:            370
+   Number of public wires:          16
+   Number of public wire bits:      80
+   Number of ports:                 10
+   Number of port bits:             72
+   Number of memories:               1
+   Number of memory bits:           64
+   Number of processes:              0
+   Number of cells:                 33
+     $add_32                         3
+     $aldff_1                        2
+     $aldff_2                        1
+     $eq_2                           5
+     $logic_and_1                    5
+     $logic_not_1                    6
+     $logic_not_2                    1
+     $memrd_v2                       1
+     $memwr_v2                       1
+     $mod_32                         2
+     $mux_1                          3
+     $mux_32                         1
+     $pmux_2                         1
+     $sub_32                         1
+
+=== dma_interrupt_handler$croc_chip.i_croc_soc.i_croc.i_dma.i_dma_interupt_handler ===
+
+   Number of wires:                 19
+   Number of wire bits:             19
+   Number of public wires:           7
+   Number of public wire bits:       7
+   Number of ports:                  5
+   Number of port bits:              5
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  5
+     $aldff_1                        1
+     $logic_not_1                    1
+     $mux_1                          3
 
 === dmi_cdc$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc ===
 
@@ -2075,18 +2278,19 @@
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.gen_no_id_assign.i_fifo ===
 
    Number of wires:                120
-   Number of wire bits:            291
+   Number of wire bits:            317
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      36
    Number of ports:                 11
-   Number of port bits:             13
+   Number of port bits:             15
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                 49
      $add_32                         3
      $aldff_1                        2
-     $aldff_2                        3
+     $aldff_2                        1
+     $aldff_3                        2
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2095,26 +2299,28 @@
      $logic_not_2                    1
      $lt_3                           2
      $mux_1                          7
-     $mux_2                         11
-     $mux_4                          2
+     $mux_2                          4
+     $mux_3                          7
+     $mux_6                          2
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.gen_no_id_assign.i_fifo ===
 
    Number of wires:                120
-   Number of wire bits:            291
+   Number of wire bits:            317
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      36
    Number of ports:                 11
-   Number of port bits:             13
+   Number of port bits:             15
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                 49
      $add_32                         3
      $aldff_1                        2
-     $aldff_2                        3
+     $aldff_2                        1
+     $aldff_3                        2
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2123,26 +2329,28 @@
      $logic_not_2                    1
      $lt_3                           2
      $mux_1                          7
-     $mux_2                         11
-     $mux_4                          2
+     $mux_2                          4
+     $mux_3                          7
+     $mux_6                          2
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.gen_no_id_assign.i_fifo ===
 
    Number of wires:                120
-   Number of wire bits:            291
+   Number of wire bits:            317
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      36
    Number of ports:                 11
-   Number of port bits:             13
+   Number of port bits:             15
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                 49
      $add_32                         3
      $aldff_1                        2
-     $aldff_2                        3
+     $aldff_2                        1
+     $aldff_3                        2
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2151,26 +2359,28 @@
      $logic_not_2                    1
      $lt_3                           2
      $mux_1                          7
-     $mux_2                         11
-     $mux_4                          2
+     $mux_2                          4
+     $mux_3                          7
+     $mux_6                          2
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.gen_no_id_assign.i_fifo ===
 
    Number of wires:                120
-   Number of wire bits:            291
+   Number of wire bits:            317
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      36
    Number of ports:                 11
-   Number of port bits:             13
+   Number of port bits:             15
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                 49
      $add_32                         3
      $aldff_1                        2
-     $aldff_2                        3
+     $aldff_2                        1
+     $aldff_3                        2
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2179,26 +2389,28 @@
      $logic_not_2                    1
      $lt_3                           2
      $mux_1                          7
-     $mux_2                         11
-     $mux_4                          2
+     $mux_2                          4
+     $mux_3                          7
+     $mux_6                          2
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.gen_no_id_assign.i_fifo ===
 
    Number of wires:                120
-   Number of wire bits:            291
+   Number of wire bits:            317
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      36
    Number of ports:                 11
-   Number of port bits:             13
+   Number of port bits:             15
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                 49
      $add_32                         3
      $aldff_1                        2
-     $aldff_2                        3
+     $aldff_2                        1
+     $aldff_3                        2
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2207,19 +2419,50 @@
      $logic_not_2                    1
      $lt_3                           2
      $mux_1                          7
-     $mux_2                         11
-     $mux_4                          2
+     $mux_2                          4
+     $mux_3                          7
+     $mux_6                          2
+     $not_1                          6
+     $sub_32                         1
+
+=== fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.gen_no_id_assign.i_fifo ===
+
+   Number of wires:                120
+   Number of wire bits:            317
+   Number of public wires:          20
+   Number of public wire bits:      36
+   Number of ports:                 11
+   Number of port bits:             15
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 49
+     $add_32                         3
+     $aldff_1                        2
+     $aldff_2                        1
+     $aldff_3                        2
+     $bwmux                          1
+     $eq_2                           1
+     $ge_2                           1
+     $logic_and_1                    6
+     $logic_not_1                    2
+     $logic_not_2                    1
+     $lt_3                           2
+     $mux_1                          7
+     $mux_2                          4
+     $mux_3                          7
+     $mux_6                          2
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_periph_err.i_id_fifo ===
 
    Number of wires:                112
-   Number of wire bits:            274
+   Number of wire bits:            287
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      34
    Number of ports:                 11
-   Number of port bits:             15
+   Number of port bits:             17
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2227,7 +2470,7 @@
      $add_32                         3
      $aldff_1                        2
      $aldff_2                        1
-     $aldff_3                        1
+     $aldff_4                        1
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2237,18 +2480,18 @@
      $lt_2                           2
      $mux_1                          9
      $mux_2                          4
-     $mux_3                          4
+     $mux_4                          4
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_croc.i_xbar_err.i_id_fifo ===
 
    Number of wires:                112
-   Number of wire bits:            274
+   Number of wire bits:            287
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      34
    Number of ports:                 11
-   Number of port bits:             15
+   Number of port bits:             17
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2256,7 +2499,7 @@
      $add_32                         3
      $aldff_1                        2
      $aldff_2                        1
-     $aldff_3                        1
+     $aldff_4                        1
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2266,18 +2509,18 @@
      $lt_2                           2
      $mux_1                          9
      $mux_2                          4
-     $mux_3                          4
+     $mux_4                          4
      $not_1                          6
      $sub_32                         1
 
 === fifo_v3$croc_chip.i_croc_soc.i_user.i_user_err.i_id_fifo ===
 
    Number of wires:                112
-   Number of wire bits:            274
+   Number of wire bits:            287
    Number of public wires:          20
-   Number of public wire bits:      30
+   Number of public wire bits:      34
    Number of ports:                 11
-   Number of port bits:             15
+   Number of port bits:             17
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2285,7 +2528,7 @@
      $add_32                         3
      $aldff_1                        2
      $aldff_2                        1
-     $aldff_3                        1
+     $aldff_4                        1
      $bwmux                          1
      $eq_2                           1
      $ge_2                           1
@@ -2295,18 +2538,18 @@
      $lt_2                           2
      $mux_1                          9
      $mux_2                          4
-     $mux_3                          4
+     $mux_4                          4
      $not_1                          6
      $sub_32                         1
 
 === gpio$croc_chip.i_croc_soc.i_croc.i_gpio ===
 
    Number of wires:                945
-   Number of wire bits:           1750
+   Number of wire bits:           1752
    Number of public wires:         207
-   Number of public wire bits:     917
+   Number of public wire bits:     919
    Number of ports:                  9
-   Number of port bits:            244
+   Number of port bits:            246
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2355,11 +2598,11 @@
 === gpio_reg_top$croc_chip.i_croc_soc.i_croc.i_gpio.i_reg_file ===
 
    Number of wires:                396
-   Number of wire bits:           3798
+   Number of wire bits:           3800
    Number of public wires:          30
-   Number of public wire bits:    1476
+   Number of public wire bits:    1478
    Number of ports:                  6
-   Number of port bits:            499
+   Number of port bits:            501
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2383,188 +2626,222 @@
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
 
 === lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper ===
 
-   Number of wires:                 40
-   Number of wire bits:             99
+   Number of wires:                 58
+   Number of wire bits:            162
    Number of public wires:           7
-   Number of public wire bits:      31
+   Number of public wire bits:      66
    Number of ports:                  3
-   Number of port bits:              7
+   Number of port bits:             10
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                  9
-     $mux_2                          3
+   Number of cells:                 14
+     $mux_3                          6
      $not_1                          2
-     $or_1                           3
-     $reduce_or_4                    1
+     $or_1                           5
+     $reduce_or_6                    1
+
+=== lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower ===
+
+   Number of wires:                 58
+   Number of wire bits:            162
+   Number of public wires:           7
+   Number of public wire bits:      66
+   Number of ports:                  3
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 14
+     $mux_3                          6
+     $not_1                          2
+     $or_1                           5
+     $reduce_or_6                    1
+
+=== lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper ===
+
+   Number of wires:                 58
+   Number of wire bits:            162
+   Number of public wires:           7
+   Number of public wire bits:      66
+   Number of ports:                  3
+   Number of port bits:             10
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 14
+     $mux_3                          6
+     $not_1                          2
+     $or_1                           5
+     $reduce_or_6                    1
 
 === obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_demux ===
 
-   Number of wires:                142
-   Number of wire bits:           8430
+   Number of wires:                143
+   Number of wire bits:           9116
    Number of public wires:          15
-   Number of public wire bits:     671
+   Number of public wire bits:     780
    Number of ports:                  7
-   Number of port bits:            659
+   Number of port bits:            768
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                141
      $aldff_3                        1
-     $and_360                        1
+     $and_432                        1
      $bwmux                          1
      $eq_3                          29
      $ge_4                           2
@@ -2575,8 +2852,8 @@
      $lt_5                           8
      $mux_1                          4
      $mux_3                          1
-     $mux_360                        3
      $mux_37                        35
+     $mux_432                        3
      $mux_72                        41
      $not_1                          1
      $xor_1                          1
@@ -2584,18 +2861,18 @@
 
 === obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[1].i_demux ===
 
-   Number of wires:                142
-   Number of wire bits:           8430
+   Number of wires:                143
+   Number of wire bits:           9116
    Number of public wires:          15
-   Number of public wire bits:     671
+   Number of public wire bits:     780
    Number of ports:                  7
-   Number of port bits:            659
+   Number of port bits:            768
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                141
      $aldff_3                        1
-     $and_360                        1
+     $and_432                        1
      $bwmux                          1
      $eq_3                          29
      $ge_4                           2
@@ -2606,8 +2883,8 @@
      $lt_5                           8
      $mux_1                          4
      $mux_3                          1
-     $mux_360                        3
      $mux_37                        35
+     $mux_432                        3
      $mux_72                        41
      $not_1                          1
      $xor_1                          1
@@ -2615,18 +2892,18 @@
 
 === obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_demux ===
 
-   Number of wires:                142
-   Number of wire bits:           8430
+   Number of wires:                143
+   Number of wire bits:           9116
    Number of public wires:          15
-   Number of public wire bits:     671
+   Number of public wire bits:     780
    Number of ports:                  7
-   Number of port bits:            659
+   Number of port bits:            768
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                141
      $aldff_3                        1
-     $and_360                        1
+     $and_432                        1
      $bwmux                          1
      $eq_3                          29
      $ge_4                           2
@@ -2637,8 +2914,8 @@
      $lt_5                           8
      $mux_1                          4
      $mux_3                          1
-     $mux_360                        3
      $mux_37                        35
+     $mux_432                        3
      $mux_72                        41
      $not_1                          1
      $xor_1                          1
@@ -2646,18 +2923,18 @@
 
 === obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_demux ===
 
-   Number of wires:                142
-   Number of wire bits:           8430
+   Number of wires:                143
+   Number of wire bits:           9116
    Number of public wires:          15
-   Number of public wire bits:     671
+   Number of public wire bits:     780
    Number of ports:                  7
-   Number of port bits:            659
+   Number of port bits:            768
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                141
      $aldff_3                        1
-     $and_360                        1
+     $and_432                        1
      $bwmux                          1
      $eq_3                          29
      $ge_4                           2
@@ -2668,27 +2945,27 @@
      $lt_5                           8
      $mux_1                          4
      $mux_3                          1
-     $mux_360                        3
      $mux_37                        35
+     $mux_432                        3
      $mux_72                        41
      $not_1                          1
      $xor_1                          1
      delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_demux.i_counter      1
 
-=== obi_demux$croc_chip.i_croc_soc.i_croc.i_obi_demux ===
+=== obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_demux ===
 
    Number of wires:                143
-   Number of wire bits:           9416
+   Number of wire bits:           9116
    Number of public wires:          15
-   Number of public wire bits:     808
+   Number of public wire bits:     780
    Number of ports:                  7
-   Number of port bits:            796
+   Number of port bits:            768
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                141
      $aldff_3                        1
-     $and_444                        1
+     $and_432                        1
      $bwmux                          1
      $eq_3                          29
      $ge_4                           2
@@ -2699,9 +2976,71 @@
      $lt_5                           8
      $mux_1                          4
      $mux_3                          1
-     $mux_39                        35
-     $mux_444                        3
-     $mux_74                        41
+     $mux_37                        35
+     $mux_432                        3
+     $mux_72                        41
+     $not_1                          1
+     $xor_1                          1
+     delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_demux.i_counter      1
+
+=== obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_demux ===
+
+   Number of wires:                143
+   Number of wire bits:           9116
+   Number of public wires:          15
+   Number of public wire bits:     780
+   Number of ports:                  7
+   Number of port bits:            768
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                141
+     $aldff_3                        1
+     $and_432                        1
+     $bwmux                          1
+     $eq_3                          29
+     $ge_4                           2
+     $logic_and_1                    4
+     $logic_not_1                    2
+     $logic_not_3                    4
+     $logic_or_1                     2
+     $lt_5                           8
+     $mux_1                          4
+     $mux_3                          1
+     $mux_37                        35
+     $mux_432                        3
+     $mux_72                        41
+     $not_1                          1
+     $xor_1                          1
+     delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_demux.i_counter      1
+
+=== obi_demux$croc_chip.i_croc_soc.i_croc.i_obi_demux ===
+
+   Number of wires:                143
+   Number of wire bits:           9566
+   Number of public wires:          15
+   Number of public wire bits:     822
+   Number of ports:                  7
+   Number of port bits:            810
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                141
+     $aldff_3                        1
+     $and_450                        1
+     $bwmux                          1
+     $eq_3                          29
+     $ge_4                           2
+     $logic_and_1                    4
+     $logic_not_1                    2
+     $logic_not_3                    4
+     $logic_or_1                     2
+     $lt_5                           8
+     $mux_1                          4
+     $mux_3                          1
+     $mux_40                        35
+     $mux_450                        3
+     $mux_75                        41
      $not_1                          1
      $xor_1                          1
      delta_counter$croc_chip.i_croc_soc.i_croc.i_obi_demux.i_counter      1
@@ -2709,17 +3048,17 @@
 === obi_demux$croc_chip.i_croc_soc.i_user.i_obi_demux ===
 
    Number of wires:                103
-   Number of wire bits:           3168
+   Number of wire bits:           3218
    Number of public wires:          15
-   Number of public wire bits:     350
+   Number of public wire bits:     356
    Number of ports:                  7
-   Number of port bits:            342
+   Number of port bits:            348
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                 59
      $aldff_1                        1
-     $and_148                        1
+     $and_150                        1
      $bwmux                          1
      $eq_1                           1
      $ge_2                           2
@@ -2728,9 +3067,9 @@
      $logic_or_1                     2
      $lt_3                           8
      $mux_1                          5
-     $mux_148                        3
-     $mux_39                        10
-     $mux_74                        12
+     $mux_150                        3
+     $mux_40                        10
+     $mux_75                        12
      $not_1                          5
      $xor_1                          1
      delta_counter$croc_chip.i_croc_soc.i_user.i_obi_demux.i_counter      1
@@ -2738,11 +3077,11 @@
 === obi_err_sbr$croc_chip.i_croc_soc.i_croc.i_periph_err ===
 
    Number of wires:                 12
-   Number of wire bits:            125
+   Number of wire bits:            128
    Number of public wires:           9
-   Number of public wire bits:     122
+   Number of public wire bits:     125
    Number of ports:                  5
-   Number of port bits:            116
+   Number of port bits:            118
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2754,11 +3093,11 @@
 === obi_err_sbr$croc_chip.i_croc_soc.i_croc.i_xbar_err ===
 
    Number of wires:                 12
-   Number of wire bits:            125
+   Number of wire bits:            128
    Number of public wires:           9
-   Number of public wire bits:     122
+   Number of public wire bits:     125
    Number of ports:                  5
-   Number of port bits:            116
+   Number of port bits:            118
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2770,11 +3109,11 @@
 === obi_err_sbr$croc_chip.i_croc_soc.i_user.i_user_err ===
 
    Number of wires:                 12
-   Number of wire bits:            125
+   Number of wire bits:            128
    Number of public wires:           9
-   Number of public wire bits:     122
+   Number of public wire bits:     125
    Number of ports:                  5
-   Number of port bits:            116
+   Number of port bits:            118
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -2785,209 +3124,240 @@
 
 === obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux ===
 
-   Number of wires:                107
-   Number of wire bits:           3141
+   Number of wires:                149
+   Number of wire bits:           5105
    Number of public wires:          19
-   Number of public wire bits:    1067
+   Number of public wire bits:    1507
    Number of ports:                  7
-   Number of port bits:            552
+   Number of port bits:            772
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                112
-     $and_140                        1
-     $and_4                          1
+   Number of cells:                192
+     $and_210                        1
+     $and_6                          1
      $bwmux                          3
-     $eq_2                          30
-     $ge_3                           5
+     $eq_3                          70
+     $ge_4                           5
      $logic_and_1                    8
-     $logic_not_2                   10
-     $lt_4                           5
-     $mux_1                          9
-     $mux_35                        36
+     $logic_not_3                   10
+     $lt_5                           5
+     $mux_1                         17
+     $mux_35                        68
      $not_1                          2
      fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.gen_no_id_assign.i_fifo      1
      rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb      1
 
 === obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux ===
 
-   Number of wires:                107
-   Number of wire bits:           3141
+   Number of wires:                149
+   Number of wire bits:           5105
    Number of public wires:          19
-   Number of public wire bits:    1067
+   Number of public wire bits:    1507
    Number of ports:                  7
-   Number of port bits:            552
+   Number of port bits:            772
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                112
-     $and_140                        1
-     $and_4                          1
+   Number of cells:                192
+     $and_210                        1
+     $and_6                          1
      $bwmux                          3
-     $eq_2                          30
-     $ge_3                           5
+     $eq_3                          70
+     $ge_4                           5
      $logic_and_1                    8
-     $logic_not_2                   10
-     $lt_4                           5
-     $mux_1                          9
-     $mux_35                        36
+     $logic_not_3                   10
+     $lt_5                           5
+     $mux_1                         17
+     $mux_35                        68
      $not_1                          2
      fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.gen_no_id_assign.i_fifo      1
      rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.i_rr_arb      1
 
 === obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux ===
 
-   Number of wires:                107
-   Number of wire bits:           3141
+   Number of wires:                149
+   Number of wire bits:           5105
    Number of public wires:          19
-   Number of public wire bits:    1067
+   Number of public wire bits:    1507
    Number of ports:                  7
-   Number of port bits:            552
+   Number of port bits:            772
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                112
-     $and_140                        1
-     $and_4                          1
+   Number of cells:                192
+     $and_210                        1
+     $and_6                          1
      $bwmux                          3
-     $eq_2                          30
-     $ge_3                           5
+     $eq_3                          70
+     $ge_4                           5
      $logic_and_1                    8
-     $logic_not_2                   10
-     $lt_4                           5
-     $mux_1                          9
-     $mux_35                        36
+     $logic_not_3                   10
+     $lt_5                           5
+     $mux_1                         17
+     $mux_35                        68
      $not_1                          2
      fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.gen_no_id_assign.i_fifo      1
      rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.i_rr_arb      1
 
 === obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux ===
 
-   Number of wires:                107
-   Number of wire bits:           3141
+   Number of wires:                149
+   Number of wire bits:           5105
    Number of public wires:          19
-   Number of public wire bits:    1067
+   Number of public wire bits:    1507
    Number of ports:                  7
-   Number of port bits:            552
+   Number of port bits:            772
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                112
-     $and_140                        1
-     $and_4                          1
+   Number of cells:                192
+     $and_210                        1
+     $and_6                          1
      $bwmux                          3
-     $eq_2                          30
-     $ge_3                           5
+     $eq_3                          70
+     $ge_4                           5
      $logic_and_1                    8
-     $logic_not_2                   10
-     $lt_4                           5
-     $mux_1                          9
-     $mux_35                        36
+     $logic_not_3                   10
+     $lt_5                           5
+     $mux_1                         17
+     $mux_35                        68
      $not_1                          2
      fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.gen_no_id_assign.i_fifo      1
      rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.i_rr_arb      1
 
 === obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux ===
 
-   Number of wires:                107
-   Number of wire bits:           3141
+   Number of wires:                149
+   Number of wire bits:           5105
    Number of public wires:          19
-   Number of public wire bits:    1067
+   Number of public wire bits:    1507
    Number of ports:                  7
-   Number of port bits:            552
+   Number of port bits:            772
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                112
-     $and_140                        1
-     $and_4                          1
+   Number of cells:                192
+     $and_210                        1
+     $and_6                          1
      $bwmux                          3
-     $eq_2                          30
-     $ge_3                           5
+     $eq_3                          70
+     $ge_4                           5
      $logic_and_1                    8
-     $logic_not_2                   10
-     $lt_4                           5
-     $mux_1                          9
-     $mux_35                        36
+     $logic_not_3                   10
+     $lt_5                           5
+     $mux_1                         17
+     $mux_35                        68
      $not_1                          2
      fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.gen_no_id_assign.i_fifo      1
      rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb      1
 
+=== obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux ===
+
+   Number of wires:                149
+   Number of wire bits:           5105
+   Number of public wires:          19
+   Number of public wire bits:    1507
+   Number of ports:                  7
+   Number of port bits:            772
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                192
+     $and_210                        1
+     $and_6                          1
+     $bwmux                          3
+     $eq_3                          70
+     $ge_4                           5
+     $logic_and_1                    8
+     $logic_not_3                   10
+     $lt_5                           5
+     $mux_1                         17
+     $mux_35                        68
+     $not_1                          2
+     fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.gen_no_id_assign.i_fifo      1
+     rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb      1
+
 === obi_sram_shim$croc_chip.i_croc_soc.i_croc.gen_sram_bank[0].i_sram_shim ===
 
    Number of wires:                 18
-   Number of wire bits:            229
+   Number of wire bits:            233
    Number of public wires:          15
-   Number of public wire bits:     226
+   Number of public wire bits:     230
    Number of ports:                 11
-   Number of port bits:            218
+   Number of port bits:            220
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                  4
      $aldff_1                        1
-     $aldff_3                        1
+     $aldff_4                        1
      $and_1                          1
      $logic_not_1                    1
 
 === obi_sram_shim$croc_chip.i_croc_soc.i_croc.gen_sram_bank[1].i_sram_shim ===
 
    Number of wires:                 18
-   Number of wire bits:            229
+   Number of wire bits:            233
    Number of public wires:          15
-   Number of public wire bits:     226
+   Number of public wire bits:     230
    Number of ports:                 11
-   Number of port bits:            218
+   Number of port bits:            220
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                  4
      $aldff_1                        1
-     $aldff_3                        1
+     $aldff_4                        1
      $and_1                          1
      $logic_not_1                    1
 
 === obi_xbar$croc_chip.i_croc_soc.i_croc.i_main_xbar ===
 
    Number of wires:                 15
-   Number of wire bits:           5776
+   Number of wire bits:           9717
    Number of public wires:          15
-   Number of public wire bits:    5776
+   Number of public wire bits:    9717
    Number of ports:                 10
-   Number of port bits:           1404
+   Number of port bits:           1851
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 13
+   Number of cells:                 18
      addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_addr_decode      1
      addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[1].i_addr_decode      1
      addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_addr_decode      1
      addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_addr_decode      1
+     addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_addr_decode      1
+     addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_addr_decode      1
      obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_demux      1
      obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[1].i_demux      1
      obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_demux      1
      obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_demux      1
+     obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_demux      1
+     obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_demux      1
      obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux      1
      obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux      1
      obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux      1
      obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux      1
      obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux      1
+     obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux      1
 
 === periph_to_reg$croc_chip.i_croc_soc.i_croc.i_soc_ctrl_translate ===
 
    Number of wires:                 27
-   Number of wire bits:            295
+   Number of wire bits:            299
    Number of public wires:          23
-   Number of public wire bits:     291
+   Number of public wire bits:     295
    Number of ports:                 15
-   Number of port bits:            217
+   Number of port bits:            219
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                  7
      $aldff_1                        2
-     $aldff_3                        1
      $aldff_32                       1
+     $aldff_4                        1
      $and_1                          1
      $logic_not_1                    1
      $not_1                          1
@@ -2995,18 +3365,18 @@
 === periph_to_reg$croc_chip.i_croc_soc.i_croc.i_uart_translate ===
 
    Number of wires:                 27
-   Number of wire bits:            295
+   Number of wire bits:            299
    Number of public wires:          23
-   Number of public wire bits:     291
+   Number of public wire bits:     295
    Number of ports:                 15
-   Number of port bits:            217
+   Number of port bits:            219
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                  7
      $aldff_1                        2
-     $aldff_3                        1
      $aldff_32                       1
+     $aldff_4                        1
      $and_1                          1
      $logic_not_1                    1
      $not_1                          1
@@ -3208,148 +3578,177 @@
 
 === rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb ===
 
-   Number of wires:                117
-   Number of wire bits:            940
-   Number of public wires:          31
-   Number of public wire bits:     630
+   Number of wires:                168
+   Number of wire bits:           1684
+   Number of public wires:          35
+   Number of public wire bits:    1102
    Number of ports:                 11
-   Number of port bits:            372
+   Number of port bits:            520
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 54
+   Number of cells:                 84
      $aldff_1                        1
-     $aldff_2                        1
-     $aldff_4                        1
-     $and_1                         10
-     $gt_32                          3
-     $le_32                          3
+     $aldff_3                        1
+     $aldff_6                        1
+     $and_1                         18
+     $gt_32                          5
+     $le_32                          5
      $logic_and_1                    1
      $logic_not_1                    3
-     $mux_1                          7
-     $mux_2                          4
-     $mux_4                          2
-     $mux_71                         3
-     $not_1                          7
-     $or_1                           6
+     $mux_1                         11
+     $mux_3                          6
+     $mux_6                          2
+     $mux_71                         6
+     $not_1                         12
+     $or_1                          10
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
 
 === rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.i_rr_arb ===
 
-   Number of wires:                117
-   Number of wire bits:            940
-   Number of public wires:          31
-   Number of public wire bits:     630
+   Number of wires:                168
+   Number of wire bits:           1684
+   Number of public wires:          35
+   Number of public wire bits:    1102
    Number of ports:                 11
-   Number of port bits:            372
+   Number of port bits:            520
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 54
+   Number of cells:                 84
      $aldff_1                        1
-     $aldff_2                        1
-     $aldff_4                        1
-     $and_1                         10
-     $gt_32                          3
-     $le_32                          3
+     $aldff_3                        1
+     $aldff_6                        1
+     $and_1                         18
+     $gt_32                          5
+     $le_32                          5
      $logic_and_1                    1
      $logic_not_1                    3
-     $mux_1                          7
-     $mux_2                          4
-     $mux_4                          2
-     $mux_71                         3
-     $not_1                          7
-     $or_1                           6
+     $mux_1                         11
+     $mux_3                          6
+     $mux_6                          2
+     $mux_71                         6
+     $not_1                         12
+     $or_1                          10
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[1].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
 
 === rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.i_rr_arb ===
 
-   Number of wires:                117
-   Number of wire bits:            940
-   Number of public wires:          31
-   Number of public wire bits:     630
+   Number of wires:                168
+   Number of wire bits:           1684
+   Number of public wires:          35
+   Number of public wire bits:    1102
    Number of ports:                 11
-   Number of port bits:            372
+   Number of port bits:            520
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 54
+   Number of cells:                 84
      $aldff_1                        1
-     $aldff_2                        1
-     $aldff_4                        1
-     $and_1                         10
-     $gt_32                          3
-     $le_32                          3
+     $aldff_3                        1
+     $aldff_6                        1
+     $and_1                         18
+     $gt_32                          5
+     $le_32                          5
      $logic_and_1                    1
      $logic_not_1                    3
-     $mux_1                          7
-     $mux_2                          4
-     $mux_4                          2
-     $mux_71                         3
-     $not_1                          7
-     $or_1                           6
+     $mux_1                         11
+     $mux_3                          6
+     $mux_6                          2
+     $mux_71                         6
+     $not_1                         12
+     $or_1                          10
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[2].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
 
 === rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.i_rr_arb ===
 
-   Number of wires:                117
-   Number of wire bits:            940
-   Number of public wires:          31
-   Number of public wire bits:     630
+   Number of wires:                168
+   Number of wire bits:           1684
+   Number of public wires:          35
+   Number of public wire bits:    1102
    Number of ports:                 11
-   Number of port bits:            372
+   Number of port bits:            520
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 54
+   Number of cells:                 84
      $aldff_1                        1
-     $aldff_2                        1
-     $aldff_4                        1
-     $and_1                         10
-     $gt_32                          3
-     $le_32                          3
+     $aldff_3                        1
+     $aldff_6                        1
+     $and_1                         18
+     $gt_32                          5
+     $le_32                          5
      $logic_and_1                    1
      $logic_not_1                    3
-     $mux_1                          7
-     $mux_2                          4
-     $mux_4                          2
-     $mux_71                         3
-     $not_1                          7
-     $or_1                           6
+     $mux_1                         11
+     $mux_3                          6
+     $mux_6                          2
+     $mux_71                         6
+     $not_1                         12
+     $or_1                          10
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[3].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
 
 === rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb ===
 
-   Number of wires:                117
-   Number of wire bits:            940
-   Number of public wires:          31
-   Number of public wire bits:     630
+   Number of wires:                168
+   Number of wire bits:           1684
+   Number of public wires:          35
+   Number of public wire bits:    1102
    Number of ports:                 11
-   Number of port bits:            372
+   Number of port bits:            520
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 54
+   Number of cells:                 84
      $aldff_1                        1
-     $aldff_2                        1
-     $aldff_4                        1
-     $and_1                         10
-     $gt_32                          3
-     $le_32                          3
+     $aldff_3                        1
+     $aldff_6                        1
+     $and_1                         18
+     $gt_32                          5
+     $le_32                          5
      $logic_and_1                    1
      $logic_not_1                    3
-     $mux_1                          7
-     $mux_2                          4
-     $mux_4                          2
-     $mux_71                         3
-     $not_1                          7
-     $or_1                           6
+     $mux_1                         11
+     $mux_3                          6
+     $mux_6                          2
+     $mux_71                         6
+     $not_1                         12
+     $or_1                          10
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
      lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
+
+=== rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb ===
+
+   Number of wires:                168
+   Number of wire bits:           1684
+   Number of public wires:          35
+   Number of public wire bits:    1102
+   Number of ports:                 11
+   Number of port bits:            520
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 84
+     $aldff_1                        1
+     $aldff_3                        1
+     $aldff_6                        1
+     $and_1                         18
+     $gt_32                          5
+     $le_32                          5
+     $logic_and_1                    1
+     $logic_not_1                    3
+     $mux_1                         11
+     $mux_3                          6
+     $mux_6                          2
+     $mux_71                         6
+     $not_1                         12
+     $or_1                          10
+     lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
+     lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
 
 === rstgen$croc_chip.i_croc_soc.i_rstgen ===
 
@@ -4699,19 +5098,19 @@
 === timer_unit$croc_chip.i_croc_soc.i_croc.i_timer ===
 
    Number of wires:                603
-   Number of wire bits:           1891
+   Number of wire bits:           1893
    Number of public wires:          62
-   Number of public wire bits:     567
+   Number of public wire bits:     569
    Number of ports:                 19
-   Number of port bits:            119
+   Number of port bits:            121
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
    Number of cells:                256
      $aldff_1                        6
      $aldff_2                        1
-     $aldff_3                        1
      $aldff_32                       5
+     $aldff_4                        1
      $and_1                          6
      $eq_2                           3
      $eq_32                          4
@@ -4925,11 +5324,11 @@
 === user_domain$croc_chip.i_croc_soc.i_user ===
 
    Number of wires:                 17
-   Number of wire bits:            715
+   Number of wire bits:            725
    Number of public wires:          17
-   Number of public wire bits:     715
+   Number of public wire bits:     725
    Number of ports:                 10
-   Number of port bits:            262
+   Number of port bits:            264
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -4942,18 +5341,18 @@
 === user_rom$croc_chip.i_croc_soc.i_user.i_user_rom ===
 
    Number of wires:                 40
-   Number of wire bits:            529
+   Number of wire bits:            533
    Number of public wires:          15
-   Number of public wire bits:     225
+   Number of public wire bits:     229
    Number of ports:                  4
-   Number of port bits:            115
+   Number of port bits:            117
    Number of memories:               1
    Number of memory bits:          256
    Number of processes:              0
    Number of cells:                 17
      $aldff_1                        2
-     $aldff_3                        1
      $aldff_32                       1
+     $aldff_4                        1
      $logic_not_1                    2
      $meminit                        1
      $memrd_v2                       4
@@ -5008,6 +5407,9 @@
              dm_mem$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_mem      1
                debug_rom$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_mem.gen_rom_snd_scratch.i_debug_rom      1
              dm_sba$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top.i_dm_sba      1
+         dma$croc_chip.i_croc_soc.i_croc.i_dma      1
+           dma_fifo_buffer$croc_chip.i_croc_soc.i_croc.i_dma.i_dma_fifo_buffer      1
+           dma_interrupt_handler$croc_chip.i_croc_soc.i_croc.i_dma.i_dma_interupt_handler      1
          dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag      1
            dmi_cdc$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc      1
              cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req      1
@@ -5096,6 +5498,10 @@
              addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_addr_decode.i_addr_decode_dync      1
            addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_addr_decode      1
              addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_addr_decode.i_addr_decode_dync      1
+           addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_addr_decode      1
+             addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_addr_decode.i_addr_decode_dync      1
+           addr_decode$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_addr_decode      1
+             addr_decode_dync$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_addr_decode.i_addr_decode_dync      1
            obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_demux      1
              delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[0].i_demux.i_counter      1
            obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[1].i_demux      1
@@ -5104,6 +5510,10 @@
              delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[2].i_demux.i_counter      1
            obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_demux      1
              delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[3].i_demux.i_counter      1
+           obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_demux      1
+             delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[4].i_demux.i_counter      1
+           obi_demux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_demux      1
+             delta_counter$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_demux[5].i_demux.i_counter      1
            obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux      1
              fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.gen_no_id_assign.i_fifo      1
              rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[0].i_mux.i_rr_arb      1
@@ -5129,6 +5539,11 @@
              rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb      1
                lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
                lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[4].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
+           obi_mux$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux      1
+             fifo_v3$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.gen_no_id_assign.i_fifo      1
+             rr_arb_tree$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb      1
+               lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_lower      1
+               lzc$croc_chip.i_croc_soc.i_croc.i_main_xbar.gen_mux[5].i_mux.i_rr_arb.gen_arbiter.gen_int_rr.gen_fair_arb.i_lzc_upper      1
          periph_to_reg$croc_chip.i_croc_soc.i_croc.i_soc_ctrl_translate      1
          periph_to_reg$croc_chip.i_croc_soc.i_croc.i_uart_translate      1
          reg_uart_wrap$croc_chip.i_croc_soc.i_croc.i_uart      1
@@ -5195,154 +5610,160 @@
            fifo_v3$croc_chip.i_croc_soc.i_user.i_user_err.i_id_fifo      1
          user_rom$croc_chip.i_croc_soc.i_user.i_user_rom      1
 
-   Number of wires:              22011
-   Number of wire bits:         203194
-   Number of public wires:        4244
-   Number of public wire bits:   66503
-   Number of ports:               2212
-   Number of port bits:          28992
-   Number of memories:               3
-   Number of memory bits:          356
+   Number of wires:              25537
+   Number of wire bits:         265036
+   Number of public wires:        4562
+   Number of public wire bits:   84966
+   Number of ports:               2335
+   Number of port bits:          37959
+   Number of memories:               4
+   Number of memory bits:          420
    Number of processes:              0
-   Number of cells:              12043
-     $add_2                          6
+   Number of cells:              14294
+     $add_2                          8
      $add_31                         1
-     $add_32                        51
+     $add_32                        68
      $add_34                         1
      $add_64                         2
      $add_9                          1
-     $aldff_1                      230
+     $aldff_1                      250
      $aldff_10                       2
-     $aldff_11                      66
+     $aldff_11                      69
      $aldff_12                       2
      $aldff_14                       1
      $aldff_16                       3
      $aldff_19                       1
-     $aldff_2                      108
+     $aldff_2                       98
      $aldff_24                       2
-     $aldff_3                       33
+     $aldff_3                       44
      $aldff_31                       1
-     $aldff_32                      84
+     $aldff_32                      93
      $aldff_34                       4
-     $aldff_4                       17
+     $aldff_4                       24
      $aldff_41                       1
      $aldff_5                        5
-     $aldff_6                        6
+     $aldff_6                       12
      $aldff_64                       5
      $aldff_7                        9
-     $aldff_8                       74
-     $and_1                        686
-     $and_140                        5
-     $and_148                        1
+     $aldff_8                       78
+     $and_1                        744
+     $and_150                        1
      $and_19                         1
      $and_2                          4
+     $and_210                        6
      $and_3                          1
      $and_32                        16
-     $and_360                        4
-     $and_4                          7
-     $and_444                        1
+     $and_4                          2
+     $and_432                        6
+     $and_450                        1
+     $and_6                          6
      $and_64                         1
-     $bwmux                         35
+     $and_8                          1
+     $bwmux                         41
      $dff_2                          4
      $dff_32                         4
      $dff_7                          2
      $eq_1                           3
      $eq_10                        112
+     $eq_11                          2
      $eq_12                        406
-     $eq_2                         464
-     $eq_3                         466
+     $eq_2                         379
+     $eq_3                        1015
      $eq_32                         10
      $eq_4                         398
      $eq_5                         187
      $eq_6                         142
      $eq_7                         302
-     $eq_8                          28
+     $eq_8                          59
      $ge_12                          6
      $ge_13                          1
-     $ge_2                          20
-     $ge_3                          26
-     $ge_32                         24
-     $ge_4                          11
+     $ge_2                          21
+     $ge_3                           1
+     $ge_32                         38
+     $ge_4                          45
      $ge_5                           1
      $ge_6                           5
      $ge_7                           4
      $ge_8                           4
      $gt_2                           1
-     $gt_32                         18
+     $gt_32                         33
      $le_1                           1
      $le_12                          5
-     $le_32                         15
+     $le_32                         30
      $le_8                           4
-     $logic_and_1                  416
-     $logic_not_1                  373
+     $logic_and_1                  461
+     $logic_not_1                  400
      $logic_not_10                   2
      $logic_not_12                   7
      $logic_not_16                   1
-     $logic_not_2                  199
-     $logic_not_3                  104
-     $logic_not_32                  24
+     $logic_not_2                  158
+     $logic_not_3                  184
+     $logic_not_32                  38
      $logic_not_4                   15
      $logic_not_5                   12
      $logic_not_6                    5
      $logic_not_7                    1
-     $logic_not_8                   30
-     $logic_or_1                    76
+     $logic_not_8                   35
+     $logic_or_1                    94
      $lt_10                          1
      $lt_11                          1
      $lt_13                          1
      $lt_15                          1
      $lt_16                          1
      $lt_2                           8
-     $lt_3                          52
-     $lt_32                         25
-     $lt_4                          27
-     $lt_5                          46
+     $lt_3                          54
+     $lt_32                         39
+     $lt_4                           2
+     $lt_5                          92
      $lt_6                           3
      $lt_7                           9
      $meminit                        2
-     $memrd_v2                       7
-     $mul_32                         2
-     $mux_1                       2057
-     $mux_11                       132
+     $memrd_v2                       8
+     $memwr_v2                       1
+     $mod_32                         4
+     $mul_32                         3
+     $mux_1                       2408
+     $mux_11                       156
      $mux_12                         1
      $mux_128                       22
-     $mux_148                        3
+     $mux_150                        3
      $mux_16                         5
      $mux_19                         1
-     $mux_2                        460
+     $mux_2                        420
      $mux_22                         3
      $mux_24                         1
      $mux_256                        7
-     $mux_3                        278
+     $mux_3                        500
      $mux_31                         2
-     $mux_32                       460
+     $mux_32                       605
      $mux_34                        15
-     $mux_35                       180
-     $mux_360                       12
-     $mux_37                       140
-     $mux_39                        45
-     $mux_4                        293
+     $mux_35                       408
+     $mux_37                       210
+     $mux_4                        309
+     $mux_40                        45
      $mux_41                        24
-     $mux_444                        3
+     $mux_432                       18
+     $mux_450                        3
      $mux_5                         22
      $mux_512                        1
-     $mux_6                         18
+     $mux_6                         42
      $mux_64                       109
      $mux_68                         2
      $mux_7                        184
      $mux_704                        1
-     $mux_71                        15
-     $mux_72                       164
-     $mux_74                        53
-     $mux_8                        239
+     $mux_71                        36
+     $mux_72                       246
+     $mux_75                        53
+     $mux_8                        289
      $mux_9                          3
      $mux_96                        11
      $ne_1                           7
      $ne_2                          11
      $ne_3                           1
      $ne_4                           2
+     $ne_8                           1
      $neg_33                         4
-     $not_1                        735
+     $not_1                        814
      $not_2                          3
      $not_3                          1
      $not_32                         7
@@ -5350,27 +5771,28 @@
      $not_4                          5
      $not_6                          3
      $not_7                          4
-     $or_1                         226
+     $or_1                         286
      $or_2                           3
      $or_32                          8
-     $pmux_1                       131
-     $pmux_11                        1
-     $pmux_2                        27
-     $pmux_3                        12
-     $pmux_32                       28
+     $pmux_1                       137
+     $pmux_11                        3
+     $pmux_2                        29
+     $pmux_3                        13
+     $pmux_32                       34
      $pmux_33                        2
      $pmux_34                        1
-     $pmux_4                        15
+     $pmux_4                        16
      $pmux_64                        1
      $pmux_7                         8
      $pmux_8                         1
      $reduce_and_2                   1
      $reduce_bool_16                 1
-     $reduce_bool_2                 11
+     $reduce_bool_2                 12
      $reduce_bool_20                 1
      $reduce_bool_3                  9
      $reduce_bool_5                  4
      $reduce_bool_7                  2
+     $reduce_bool_8                  1
      $reduce_or_10                   1
      $reduce_or_13                   1
      $reduce_or_19                   1
@@ -5379,23 +5801,23 @@
      $reduce_or_3                    1
      $reduce_or_31                   6
      $reduce_or_32                   1
-     $reduce_or_4                   18
+     $reduce_or_4                    8
      $reduce_or_5                    6
-     $reduce_or_6                    4
+     $reduce_or_6                   16
      $reduce_or_8                    1
      $reduce_xor_32                  1
      $reduce_xor_4                   1
      $shift_33                       2
      $shiftx_33                      2
-     $shl_32                         3
-     $shr_32                         1
+     $shl_32                         5
+     $shr_32                         2
      $sshr_33                        1
      $sub_12                         1
-     $sub_2                          6
-     $sub_32                        23
+     $sub_2                          8
+     $sub_32                        25
      $sub_8                          1
      $sub_9                          4
-     $xor_1                         24
+     $xor_1                         26
      $xor_32                         1
      RM_IHPSG13_1P_256x64_c2_bm_bist      2
      sg13g2_IOPadIOVdd               4

@@ -38,11 +38,11 @@ dma_condition_t encode_dma_condition(const dma_condition_struct_t* cond) {
 }
 
 
-void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t options, dma_condition_t condition) {
+void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t controls, dma_condition_t condition) {
     *dma_src_reg    = src_addr;
     *dma_dst_reg    = dst_addr;
     *dma_cond_reg   = condition;
-    *dma_ctrl_reg   = options;
+    *dma_ctrl_reg   = controls;
 }
 
 void activate_dma() {

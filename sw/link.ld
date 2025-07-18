@@ -28,7 +28,7 @@ SECTIONS
   .data : { *(.data) } >SRAM
   .bss  : { *(.bss COMMON) } >SRAM
 
-  __global_pointer$ = ADDR(.data) + SIZEOF(.data) / 2;
+  __global_pointer$ = ORIGIN(SRAM) + LENGTH(SRAM) / 2;
   PROVIDE(__stack_pointer$ = ORIGIN(SRAM) + LENGTH(SRAM));
 
   status  = 0x03000008;

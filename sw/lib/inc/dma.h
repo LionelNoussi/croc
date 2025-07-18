@@ -129,7 +129,12 @@ typedef struct {
 
 // Programs the DMA engine.
 // Throws an error if the dma is currently busy
-void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t options, dma_condition_t condition);
+void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t controls, dma_condition_t condition);
+
+// Only overwrite the controls of the dma
+static inline void control_dma(dma_control_t controls) {
+    *DMA_REG(DMA_CONTROL_REG_OFFSET) = controls;
+}
 
 // Activate the dma (without having to specify any options)
 // Throws an error if the DMA is currently busy

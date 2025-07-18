@@ -1,6 +1,6 @@
-Startpoint: i_croc_soc/i_croc/i_main_xbar.gen_demux[2].i_demux.i_counter.overflow_o_reg
+Startpoint: i_croc_soc/i_croc/dma_transmit_obi_req_34__reg
             (rising edge-triggered flip-flop clocked by clk_sys)
-Endpoint: i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut
+Endpoint: i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut
           (rising edge-triggered flip-flop clocked by clk_sys)
 Path Group: clk_sys
 Path Type: min
@@ -9,24 +9,25 @@ Path Type: min
 ---------------------------------------------------------
    0.00    0.00   clock clk_sys (rise edge)
    0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ i_croc_soc/i_croc/i_main_xbar.gen_demux[2].i_demux.i_counter.overflow_o_reg/CLK (sg13g2_dfrbp_1)
-   0.21    0.21 v i_croc_soc/i_croc/i_main_xbar.gen_demux[2].i_demux.i_counter.overflow_o_reg/Q (sg13g2_dfrbp_1)
-   0.14    0.35 v i_croc_soc/i_croc/$abc$154265$auto$blifparse.cc:396:parse_blif$156342/X (sg13g2_buf_1)
-   0.12    0.48 ^ i_croc_soc/i_croc/$abc$154265$auto$blifparse.cc:396:parse_blif$156350/Y (sg13g2_nor2b_1)
-   0.14    0.62 ^ i_croc_soc/i_croc/$abc$154265$auto$blifparse.cc:396:parse_blif$156697/X (sg13g2_a21o_1)
-   0.00    0.62 ^ i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut/A_DIN[11] (RM_IHPSG13_1P_256x64_c2_bm_bist)
-           0.62   data arrival time
+   0.00    0.00 ^ i_croc_soc/i_croc/dma_transmit_obi_req_34__reg/CLK (sg13g2_dfrbp_1)
+   0.19    0.19 v i_croc_soc/i_croc/dma_transmit_obi_req_34__reg/Q (sg13g2_dfrbp_1)
+   0.06    0.25 ^ i_croc_soc/i_croc/$abc$188204$auto$blifparse.cc:396:parse_blif$193873/Y (sg13g2_nand2_1)
+   0.04    0.29 v i_croc_soc/i_croc/$abc$188204$auto$blifparse.cc:396:parse_blif$193874/Y (sg13g2_nor3_1)
+   0.08    0.36 ^ i_croc_soc/i_croc/$abc$188204$auto$blifparse.cc:396:parse_blif$193876/Y (sg13g2_o21ai_1)
+   0.07    0.43 v i_croc_soc/i_croc/$abc$188204$auto$blifparse.cc:396:parse_blif$193880/Y (sg13g2_nand2_1)
+   0.00    0.43 v i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut/A_DIN[63] (RM_IHPSG13_1P_256x64_c2_bm_bist)
+           0.43   data arrival time
 
    0.00    0.00   clock clk_sys (rise edge)
    0.00    0.00   clock network delay (ideal)
    0.00    0.00   clock reconvergence pessimism
-           0.00 ^ i_croc_soc/i_croc/gen_sram_bank[1].i_sram/gen_512x32xBx1.i_cut/A_CLK (RM_IHPSG13_1P_256x64_c2_bm_bist)
-   0.59    0.59   library hold time
-           0.59   data required time
+           0.00 ^ i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut/A_CLK (RM_IHPSG13_1P_256x64_c2_bm_bist)
+   0.51    0.51   library hold time
+           0.51   data required time
 ---------------------------------------------------------
-           0.59   data required time
-          -0.62   data arrival time
+           0.51   data required time
+          -0.43   data arrival time
 ---------------------------------------------------------
-           0.03   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
