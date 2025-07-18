@@ -11,6 +11,7 @@
 #include "gpio.h"
 #include "util.h"
 #include "dma.h"
+#include "spi.h"
 
 
 /// @brief Example integer square root
@@ -69,6 +70,7 @@ int main() {
     printf("GPIO (expect 0x50): 0x%x\n", gpio_read());
     uart_write_flush();
 
+    spi_write(0b1111001);
     // doing some compute
     uint32_t start = get_mcycle();
     uint32_t res   = isqrt(1234567890UL);

@@ -36,7 +36,14 @@ module tb_croc_soc #(
     logic fetch_en_i;
     logic status_o;
 
-    localparam int unsigned GpioCount = 32;
+    logic spi_sclk_o;
+    logic spi_mosi_o;
+    logic spi_miso_i;
+    logic spi_cs_n_o;
+
+    assign spi_miso_i = 1'b0;  // dummy response
+
+    localparam int unsigned GpioCount = 28;
 
     logic [GpioCount-1:0] gpio_i;             
     logic [GpioCount-1:0] gpio_o;            
@@ -505,7 +512,11 @@ module tb_croc_soc #(
         .rst_ni (rst_n),
         .status_o (status_o),
         .uart_rx_i (uart_rx_i),
-        .uart_tx_o (uart_tx_o)
+        .uart_tx_o (uart_tx_o),
+        .spi_sclk_o(spi_sclk_o),
+        .spi_mosi_o(spi_mosi_o),
+        .spi_miso_i(spi_miso_i),
+        .spi_cs_n_o(spi_cs_n_o)
     );
 `else
     `ifdef TARGET_NETLIST_YOSYS
@@ -533,7 +544,11 @@ module tb_croc_soc #(
 
         .gpio_i        ( gpio_i        ),             
         .gpio_o        ( gpio_o        ),            
-        .gpio_out_en_o ( gpio_out_en_o )
+        .gpio_out_en_o ( gpio_out_en_o ),
+        .spi_sclk_o(spi_sclk_o),
+        .spi_mosi_o(spi_mosi_o),
+        .spi_miso_i(spi_miso_i),
+        .spi_cs_n_o(spi_cs_n_o)
     );
 `endif
 
