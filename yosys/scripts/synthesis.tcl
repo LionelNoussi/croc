@@ -55,11 +55,14 @@ yosys read_slang --top croc_chip -F ../croc.flist \
         --allow-use-before-declare --ignore-unknown-modules \
         --keep-hierarchy --compat-mode
 
+# Generate an intermediate verilog file
+yosys write_verilog -noexpr "out/croc_slang.v"
+
 # Now with the whole design loaded and not flattened,
 # we preserve the hierarchy of only selected modules/instances
 # 't' means type as in select all instances of this type/module
 # yosys-slang uniquifies all modules with the naming scheme:
-# <module-name>$<instance-name> -> match for t:<module-name>$$
+# <module-name>$<instance-name-path> -> match for t:<module-name>$
 # copied from yosys_synthesis.tcl
 yosys setattr -set keep_hierarchy 1 "t:croc_soc$*"
 yosys setattr -set keep_hierarchy 1 "t:croc_domain$*"
@@ -89,7 +92,7 @@ yosys attrmvcp -copy -attr keep
 yosys tee -o "reports/croc_parsed.rpt" stat -width
 
 # Generate an intermediate verilog file
-yosys write_verilog "out/croc_parsed.v"
+yosys write_verilog -noattr -noexpr "out/croc_parsed.v"
 
 # ----------------------------------------------------------------------------------------------
 # -------------------- 2. Elaboration ----------------------------------------------------------
@@ -102,15 +105,16 @@ yosys hierarchy -check -top croc_chip
 # Optimize. Make ready for coarse-grained synthesis.
 yosys proc
 
+# Clean and check too
+yosys clean
+yosys check
+
 # Print statistics and save it to a report file
 yosys tee -q -o "reports/croc_elaborated.rpt" stat -width
 
 # ----------------------------------------------------------------------------------------------
 # -------------------- 3. Coarse-grain Synthesis -----------------------------------------------
 # ----------------------------------------------------------------------------------------------
-
-# Early Check the design
-yosys check
 
 # First round of optimizations without flipflops, since no fsm yet
 yosys opt -noff
@@ -168,15 +172,22 @@ yosys flatten
 yosys clean -purge
 yosys splitnets -format __v
 yosys rename -wire -suffix _reg t:*DFF*
+yosys opt
 
 # map only the flip flops first
 yosys dfflibmap -liberty $tech_cells_lib
 
+yosys tee -q -o "reports/croc_before_abc.rpt" stat -width
 yosys write_verilog "out/croc.before_abc.v"
 
 yosys abc -liberty $tech_cells_lib \
          -D $period_ps -constr src/abc.constr \
          -script $abc_comb_script
+
+yosys opt
+
+# Generate report
+yosys tee -q -o "reports/croc_techmapped.rpt" stat -width
 
 # Generate a tech-mapped netlist
 yosys write_verilog "out/croc.techmapped.v"

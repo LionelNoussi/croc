@@ -23,11 +23,21 @@ read_liberty ${lib_dir}/sg13g2_io_typ_1p2V_3p3V_25C.lib
 read_verilog ../yosys/out/${netlist_name}.v
 link_design croc_chip
 
+# Only read SPEF/SDF if they exist
+if {[file exists ../openroad/out/croc.spef]} {
+    read_spef ../openroad/out/croc.spef
+}
+if {[file exists ../openroad/out/croc.sdf]} {
+    read_sdf ../openroad/out/croc.sdf
+}
+
 # Set constraints
-# 80 MHz -> 12.5 ns clock-period
-create_clock -name clk_sys -period 12.5 [get_ports clk_i]
+# ##################################################################################################
+
+read_sdc ../openroad/src/constraints.sdc
 
 # Generate timing reports
+# ############################################################################################################
 
 # Report setup violations
 report_checks -path_group clk_sys -path_delay max > "reports/sta_setup_${netlist_name}.rpt"

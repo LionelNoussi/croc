@@ -12,7 +12,7 @@
 ############
 
 source src/instances.tcl
-
+puts "Loading Constraints:"
 
 #############################
 ## Driving Cells and Loads ##
