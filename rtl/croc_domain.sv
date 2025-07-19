@@ -685,8 +685,8 @@ module croc_domain import croc_pkg::*; #(
   ) i_spi (
     .clk_i,
     .rst_ni,
-    .obi_req_i  (periph_sbr_reqs[PeriphSpi] ),
-    .obi_rsp_o  (periph_sbr_rsps[PeriphSpi] ),
+    .obi_req_i  (spi_obi_req),
+    .obi_rsp_o  (spi_obi_rsp),
 
     .sclk_o     (spi_sclk_o                 ),
     .mosi_o     (spi_mosi_o                 ),

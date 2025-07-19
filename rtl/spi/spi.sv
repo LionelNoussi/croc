@@ -33,7 +33,7 @@ module spi #(
 );
 
   import spi_reg_pkg::*;
-
+  localparam logic [7:0] CLK_DIV_MAX = 8'd5;
   //-----------------------------------------------------------------------------------------------
   // Instantiations
   //-----------------------------------------------------------------------------------------------
@@ -85,15 +85,15 @@ module spi #(
             spi_state_q = spi_state_d;
             case (spi_state_q) 
                 LOAD: begin
-                    rx_shift_reg <= reg2hw.tx_data;
-                    tx_shift_reg <= 8'h0;
+                    rx_shift_reg <= 8'h0;
+                    tx_shift_reg <= reg2hw.tx_data;
                     bit_cnt <= 3'h0;
                     sclk_int <= 0;
                     clk_div_count <= 0;
                 end
                 SHIFT: begin
                     clk_div_count <= clk_div_count +1;
-                    if (clk_div_count == reg2hw.clk_div_count) begin
+                    if (clk_div_count == CLK_DIV_MAX) begin
                         clk_div_count <= 8'h0;
                         sclk_int <= ~sclk_int;
                         if(sclk_int == 1'b0) begin
@@ -106,7 +106,6 @@ module spi #(
                 end
                 DONE: begin
                     hw2reg.rx_data <= rx_shift_reg;
-                    hw2reg.tx_data <= tx_shift_reg;
                 end
                 default: ;
             endcase
@@ -117,7 +116,7 @@ module spi #(
         spi_state_d = spi_state_q;
         case (spi_state_q) 
             IDLE: begin
-                if (reg2hw.control.start) begin
+                if (reg2hw.control[0]) begin
                     spi_state_d = LOAD;
                 end
             end
@@ -126,12 +125,12 @@ module spi #(
             end
 
             SHIFT: begin
-                if(bit_cnt == 3'h8 && clk_div_count ==reg2hw.control.clk_div && sclk_int == 1'b1)
+                if(bit_cnt == 3'h8 && clk_div_count == CLK_DIV_MAX  && sclk_int == 1'b1)
                     spi_state_d = DONE;
             end
 
             DONE: begin
-                if (!reg2hw.control.start)
+                if (!reg2hw.control[0])
                     spi_state_d = IDLE;
             end
 
