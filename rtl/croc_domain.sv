@@ -23,6 +23,11 @@ module croc_domain import croc_pkg::*; #(
   input  logic      uart_rx_i,
   output logic      uart_tx_o,
 
+  output logic spi_sclk_o, //SPI Clock
+  output logic spi_mosi_o, 
+  input  logic spi_miso_i,
+  output logic spi_cs_n_o,
+
   input  logic [GpioCount-1:0] gpio_i,        // Input from GPIO pins
   output logic [GpioCount-1:0] gpio_o,        // Output to GPIO pins
   output logic [GpioCount-1:0] gpio_out_en_o, // Output enable signal; 0 -> input, 1 -> output
@@ -156,6 +161,10 @@ module croc_domain import croc_pkg::*; #(
   // Timer periph bus
   sbr_obi_req_t timer_obi_req;
   sbr_obi_rsp_t timer_obi_rsp;
+
+  // SPI periph bus
+  sbr_obi_req_t spi_obi_req;
+  sbr_obi_rsp_t spi_obi_rsp;
   
   // Fanout to individual peripherals
   assign error_obi_req                     = all_periph_obi_req[PeriphError];
@@ -170,6 +179,8 @@ module croc_domain import croc_pkg::*; #(
   assign all_periph_obi_rsp[PeriphGpio]    = gpio_obi_rsp;
   assign timer_obi_req                     = all_periph_obi_req[PeriphTimer];
   assign all_periph_obi_rsp[PeriphTimer]   = timer_obi_rsp;
+  assign spi_obi_req                       = all_periph_obi_req[PeriphSPI];
+  assign all_periph_obi_rsp[PeriphSPI]     = spi_obi_rsp;
 
 
   // -----------------
@@ -594,5 +605,22 @@ module croc_domain import croc_pkg::*; #(
   );
   assign timer_obi_rsp.r.err        = 1'b0;
   assign timer_obi_rsp.r.r_optional = 1'b0;
+
+    // SPI
+  spi #(
+    .ObiCfg     (SbrObiCfg                  ),
+    .obi_req_t  (sbr_obi_req_t              ),
+    .obi_rsp_t  (sbr_obi_rsp_t              )
+  ) i_spi (
+    .clk_i,
+    .rst_ni,
+    .obi_req_i  (spi_obi_req),
+    .obi_rsp_o  (spi_obi_rsp),
+
+    .sclk_o     (spi_sclk_o                 ),
+    .mosi_o     (spi_mosi_o                 ),
+    .miso_i     (spi_miso_i                 ),
+    .cs_n_o     (spi_cs_n_o                 )
+  );
 
 endmodule

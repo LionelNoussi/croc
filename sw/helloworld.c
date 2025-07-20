@@ -10,6 +10,7 @@
 #include "timer.h"
 #include "gpio.h"
 #include "util.h"
+#include "spi.h"
 
 /// @brief Example integer square root
 /// @return integer square root of n
@@ -70,7 +71,12 @@ int main() {
     printf("GPIO (expect 0x50): 0x%x\n", gpio_read());
     uart_write_flush();
 
-    // doing some compute
+    printf("Starting spi test \n");
+    uart_write_flush();
+    spi_write(0xFF);
+    printf("Done with Spi test \n");
+    uart_write_flush();
+    // doing some computes
     uint32_t start = get_mcycle();
     uint32_t res   = isqrt(1234567890UL);
     uint32_t end   = get_mcycle();

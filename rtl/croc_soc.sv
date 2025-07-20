@@ -24,6 +24,11 @@ module croc_soc import croc_pkg::*; #(
   input  logic uart_rx_i,
   output logic uart_tx_o,
 
+  output logic spi_sclk_o,
+  output logic spi_mosi_o,
+  input  logic spi_miso_i,
+  output logic spi_cs_n_o,
+
   input  logic [GpioCount-1:0] gpio_i,       // Input from GPIO pins
   output logic [GpioCount-1:0] gpio_o,       // Output to GPIO pins
   output logic [GpioCount-1:0] gpio_out_en_o // Output enable signal; 0 -> input, 1 -> output
@@ -83,6 +88,12 @@ croc_domain #(
   .gpio_out_en_o,
 
   .gpio_in_sync_o ( gpio_in_sync ),
+
+
+  .spi_sclk_o(spi_sclk_o),
+  .spi_mosi_o(spi_mosi_o),
+  .spi_miso_i(spi_miso_i),
+  .spi_cs_n_o(spi_cs_n_o),
 
   .user_sbr_obi_req_o  ( user_sbr_obi_req ),
   .user_sbr_obi_rsp_i  ( user_sbr_obi_rsp ),

@@ -36,7 +36,14 @@ module tb_croc_soc #(
     logic fetch_en_i;
     logic status_o;
 
-    localparam int unsigned GpioCount = 32;
+    logic spi_sclk_o;
+    logic spi_mosi_o;
+    logic spi_miso_i;
+    logic spi_cs_n_o;
+
+    // assign spi_miso_i = 1'b0;  // dummy response
+
+    localparam int unsigned GpioCount = 28;
 
     logic [GpioCount-1:0] gpio_i;             
     logic [GpioCount-1:0] gpio_o;            
@@ -425,12 +432,31 @@ module tb_croc_soc #(
 
         .gpio_i        ( gpio_i        ),             
         .gpio_o        ( gpio_o        ),            
-        .gpio_out_en_o ( gpio_out_en_o )
+        .gpio_out_en_o ( gpio_out_en_o ),
+        .spi_sclk_o(spi_sclk_o),
+        .spi_mosi_o(spi_mosi_o),
+        .spi_miso_i(spi_miso_i),
+        .spi_cs_n_o(spi_cs_n_o)
     );
 
     assign gpio_i[ 3:0]          = '0;
     assign gpio_i[ 7:4]          = gpio_out_en_o[3:0] & gpio_o[3:0]; // loop back
     assign gpio_i[GpioCount-1:8] = '0;
+
+
+    ////////////////////////
+    //  SPI Slave DUMMY   //
+    ////////////////////////
+
+    spi_slave #(
+    ) i_spi_slave (
+        .clk_i(clk),
+        .rst_ni(rst_n),
+        .sclk_i(spi_sclk_o),
+        .cs_n_i(spi_cs_n_o),
+        .mosi_i(spi_mosi_o),
+        .miso_o(spi_miso_i)
+    );
 
 
     /////////////////
@@ -443,8 +469,9 @@ module tb_croc_soc #(
         $timeformat(-9, 0, "ns", 12); // 1: scale (ns=-9), 2: decimals, 3: suffix, 4: print-field width
         // configure FST (waveform) dump
         `ifdef TRACE_WAVE
-        $dumpfile("croc.fst");
-        $dumpvars(1,i_croc_soc);
+        $display("Tracing simulation...");
+        $dumpfile("croc.vcd");
+        $dumpvars(1, i_croc_soc);
         `endif
 
         fetch_en_i = 1'b0;
