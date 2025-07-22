@@ -55,19 +55,33 @@ module spi #(
         .hw2reg(hw2reg)
     );
 
-    typedef enum logic [1:0] {
+    typedef enum logic [2:0] {
         IDLE,
-        LOAD,
+        LOAD_CMD,
         SHIFT,
+        NEXT,
         DONE
     } spi_state_e;
 
+
+
     spi_state_e spi_state_d, spi_state_q;
 
-    logic [7:0] tx_shift_reg, rx_shift_reg;
+    logic [7:0] txrx_buffer [0:31];
+    logic [7:0] rx_shift_reg, tx_shift_reg;
     logic [2:0] bit_cnt;
     logic [7:0] clk_div_count;
     logic       sclk_int;
+    logic [5:0] byte_cnt;
+    logic [15:0] addr;
+    logic cmd;
+    logic length;
+
+    typedef enum logic [1:0] {
+        BYTE_CMD, BYTE_ADDR1, BYTE_ADDR0, BYTE_DATA
+        } byte_type_e;
+    byte_type_e byte_type;
+
 
     assign sclk_o = sclk_int;
     assign mosi_o = tx_shift_reg[7];
@@ -75,24 +89,28 @@ module spi #(
 
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (!rst_ni) begin
-            spi_state_q <= IDLE;
-            tx_shift_reg  <= 0;
-            rx_shift_reg  <= 0;
-            bit_cnt       <= 0;
-            clk_div_count <= 0;
-            sclk_int      <= 0;
+            spi_state_q     <= IDLE;
+            txrx_buffer     <= 0;
+            bit_cnt         <= 0;
+            clk_div_count   <= 0;
+            sclk_int        <= 0;
+            byte_cnt        <= 0;
+            cmd             <= 0;
+            length          <= 0;
+            rx_shift_reg    <= 0;
+            tx_shift_reg    <= 0;
         end else begin
             spi_state_q <= spi_state_d;
             case (spi_state_q) 
                 LOAD: begin
                     hw2reg.status[0] <= 0;
-
                     rx_shift_reg <= 8'h0;
                     tx_shift_reg <= reg2hw.tx_data;
                     bit_cnt <= 3'h0;
                     sclk_int <= 0;
                     clk_div_count <= 0;
                 end
+
                 SHIFT: begin
                     clk_div_count <= clk_div_count +1;
                     if (clk_div_count == CLK_DIV_MAX) begin

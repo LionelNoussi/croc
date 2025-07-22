@@ -63,10 +63,11 @@ module spi_reg_top import spi_reg_pkg::*; #(
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
   typedef struct packed {
-    logic [7:0] control;
-    logic [7:0] status;
-    logic [7:0] tx_data;
-    logic [7:0] rx_data;
+      logic [7:0] control;
+      logic [7:0] txrx_buffer [0:31];   
+      logic [15:0] address;
+      logic [7:0] length;
+      logic [7:0] status;
   } spi_reg_fields_t;
 
   spi_reg_fields_t reg_d, reg_q;
@@ -74,7 +75,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
   spi_reg_fields_t new_reg;
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////////////////
   // COMB LOGIC
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -92,11 +93,12 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
     // Assign outputs to logic
     reg2hw.control = reg_q.control;
-    reg2hw.tx_data = reg_q.tx_data;
+    reg2hw.txrx_buffer = reg_q.txrx_buffer;
+    reg2hw.address = reg_q.address;
+    reg2hw.length  = reg_q.length;
 
     // Update from logic
-    new_reg.status  = hw2reg.status;
-    new_reg.rx_data = hw2reg.rx_data;
+    new_reg.status = hw2reg.status;
 
     reg_d = new_reg;
 
@@ -106,11 +108,20 @@ module spi_reg_top import spi_reg_pkg::*; #(
         SPI_CONTROL_OFFSET: begin
           reg_d.control = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
         end
-        SPI_TXDATA_OFFSET: begin
-          reg_d.tx_data = (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
-        end
+        // Write to TXRX buffer entries 0x008–0x027
         default: begin
-          w_err_d = 1'b1;
+          if (({write_addr, 2'b00} >= 12'h008) && ({write_addr, 2'b00} <= 12'h027)) begin
+            int idx = {write_addr, 2'b00} - 12'h008;
+            reg_d.txrx_buffer[idx] = obi_wdata[7:0];
+          end else if ({write_addr, 2'b00} == 12'h028) begin
+            reg_d.address[7:0] = obi_wdata[7:0];
+          end else if ({write_addr, 2'b00} == 12'h029) begin
+            reg_d.address[15:8] = obi_wdata[7:0];
+          end else if ({write_addr, 2'b00} == 12'h02A) begin
+            reg_d.length = obi_wdata[7:0];
+          end else begin
+            w_err_d = 1'b1;
+          end
         end
       endcase
     end
@@ -120,14 +131,22 @@ module spi_reg_top import spi_reg_pkg::*; #(
       case ({read_addr_q, 2'b00})
         SPI_CONTROL_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.control};
         SPI_STATUS_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.status};
-        SPI_TXDATA_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.tx_data};
-        SPI_RXDATA_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.rx_data};
         default: begin
-          obi_rdata = 32'hDEAD_BEEF;
-          obi_err   = 1'b1;
+          if (({read_addr_q, 2'b00} >= 12'h008) && ({read_addr_q, 2'b00} <= 12'h027)) begin
+            int idx = {read_addr_q, 2'b00} - 12'h008;
+            obi_rdata = {{24{1'b0}}, reg_q.txrx_buffer[idx]};
+          end else if ({read_addr_q, 2'b00} == 12'h028) begin
+            obi_rdata = {{24{1'b0}}, reg_q.address[7:0]};
+          end else if ({read_addr_q, 2'b00} == 12'h029) begin
+            obi_rdata = {{24{1'b0}}, reg_q.address[15:8]};
+          end else if ({read_addr_q, 2'b00} == 12'h02A) begin
+            obi_rdata = {{24{1'b0}}, reg_q.length};
+          end else begin
+            obi_rdata = 32'hDEAD_BEEF;
+            obi_err   = 1'b1;
+          end
         end
       endcase
     end
   end
-
 endmodule
