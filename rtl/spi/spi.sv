@@ -75,16 +75,18 @@ module spi #(
 
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (!rst_ni) begin
-            spi_state_q = IDLE;
+            spi_state_q <= IDLE;
             tx_shift_reg  <= 0;
             rx_shift_reg  <= 0;
             bit_cnt       <= 0;
             clk_div_count <= 0;
             sclk_int      <= 0;
         end else begin
-            spi_state_q = spi_state_d;
+            spi_state_q <= spi_state_d;
             case (spi_state_q) 
                 LOAD: begin
+                    hw2reg.status[0] <= 0;
+
                     rx_shift_reg <= 8'h0;
                     tx_shift_reg <= reg2hw.tx_data;
                     bit_cnt <= 3'h0;
@@ -106,6 +108,8 @@ module spi #(
                 end
                 DONE: begin
                     hw2reg.rx_data <= rx_shift_reg;
+                    sclk_int <= 0;
+                    hw2reg.status[0] <= 1;
                 end
                 default: ;
             endcase
@@ -136,6 +140,7 @@ module spi #(
             DONE: begin
                 if (!reg2hw.control[0]) begin
                     spi_state_d = IDLE;
+
                 end
             end
 

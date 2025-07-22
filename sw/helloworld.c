@@ -73,7 +73,8 @@ int main() {
 
     printf("Starting spi test \n");
     uart_write_flush();
-    spi_write(0xFF);
+    uint8_t result_spi = spi_write(0xFF);
+    printf("SPI returned: 0x%02x\n", result_spi);
     printf("Done with Spi test \n");
     uart_write_flush();
     // doing some computes
