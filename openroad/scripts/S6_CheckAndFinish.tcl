@@ -3,9 +3,10 @@ if {[info script] ne ""} {
 }
 
 source scripts/util_scripts/setup.tcl
-load_checkpoint croc_routed
+load_checkpoint croc_final
 
-# gui::show
+gui::show
+
 
 set extRules ./src/IHP_rcx_patterns.rules
 define_process_corner -ext_model_index 0 tt

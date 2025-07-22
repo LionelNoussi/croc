@@ -50,7 +50,7 @@ int main() {
     // Reading 12 characters. Should be "LN&LK's ASIC"
     for (int i = 0; i < 12; i += 4) {
         val = *reg32(USER_ROM_BASE_ADDR, i);    // Reads 4 chars from ROM at once
-        printf((const char*) &val);     // Cast to char array and printf
+        printf((char*) &val);     // Cast to char array and printf
     }
     uart_write('\n');
     // ROM TEST END ---------------------------------

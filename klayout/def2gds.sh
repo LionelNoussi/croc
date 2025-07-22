@@ -59,7 +59,7 @@ lef="$(find "$pdk_cells_lef_dir" -name 'sg13g2_stdcell.lef' -exec realpath {} \;
 gds="$(find "$pdk_cells_gds_dir" -name 'sg13g2_stdcell.gds' -exec realpath {} \;) \
      $(find "$pdk_sram_gds_dir" -name 'RM_IHPSG13*.gds' -exec realpath {} \;) \
      $(find "$pdk_io_gds_dir" -name 'sg13g2_io.gds' -exec realpath {} \;) \
-     $(find "$bondpad_gds_dir" -name '*.gds' -exec realpath {} \;)"
+     $(find "$bondpad_gds_dir" -name 'bondpad*.gds' -exec realpath {} \;)"
 
 
 ln -sfr $klayout_dir/sg13g2.map $KLAYOUT_HOME/tech/sg13g2.map

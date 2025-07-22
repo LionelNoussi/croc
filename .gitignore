@@ -75,11 +75,8 @@
 /klayout/*-example
 /klayout/start_klayout
 #openroad
-openroad/out
-openroad/checkpoints/
+/openroad/out
+/openroad/save
 #/openroad/src
 #yosys
 /yosys/out
-.vscode
-yosys/reports
-sta/reports

@@ -82,7 +82,7 @@ void compute(uint8_t* buffer) {
         dma_condition_struct_t dma_condition_struct = {
             .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
             .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
-            .conditional_type = CONDITIONAL_WRITE,
+            .cond_base_addr = DMA_COND_DST_BASE,
             .negate = 0,
             .enable = 1
         };

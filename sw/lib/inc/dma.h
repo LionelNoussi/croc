@@ -85,15 +85,15 @@ dma_control_t encode_dma_controls(const dma_control_struct_t* opts);
 
 // Condition Type Enum
 typedef enum {
-    CONDITIONAL_READ = 0,
-    CONDITIONAL_WRITE = 1
-} conditional_type_t;
+    DMA_COND_SRC_BASE = 0,
+    DMA_COND_DST_BASE = 1
+} cond_base_addr_t;
 
 // Struct to simplify programming
 typedef struct {
     uint8_t cond_addr_offset;              // bits 31:24
     uint8_t bitmask;                       // bits 23:16
-    conditional_type_t conditional_type;   // bit 2
+    cond_base_addr_t cond_base_addr;       // bit 2
     uint8_t negate;                        // bit 1
     uint8_t enable;                        // bit 0
 } dma_condition_struct_t;

@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "random": "c",
+        "util.h": "c",
+        "print.h": "c",
+        "dma.h": "c",
+        "stdint.h": "c",
+        "test_dma.h": "c",
+        "timer.h": "c",
+        "cmath": "c",
+        "complex": "c",
+        "gpio.h": "c",
+        "array": "c",
+        "hash_map": "c",
+        "bitset": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c",
+        "functional": "c"
+    }
+}

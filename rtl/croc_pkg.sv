@@ -66,10 +66,10 @@ package croc_pkg;
   localparam int unsigned SramAddrRange     = NumSramBanks*SramBankNumWords*4;
 
   localparam bit [31:0]   UserBaseAddr      = 32'h2000_0000;
-  localparam bit [31:0]   UserAddrRange     = 32'h5000_0000;
+  localparam bit [31:0]   UserAddrRange     = 32'h3000_0000;
 
   localparam bit [31:0]   DmaBaseAddr      = 32'h5000_0000;
-  localparam bit [31:0]   DmaAddrRange     = 32'h6000_0000;
+  localparam bit [31:0]   DmaAddrRange     = 32'h0000_1000;
 
   localparam int unsigned NumCrocDomainSubordinates = 3 + NumSramBanks; // Peripherals + Memory + User Domain + DMA
   

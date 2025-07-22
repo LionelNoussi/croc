@@ -9,7 +9,7 @@
 #include "uart.h"
 #include "gpio.h"
 #define N 32
-#define NUM_WINDOWS 8
+#define NUM_WINDOWS 4
 
 #define USE_DMA
 
@@ -84,7 +84,7 @@ int compute(uint8_t* buffer) {
         dma_condition_struct_t dma_condition_struct = {
             .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
             .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
-            .conditional_type = CONDITIONAL_READ,
+            .cond_base_addr = DMA_COND_SRC_BASE,
             .negate = 0,
             .enable = 1
         };

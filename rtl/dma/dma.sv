@@ -281,8 +281,8 @@ always_comb begin
       case (reg_addr)
         REG_SRC_ADDR:   rsp_data = src_base_addr_q;
         REG_DST_ADDR:   rsp_data = dst_base_addr_q;
-        REG_CONTROL:    rsp_data = {src_offset_q, dst_offset_q, num_transfers_q, 1'b0, increment_src_q, increment_dst_q, transfer_size_q, dma_is_active};
-        REG_CONDITION:  rsp_data = {condition_offset_q, condition_mask_q, 14'b0, condition_negate_q, condition_valid_q};
+        REG_CONTROL:    rsp_data = {src_offset_q, dst_offset_q, num_transfers_q, interrupt_enable_q, increment_src_q, increment_dst_q, transfer_size_q, dma_is_active};
+        REG_CONDITION:  rsp_data = {condition_offset_q, condition_mask_q, 13'b0, condition_type_q, condition_negate_q, condition_valid_q};
         REG_INTERRUPT:  rsp_data = 32'd1;
         REG_STATUS:     rsp_data = {receiver_counter_q, transmitter_counter_q, 9'b0, dma_is_active};
         default: rsp_err = 1'b1;

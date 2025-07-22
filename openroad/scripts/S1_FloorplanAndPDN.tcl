@@ -10,9 +10,12 @@ if {[info script] ne ""} {
 
 # Setup and reading in the netlist
 source scripts/util_scripts/setup.tcl
+
+# Read in netlist
 read_verilog ../yosys/out/croc.v
 link_design croc_chip
 
+# Create Floorplan
 utl::report "Creating Floorplan..."
 source scripts/helper_scripts/floorplanning.tcl
 makeTracks

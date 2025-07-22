@@ -6,8 +6,8 @@
 
 // #define DMA_TEST_WORD_TRANSFER
 
-// #define DMA_TEST_INPUT_STREAM
-// #define DMA_TEST_OUTPUT_STREAM
+#define DMA_TEST_INPUT_STREAM
+#define DMA_TEST_OUTPUT_STREAM
 #define DMA_TEST_DATA_TRANSFER
 
 
@@ -80,7 +80,7 @@ void test_input_stream() {
     dma_condition_struct_t dma_condition_struct = {
         .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
         .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
-        .conditional_type = CONDITIONAL_READ,
+        .cond_base_addr = DMA_COND_SRC_BASE,
         .negate = 0,
         .enable = 1
     };
@@ -158,7 +158,7 @@ void test_output_stream() {
     dma_condition_struct_t dma_condition_struct = {
         .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
         .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
-        .conditional_type = CONDITIONAL_WRITE,
+        .cond_base_addr = DMA_COND_DST_BASE,
         .negate = 0,
         .enable = 1
     };
@@ -263,7 +263,6 @@ void test_data_transfer() {;}
 
 
 int main() {
-
 
     // Setup UART
     uart_init();

@@ -46,11 +46,11 @@ read_liberty -corner tt ${pdk_io_lib}/sg13g2_io_typ_1p2V_3p3V_25C.lib
 read_liberty -corner ff ${pdk_io_lib}/sg13g2_io_fast_1p32V_3p6V_m40C.lib
 
 puts "Init SRAM macros"
-foreach file [glob -directory $pdk_sram_lib *_typ_1p20V_25C.lib] {
+foreach file [glob -directory $pdk_sram_lib RM*_typ_1p20V_25C.lib] {
 	read_liberty -corner tt "$file"
 }
 
-foreach file [glob -directory $pdk_sram_lib *_fast_1p32V_m55C.lib] {
+foreach file [glob -directory $pdk_sram_lib RM*_fast_1p32V_m55C.lib] {
 	read_liberty -corner ff "$file"
 }
 
@@ -62,7 +62,7 @@ read_lef ${pdk_cells_lef}/sg13g2_stdcell.lef
 read_lef ${pdk_io_lef}/sg13g2_io.lef
 read_lef ${pdk_pad_lef}/bondpad_70x70.lef
 
-foreach file [glob -directory $pdk_sram_lef *.lef] {
+foreach file [glob -directory $pdk_sram_lef RM*.lef] {
 	read_lef "$file"
 }
 

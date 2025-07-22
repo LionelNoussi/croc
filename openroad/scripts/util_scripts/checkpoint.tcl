@@ -10,9 +10,11 @@
 set time [elapsed_run_time]
 if { ![info exists save_dir] } {set save_dir "save"}
 
+
 proc save_checkpoint { checkpoint_name args } {
     global save_dir time step_by_step_debug
     set lvs [expr {[lsearch -exact $args "-lvs"] != -1}]
+    set stdfill [ list sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1 ]
 
     utl::report "Saving checkpoint $checkpoint_name"
 
@@ -27,7 +29,7 @@ proc save_checkpoint { checkpoint_name args } {
     write_sdc ${checkpoint}.sdc
 
     if { $lvs } {
-        write_verilog -include_pwr_gnd ${checkpoint}_lvs.v
+        write_verilog -include_pwr_gnd -remove_cells "${stdfill} bondpad*" ${checkpoint}_lvs.v
     }
 
     if { $step_by_step_debug } {
