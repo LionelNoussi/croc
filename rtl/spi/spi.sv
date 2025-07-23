@@ -57,9 +57,8 @@ module spi #(
 
     typedef enum logic [2:0] {
         IDLE,
-        LOAD_CMD,
+        LOAD,
         SHIFT,
-        NEXT,
         DONE
     } spi_state_e;
 
@@ -67,15 +66,17 @@ module spi #(
 
     spi_state_e spi_state_d, spi_state_q;
 
-    logic [7:0] txrx_buffer [0:31];
     logic [7:0] rx_shift_reg, tx_shift_reg;
     logic [2:0] bit_cnt;
     logic [7:0] clk_div_count;
     logic       sclk_int;
     logic [5:0] byte_cnt;
-    logic [15:0] addr;
-    logic cmd;
-    logic length;
+    logic [7:0] cmd;
+    logic [5:0] length;
+    
+
+    wire [1:0] rw_type = reg2hw.control[2:1];
+
 
     typedef enum logic [1:0] {
         BYTE_CMD, BYTE_ADDR1, BYTE_ADDR0, BYTE_DATA
@@ -90,7 +91,6 @@ module spi #(
     always_ff @(posedge clk_i or negedge rst_ni) begin
         if (!rst_ni) begin
             spi_state_q     <= IDLE;
-            txrx_buffer     <= 0;
             bit_cnt         <= 0;
             clk_div_count   <= 0;
             sclk_int        <= 0;
@@ -99,16 +99,37 @@ module spi #(
             length          <= 0;
             rx_shift_reg    <= 0;
             tx_shift_reg    <= 0;
+
         end else begin
             spi_state_q <= spi_state_d;
             case (spi_state_q) 
                 LOAD: begin
                     hw2reg.status[0] <= 0;
                     rx_shift_reg <= 8'h0;
-                    tx_shift_reg <= reg2hw.tx_data;
                     bit_cnt <= 3'h0;
                     sclk_int <= 0;
                     clk_div_count <= 0;
+                    cmd <= reg2hw.control;
+                    length <= reg2hw.control[7:3];
+
+
+                    case (byte_type)
+                        BYTE_CMD: begin 
+                            tx_shift_reg <= reg2hw.control;
+                        end
+                        BYTE_ADDR0: begin
+                            tx_shift_reg <= reg2hw.address_low;
+                        end
+                        BYTE_ADDR1: begin
+                            tx_shift_reg <= reg2hw.address_high;
+                        end
+                        BYTE_DATA: begin
+                            if(rw_type == 2'b10) begin //write
+                                // tx_shift_reg <= hw2reg.rx_data[8*(byte_cnt - 3) +: 8];
+                                tx_shift_reg <= 8'h3d;
+                            end
+                        end
+                    endcase
                 end
 
                 SHIFT: begin
@@ -125,13 +146,30 @@ module spi #(
                     end
                 end
                 DONE: begin
-                    hw2reg.rx_data <= rx_shift_reg;
+                    if(rw_type == 2'b10) begin
+                        reg2hw.tx_data[8*(byte_cnt - 3) +: 8] <= rx_shift_reg;
+                    end
                     sclk_int <= 0;
-                    hw2reg.status[0] <= 1;
+                    
+                    if (byte_cnt >= length + 3) begin
+                        hw2reg.status[0] <= 1;
+                        byte_cnt <= 0;
+                    end else begin
+                        byte_cnt <= byte_cnt+1;
+                    end
                 end
                 default: ;
             endcase
         end
+    end
+
+    always_comb begin
+        case (byte_cnt)
+            6'd0: byte_type = BYTE_CMD;
+            6'd1: byte_type = BYTE_ADDR1;
+            6'd2: byte_type = BYTE_ADDR0;
+            default: byte_type = BYTE_DATA;
+        endcase
     end
 
     always_comb begin
@@ -156,9 +194,10 @@ module spi #(
             end
 
             DONE: begin
-                if (!reg2hw.control[0]) begin
+                if (byte_cnt >= length +3) begin
                     spi_state_d = IDLE;
-
+                end else begin
+                    spi_state_d = LOAD;
                 end
             end
 

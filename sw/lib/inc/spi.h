@@ -1,20 +1,17 @@
 #pragma once
 
-
 #include <stdint.h>
 #include "config.h"
 
-#define SPI_CTRL            (*(volatile uint32_t *)(SPI_BASE_ADDR + 0x00))
-#define SPI_STATUS          (*(volatile uint32_t *)(SPI_BASE_ADDR + 0x04))
+#define SPI_CTRL        (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x000))
+#define SPI_STATUS      (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x004))
+#define SPI_TX(i)       (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x008 + (i)))
+#define SPI_RX(i)       (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x018 + (i)))
+#define SPI_ADDR_LO     (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x028))
+#define SPI_ADDR_HI     (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x029))
+#define SPI_LENGTH      (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x02C))
 
-// TXRX buffer access (byte by byte, 32 entries)
-#define SPI_TXRX(i)         (*(volatile uint8_t  *)(SPI_BASE_ADDR + 0x08 + (i)))  // i ∈ [0, 31]
 
-// Address (16-bit value, stored as 2 bytes at 0x28 and 0x29)
-#define SPI_ADDR_LO         (*(volatile uint8_t  *)(SPI_BASE_ADDR + 0x28))
-#define SPI_ADDR_HI         (*(volatile uint8_t  *)(SPI_BASE_ADDR + 0x29))
-
-// Length (1 byte at 0x2A)
-#define SPI_LENGTH          (*(volatile uint8_t  *)(SPI_BASE_ADDR + 0x2A))
-
-uint8_t spi_write(uint8_t data);
+// SPI read/write interface
+void spi_write(uint16_t addr, const uint8_t *data, uint8_t length);
+void spi_read(uint16_t addr, uint8_t *data, uint8_t length);

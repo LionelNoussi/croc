@@ -46,8 +46,10 @@ module spi_reg_top import spi_reg_pkg::*; #(
   assign obi_write_request = obi_req_i.req & obi_req_i.a.we;
   assign id_d              = obi_req_i.a.aid;
   assign valid_d           = obi_req_i.req;
-  assign write_addr        = obi_req_i.a.addr[AddressWidth-1:2];
-  assign read_addr_d       = obi_req_i.a.addr[AddressWidth-1:2];
+
+  assign write_addr = obi_req_i.a.addr[AddressWidth-1:0];
+  assign read_addr_d = obi_req_i.a.addr[AddressWidth-1:0];
+
   assign we_d              = obi_req_i.a.we;
   assign req_d             = obi_req_i.req;
 
@@ -63,11 +65,13 @@ module spi_reg_top import spi_reg_pkg::*; #(
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
   typedef struct packed {
-      logic [7:0] control;
-      logic [7:0] txrx_buffer [0:31];   
-      logic [15:0] address;
-      logic [7:0] length;
-      logic [7:0] status;
+    logic [7:0] control;
+    logic [7:0] status;
+    logic [8*16-1:0] tx_data;
+    logic [8*16-1:0] rx_data;
+    logic [7:0] address_low;
+    logic [7:0] address_high;
+    logic [7:0] length;
   } spi_reg_fields_t;
 
   spi_reg_fields_t reg_d, reg_q;
@@ -75,7 +79,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
   spi_reg_fields_t new_reg;
 
-   ////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////
   // COMB LOGIC
   ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,60 +97,94 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
     // Assign outputs to logic
     reg2hw.control = reg_q.control;
-    reg2hw.txrx_buffer = reg_q.txrx_buffer;
-    reg2hw.address = reg_q.address;
-    reg2hw.length  = reg_q.length;
+    reg2hw.tx_data = reg_q.tx_data;
+    reg2hw.address_low = reg_q.address_low;
+    reg2hw.address_high = reg_q.address_high;
+    reg2hw.length =  reg_q.length;
 
     // Update from logic
-    new_reg.status = hw2reg.status;
+    new_reg.status  = hw2reg.status;
+    new_reg.rx_data = hw2reg.rx_data;
 
     reg_d = new_reg;
 
     // WRITE
     if (obi_write_request) begin
-      case ({write_addr, 2'b00})
-        SPI_CONTROL_OFFSET: begin
-          reg_d.control = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
+      case (write_addr)
+        SPI_CONTROL_OFFSET: reg_d.control = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 0: reg_d.tx_data[7:0]    = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 1: reg_d.tx_data[15:8]   = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 2: reg_d.tx_data[23:16]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 3: reg_d.tx_data[31:24]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 4: reg_d.tx_data[39:32]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 5: reg_d.tx_data[47:40]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 6: reg_d.tx_data[55:48]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 7: reg_d.tx_data[63:56]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 8: reg_d.tx_data[71:64]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET + 9: reg_d.tx_data[79:72]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET +10: reg_d.tx_data[87:80]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET +11: reg_d.tx_data[95:88]  = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET +12: reg_d.tx_data[103:96] = obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET +13: reg_d.tx_data[111:104]= obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET +14: reg_d.tx_data[119:112]= obi_wdata[7:0];
+        SPI_TXBUFFER_OFFSET +15: reg_d.tx_data[127:120]= obi_wdata[7:0];
+        SPI_ADDRESS_LO_OFFSET: begin
+          if (obi_req_i.a.be[0]) reg_d.address_low  = obi_wdata[7:0];
         end
-        // Write to TXRX buffer entries 0x008–0x027
-        default: begin
-          if (({write_addr, 2'b00} >= 12'h008) && ({write_addr, 2'b00} <= 12'h027)) begin
-            int idx = {write_addr, 2'b00} - 12'h008;
-            reg_d.txrx_buffer[idx] = obi_wdata[7:0];
-          end else if ({write_addr, 2'b00} == 12'h028) begin
-            reg_d.address[7:0] = obi_wdata[7:0];
-          end else if ({write_addr, 2'b00} == 12'h029) begin
-            reg_d.address[15:8] = obi_wdata[7:0];
-          end else if ({write_addr, 2'b00} == 12'h02A) begin
-            reg_d.length = obi_wdata[7:0];
-          end else begin
-            w_err_d = 1'b1;
-          end
+        SPI_ADDRESS_HI_OFFSET: begin
+          if (obi_req_i.a.be[0]) reg_d.address_high = obi_wdata[7:0];
         end
+        SPI_LENGTH_OFFSET: reg_d.length = obi_wdata[7:0];
+        default: w_err_d = 1'b1;
       endcase
     end
 
     // READ
     if (obi_read_request) begin
-      case ({read_addr_q, 2'b00})
+      case (read_addr_q)
         SPI_CONTROL_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.control};
-        SPI_STATUS_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.status};
+        SPI_STATUS_OFFSET : obi_rdata = {{24{1'b0}}, reg_q.status};
+        SPI_TXBUFFER_OFFSET +  0: obi_rdata = {{24{1'b0}}, reg_q.tx_data[7:0]};
+        SPI_TXBUFFER_OFFSET +  1: obi_rdata = {{24{1'b0}}, reg_q.tx_data[15:8]};
+        SPI_TXBUFFER_OFFSET +  2: obi_rdata = {{24{1'b0}}, reg_q.tx_data[23:16]};
+        SPI_TXBUFFER_OFFSET +  3: obi_rdata = {{24{1'b0}}, reg_q.tx_data[31:24]};
+        SPI_TXBUFFER_OFFSET +  4: obi_rdata = {{24{1'b0}}, reg_q.tx_data[39:32]};
+        SPI_TXBUFFER_OFFSET +  5: obi_rdata = {{24{1'b0}}, reg_q.tx_data[47:40]};
+        SPI_TXBUFFER_OFFSET +  6: obi_rdata = {{24{1'b0}}, reg_q.tx_data[55:48]};
+        SPI_TXBUFFER_OFFSET +  7: obi_rdata = {{24{1'b0}}, reg_q.tx_data[63:56]};
+        SPI_TXBUFFER_OFFSET +  8: obi_rdata = {{24{1'b0}}, reg_q.tx_data[71:64]};
+        SPI_TXBUFFER_OFFSET +  9: obi_rdata = {{24{1'b0}}, reg_q.tx_data[79:72]};
+        SPI_TXBUFFER_OFFSET + 10: obi_rdata = {{24{1'b0}}, reg_q.tx_data[87:80]};
+        SPI_TXBUFFER_OFFSET + 11: obi_rdata = {{24{1'b0}}, reg_q.tx_data[95:88]};
+        SPI_TXBUFFER_OFFSET + 12: obi_rdata = {{24{1'b0}}, reg_q.tx_data[103:96]};
+        SPI_TXBUFFER_OFFSET + 13: obi_rdata = {{24{1'b0}}, reg_q.tx_data[111:104]};
+        SPI_TXBUFFER_OFFSET + 14: obi_rdata = {{24{1'b0}}, reg_q.tx_data[119:112]};
+        SPI_TXBUFFER_OFFSET + 15: obi_rdata = {{24{1'b0}}, reg_q.tx_data[127:120]};
+        SPI_ADDRESS_LO_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.address_low};
+        SPI_ADDRESS_HI_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.address_high};
+        SPI_LENGTH_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.length};
+        SPI_RXBUFFER_OFFSET +  0: obi_rdata = {{24{1'b0}}, reg_q.rx_data[7:0]};
+        SPI_RXBUFFER_OFFSET +  1: obi_rdata = {{24{1'b0}}, reg_q.rx_data[15:8]};
+        SPI_RXBUFFER_OFFSET +  2: obi_rdata = {{24{1'b0}}, reg_q.rx_data[23:16]};
+        SPI_RXBUFFER_OFFSET +  3: obi_rdata = {{24{1'b0}}, reg_q.rx_data[31:24]};
+        SPI_RXBUFFER_OFFSET +  4: obi_rdata = {{24{1'b0}}, reg_q.rx_data[39:32]};
+        SPI_RXBUFFER_OFFSET +  5: obi_rdata = {{24{1'b0}}, reg_q.rx_data[47:40]};
+        SPI_RXBUFFER_OFFSET +  6: obi_rdata = {{24{1'b0}}, reg_q.rx_data[55:48]};
+        SPI_RXBUFFER_OFFSET +  7: obi_rdata = {{24{1'b0}}, reg_q.rx_data[63:56]};
+        SPI_RXBUFFER_OFFSET +  8: obi_rdata = {{24{1'b0}}, reg_q.rx_data[71:64]};
+        SPI_RXBUFFER_OFFSET +  9: obi_rdata = {{24{1'b0}}, reg_q.rx_data[79:72]};
+        SPI_RXBUFFER_OFFSET + 10: obi_rdata = {{24{1'b0}}, reg_q.rx_data[87:80]};
+        SPI_RXBUFFER_OFFSET + 11: obi_rdata = {{24{1'b0}}, reg_q.rx_data[95:88]};
+        SPI_RXBUFFER_OFFSET + 12: obi_rdata = {{24{1'b0}}, reg_q.rx_data[103:96]};
+        SPI_RXBUFFER_OFFSET + 13: obi_rdata = {{24{1'b0}}, reg_q.rx_data[111:104]};
+        SPI_RXBUFFER_OFFSET + 14: obi_rdata = {{24{1'b0}}, reg_q.rx_data[119:112]};
+        SPI_RXBUFFER_OFFSET + 15: obi_rdata = {{24{1'b0}}, reg_q.rx_data[127:120]};
         default: begin
-          if (({read_addr_q, 2'b00} >= 12'h008) && ({read_addr_q, 2'b00} <= 12'h027)) begin
-            int idx = {read_addr_q, 2'b00} - 12'h008;
-            obi_rdata = {{24{1'b0}}, reg_q.txrx_buffer[idx]};
-          end else if ({read_addr_q, 2'b00} == 12'h028) begin
-            obi_rdata = {{24{1'b0}}, reg_q.address[7:0]};
-          end else if ({read_addr_q, 2'b00} == 12'h029) begin
-            obi_rdata = {{24{1'b0}}, reg_q.address[15:8]};
-          end else if ({read_addr_q, 2'b00} == 12'h02A) begin
-            obi_rdata = {{24{1'b0}}, reg_q.length};
-          end else begin
-            obi_rdata = 32'hDEAD_BEEF;
-            obi_err   = 1'b1;
-          end
+          obi_rdata = 32'hDEAD_BEEF;
+          obi_err   = 1'b1;
         end
       endcase
     end
   end
+
 endmodule

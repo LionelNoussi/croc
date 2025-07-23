@@ -73,8 +73,15 @@ int main() {
 
     printf("Starting spi test \n");
     uart_write_flush();
-    uint8_t result_spi = spi_write(0xFF);
-    printf("SPI returned: 0x%x\n", result_spi);
+    uint8_t tx_data[5] = {0xD2, 0xC3, 0xB4, 0xA5, 0x96};  // example data
+    uint16_t addr = 0xA0FA;
+
+    spi_write(addr, tx_data, 5);
+
+
+    // printf("SPI read from 0x%x: 0x%x\n", addr, result_spi);
+    printf("Done with SPI test\n");
+    // printf("SPI returned: 0x%x\n", result_spi);
     printf("Done with Spi test \n");
     uart_write_flush();
     // doing some computes
