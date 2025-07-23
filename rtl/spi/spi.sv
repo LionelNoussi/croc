@@ -30,6 +30,7 @@ module spi #(
     output logic         mosi_o,
     input  logic         miso_i,
     output logic         cs_n_o
+
 );
 
   import spi_reg_pkg::*;
@@ -42,6 +43,8 @@ module spi #(
   spi_reg2hw_t reg2hw; // Interface from Register to Internal SPI Logic(HW)
   spi_hw2reg_t hw2reg; // Interface from Internal SPI Logic(HW) to Register
 
+
+
   // Instantiate register file
     spi_reg_top #(
         .obi_req_t(obi_req_t),
@@ -52,7 +55,8 @@ module spi #(
         .obi_req_i,
         .obi_rsp_o,
         .reg2hw(reg2hw),
-        .hw2reg(hw2reg)
+        .hw2reg(hw2reg),
+        .rx_read_pulse(rx_pulse)
     );
 
     typedef enum logic [2:0] {
@@ -62,7 +66,53 @@ module spi #(
         DONE
     } spi_state_e;
 
+    logic spi_fifo_write;
+    assign spi_fifo_write = (spi_state_q == DONE) && (rw_type_q == 2'b01);
+    logic rx_pulse;
+    logic obi_read_enable;
+    // assign obi_read_enable = (obi_req_i.addr == SPI_RXBUFFER_OFFSET) && obi_req_i.req && !obi_req_i.we;
 
+
+    spi_fifo_buffer #(
+        .DEPTH(16),
+        .DATA_WIDTH(8)
+    ) i_spi_rx_fifo (
+        .clk_i(clk_i),
+        .rst_ni(rst_ni),
+        .spi_write_i(spi_fifo_write),      // from FSM
+        .spi_data_i(rx_shift_reg_q),  // from FSM
+        .obi_read_en(rx_pulse),
+        .rd_data_o(hw2reg.rx_data),
+        .full_o(),
+        .almost_full_o(),
+        .empty_o(),
+        .almost_empty_o()
+    );
+
+
+    // logic core_tx_wr_en;
+    // assign core_tx_wr_en = (obi_req_i.addr == SPI_TXBUFFER_OFFSET) && obi_req_i.req && obi_req_i.we;
+
+    // spi_fifo_buffer #(
+    //     .DEPTH(16),
+    //     .DATA_WIDTH(8)
+    // ) i_spi_tx_fifo (
+    //     .clk_i(clk_i),
+    //     .rst_ni(rst_ni),
+    //     .wr_en_i(core_tx_wr_en),        // core writes to tx_data register
+    //     .wr_data_i(reg2hw.tx_data),     // core register value
+    //     .rd_en_i(spi_tx_fifo_rd_en),    // FSM reads when sending
+    //     .rd_data_o(tx_fifo_data),       // drive tx_shift_reg from here
+    //     .full_o(tx_fifo_full),
+    //     .almost_full_o(),
+    //     .empty_o(tx_fifo_empty),
+    //     .almost_empty_o()
+    // );
+
+
+
+    // logic [7:0] dummy_rx;
+    // logic []
 
     spi_state_e spi_state_d, spi_state_q;
 
@@ -135,7 +185,7 @@ module spi #(
         rx_shift_reg_d  = rx_shift_reg_q;
         tx_shift_reg_d  = tx_shift_reg_q;
         rw_type_d       = rw_type_q;
-        hw2reg.status[0] = 0; //is this correct? can i double assign here and in shift
+        // hw2reg.status[0] = ; //need a register here
         case (spi_state_q) 
             IDLE: begin
                 if (reg2hw.control[0]) begin
@@ -171,6 +221,8 @@ module spi #(
                     end
                 end
 
+                // write logic to set a flag and write to a buffer when a transaction is done and its a read
+
             end
 
             DONE: begin
@@ -180,11 +232,15 @@ module spi #(
                     spi_state_d = LOAD;
                 end
 
-                if(rw_type_q == 2'b10) begin
-                    hw2reg.rx_data[8*(byte_cnt_q - 4) +: 8] = rx_shift_reg_q; // how do i assign this properly, i dont understand anymore what this does
-                end
+                // if(rw_type_q == 2'b10) begin
+                //     // hw2reg.rx_data[8*(byte_cnt_q - 4) +: 8] = rx_shift_reg_q; // how do i assign this properly, i dont understand anymore what this does
+                //     // spi_rx_fifo_wr_en = (spi_state_q == DONE) && (rw_type_q == 2'b10);
+                // end
                 sclk_int_d = 0;
-                
+                //status still a bit messy
+                // if (byte_cnt_q >= 4 && byte_cnt_q < length_q+4) begin
+                //     hw2reg.status = byte_cnt_q - 3;
+                // end else
                 if (byte_cnt_q >= length_q + 4) begin
                     hw2reg.status[0] = 1;
                     byte_cnt_d = 0;

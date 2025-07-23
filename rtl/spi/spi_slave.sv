@@ -11,6 +11,7 @@ module spi_slave (
   logic [7:0] shift_reg_in;
   logic [7:0] shift_reg_out;
   logic [2:0] bit_cnt;
+  logic [7:0] dummy_value;
 
   logic cs_n_i_d;  // delayed version for edge detection
 
@@ -31,13 +32,14 @@ module spi_slave (
   // ------------------------------
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
-      shift_reg_out <= 8'hFA;
+      shift_reg_out <= 8'h25;
+      dummy_value    <= 8'h25;
     end else if (cs_falling_edge) begin
       // Update with new value each time CS goes low
       // (Optional: cycle through dummy values)
       // shift_reg_out <= shift_reg_out + 8'h1;  // e.g. A5, A6, A7, ...
-      miso_o        <= shift_reg_out[7];
-      shift_reg_out <= {shift_reg_out[6:0], 1'b0};
+      miso_o        <= dummy_value[7];
+      shift_reg_out <= dummy_value;
     end
   end
 
@@ -51,6 +53,10 @@ module spi_slave (
     end else if (!cs_n_i) begin
       shift_reg_in <= {shift_reg_in[6:0], mosi_i};
       bit_cnt      <= bit_cnt + 1;
+    end
+
+    if (bit_cnt == 3'd7) begin
+        dummy_value <= dummy_value + 1;
     end
   end
 

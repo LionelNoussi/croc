@@ -46,6 +46,7 @@ sources:
       - rtl/spi/spi_reg_top.sv
       - rtl/spi/spi.sv
       - rtl/spi/spi_slave.sv
+      - rtl/spi/spi_fifo_buffer.sv
       # Level 2
       - rtl/croc_domain.sv
       - rtl/user_domain.sv

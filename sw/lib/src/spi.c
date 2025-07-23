@@ -2,18 +2,25 @@
 #include "util.h"
 #include "config.h"
 #include <stdio.h>
+#include <stdint.h>
+
+static inline void delay_cycles(volatile uint32_t cycles) {
+    while (cycles--) {
+        __asm__ volatile ("nop");
+    }
+}
+
 
 // Write data to external memory via SPI
 void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
     // Set target address
     // SPI_ADDR_HI = (addr >> 8) & 0xFF;
     // SPI_ADDR_LO = addr & 0xFF;
-    // uint8_t low = 0xA1;
-    // uint8_t high = 0x1D;
-    // SPI_ADDR_HI = low;
-    // SPI_ADDR_LO = high;
-    *(volatile uint8_t*)(SPI_BASE_ADDR + 0x28) = 0x34;
-    *(volatile uint8_t*)(SPI_BASE_ADDR + 0x29) = 0x12;
+    uint8_t low = 0xA1;
+    uint8_t high = 0x1D;
+    SPI_ADDR_HI = low;
+    SPI_ADDR_LO = high;
+
 
     // Write data to TX buffer
     // for (uint8_t i = 0; i < length; i++) {
@@ -25,14 +32,14 @@ void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
     SPI_LENGTH = length2;
 
     uint8_t testd = 0x82;
-    SPI_TX(0) = testd;
-    SPI_TX(1) = 0x33;
-    SPI_TX(2) = 0xAF;
+    SPI_TX = testd;
+  
     // Start write: [7:3]=length, [2:1]=0b10 (write), [0]=1 (start)
     SPI_CTRL = (length << 3) | (2 << 1) | 0x1;
 
     // Wait until done
     // while ((SPI_STATUS & 0x1) == 0);
+    uint8_t read = SPI_RX;
 }
 
 // Read data from external memory via SPI
@@ -47,11 +54,19 @@ void spi_read(uint16_t addr, uint8_t *data, uint8_t length) {
     // Start read: [7:3]=length, [2:1]=0b01 (read), [0]=1 (start)
     SPI_CTRL = (length << 3) | (1 << 1) | 0x1;
 
+    uint8_t status = SPI_STATUS;
+    
+    
+    SPI_CTRL = (length << 3) | (1 << 1) | 0x0;
+
     // Wait until done
     while ((SPI_STATUS & 0x1) == 0);
 
     // Read from RX buffer
     for (uint8_t i = 0; i < length; i++) {
-        data[i] = SPI_RX(i);
+        data[i] = SPI_RX;
+        delay_cycles(100000);
     }
 }
+
+

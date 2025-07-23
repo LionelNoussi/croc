@@ -16,7 +16,10 @@ module spi_reg_top import spi_reg_pkg::*; #(
     output obi_rsp_t obi_rsp_o,
 
     output spi_reg2hw_t reg2hw,
-    input  spi_hw2reg_t hw2reg
+    input  spi_hw2reg_t hw2reg,
+
+
+    output logic rx_read_pulse
 );
 
   // OBI preparation signals
@@ -30,6 +33,9 @@ module spi_reg_top import spi_reg_pkg::*; #(
   logic w_err_d, w_err_q;
   logic [ObiCfg.DataWidth-1:0] obi_rdata, obi_wdata;
   logic obi_read_request, obi_write_request;
+
+
+  logic read_to_rxbuffer; //pulse detection for fifo
 
   // OBI response assignment
   always_comb begin
@@ -46,10 +52,8 @@ module spi_reg_top import spi_reg_pkg::*; #(
   assign obi_write_request = obi_req_i.req & obi_req_i.a.we;
   assign id_d              = obi_req_i.a.aid;
   assign valid_d           = obi_req_i.req;
-
-  assign write_addr = obi_req_i.a.addr[AddressWidth-1:0];
-  assign read_addr_d = obi_req_i.a.addr[AddressWidth-1:0];
-
+  assign write_addr        = obi_req_i.a.addr[AddressWidth-1:2];
+  assign read_addr_d       = obi_req_i.a.addr[AddressWidth-1:2];
   assign we_d              = obi_req_i.a.we;
   assign req_d             = obi_req_i.req;
 
@@ -67,8 +71,8 @@ module spi_reg_top import spi_reg_pkg::*; #(
   typedef struct packed {
     logic [7:0] control;
     logic [7:0] status;
-    logic [8*16-1:0] tx_data;
-    logic [8*16-1:0] rx_data;
+    logic [7:0] tx_data;
+    logic [7:0] rx_data;
     logic [7:0] address_low;
     logic [7:0] address_high;
     logic [7:0] length;
@@ -100,7 +104,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     reg2hw.tx_data = reg_q.tx_data;
     reg2hw.address_low = reg_q.address_low;
     reg2hw.address_high = reg_q.address_high;
-    reg2hw.length =  reg_q.length;
+    reg2hw.length = reg_q.length;
 
     // Update from logic
     new_reg.status  = hw2reg.status;
@@ -110,75 +114,41 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
     // WRITE
     if (obi_write_request) begin
-      case (write_addr)
-        SPI_CONTROL_OFFSET: reg_d.control = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 0: reg_d.tx_data[7:0]    = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 1: reg_d.tx_data[15:8]   = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 2: reg_d.tx_data[23:16]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 3: reg_d.tx_data[31:24]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 4: reg_d.tx_data[39:32]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 5: reg_d.tx_data[47:40]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 6: reg_d.tx_data[55:48]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 7: reg_d.tx_data[63:56]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 8: reg_d.tx_data[71:64]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET + 9: reg_d.tx_data[79:72]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET +10: reg_d.tx_data[87:80]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET +11: reg_d.tx_data[95:88]  = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET +12: reg_d.tx_data[103:96] = obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET +13: reg_d.tx_data[111:104]= obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET +14: reg_d.tx_data[119:112]= obi_wdata[7:0];
-        SPI_TXBUFFER_OFFSET +15: reg_d.tx_data[127:120]= obi_wdata[7:0];
+      case ({write_addr, 2'b00})
+        SPI_CONTROL_OFFSET: begin
+          reg_d.control = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
+        end
+        SPI_TXBUFFER_OFFSET: begin
+          reg_d.tx_data = (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
+        end
         SPI_ADDRESS_LO_OFFSET: begin
-          if (obi_req_i.a.be[0]) reg_d.address_low  = obi_wdata[7:0];
+          reg_d.address_low = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
         end
         SPI_ADDRESS_HI_OFFSET: begin
-          if (obi_req_i.a.be[0]) reg_d.address_high = obi_wdata[7:0];
+          reg_d.address_high = (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
         end
-        SPI_LENGTH_OFFSET: reg_d.length = obi_wdata[7:0];
-        default: w_err_d = 1'b1;
+        SPI_LENGTH_OFFSET: begin
+          reg_d.length= (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
+        end
+        default: begin
+          w_err_d = 1'b1;
+        end
       endcase
     end
 
     // READ
     if (obi_read_request) begin
-      case (read_addr_q)
-        SPI_CONTROL_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.control};
-        SPI_STATUS_OFFSET : obi_rdata = {{24{1'b0}}, reg_q.status};
-        SPI_TXBUFFER_OFFSET +  0: obi_rdata = {{24{1'b0}}, reg_q.tx_data[7:0]};
-        SPI_TXBUFFER_OFFSET +  1: obi_rdata = {{24{1'b0}}, reg_q.tx_data[15:8]};
-        SPI_TXBUFFER_OFFSET +  2: obi_rdata = {{24{1'b0}}, reg_q.tx_data[23:16]};
-        SPI_TXBUFFER_OFFSET +  3: obi_rdata = {{24{1'b0}}, reg_q.tx_data[31:24]};
-        SPI_TXBUFFER_OFFSET +  4: obi_rdata = {{24{1'b0}}, reg_q.tx_data[39:32]};
-        SPI_TXBUFFER_OFFSET +  5: obi_rdata = {{24{1'b0}}, reg_q.tx_data[47:40]};
-        SPI_TXBUFFER_OFFSET +  6: obi_rdata = {{24{1'b0}}, reg_q.tx_data[55:48]};
-        SPI_TXBUFFER_OFFSET +  7: obi_rdata = {{24{1'b0}}, reg_q.tx_data[63:56]};
-        SPI_TXBUFFER_OFFSET +  8: obi_rdata = {{24{1'b0}}, reg_q.tx_data[71:64]};
-        SPI_TXBUFFER_OFFSET +  9: obi_rdata = {{24{1'b0}}, reg_q.tx_data[79:72]};
-        SPI_TXBUFFER_OFFSET + 10: obi_rdata = {{24{1'b0}}, reg_q.tx_data[87:80]};
-        SPI_TXBUFFER_OFFSET + 11: obi_rdata = {{24{1'b0}}, reg_q.tx_data[95:88]};
-        SPI_TXBUFFER_OFFSET + 12: obi_rdata = {{24{1'b0}}, reg_q.tx_data[103:96]};
-        SPI_TXBUFFER_OFFSET + 13: obi_rdata = {{24{1'b0}}, reg_q.tx_data[111:104]};
-        SPI_TXBUFFER_OFFSET + 14: obi_rdata = {{24{1'b0}}, reg_q.tx_data[119:112]};
-        SPI_TXBUFFER_OFFSET + 15: obi_rdata = {{24{1'b0}}, reg_q.tx_data[127:120]};
-        SPI_ADDRESS_LO_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.address_low};
-        SPI_ADDRESS_HI_OFFSET: obi_rdata = {{24{1'b0}}, reg_q.address_high};
-        SPI_LENGTH_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.length};
-        SPI_RXBUFFER_OFFSET +  0: obi_rdata = {{24{1'b0}}, reg_q.rx_data[7:0]};
-        SPI_RXBUFFER_OFFSET +  1: obi_rdata = {{24{1'b0}}, reg_q.rx_data[15:8]};
-        SPI_RXBUFFER_OFFSET +  2: obi_rdata = {{24{1'b0}}, reg_q.rx_data[23:16]};
-        SPI_RXBUFFER_OFFSET +  3: obi_rdata = {{24{1'b0}}, reg_q.rx_data[31:24]};
-        SPI_RXBUFFER_OFFSET +  4: obi_rdata = {{24{1'b0}}, reg_q.rx_data[39:32]};
-        SPI_RXBUFFER_OFFSET +  5: obi_rdata = {{24{1'b0}}, reg_q.rx_data[47:40]};
-        SPI_RXBUFFER_OFFSET +  6: obi_rdata = {{24{1'b0}}, reg_q.rx_data[55:48]};
-        SPI_RXBUFFER_OFFSET +  7: obi_rdata = {{24{1'b0}}, reg_q.rx_data[63:56]};
-        SPI_RXBUFFER_OFFSET +  8: obi_rdata = {{24{1'b0}}, reg_q.rx_data[71:64]};
-        SPI_RXBUFFER_OFFSET +  9: obi_rdata = {{24{1'b0}}, reg_q.rx_data[79:72]};
-        SPI_RXBUFFER_OFFSET + 10: obi_rdata = {{24{1'b0}}, reg_q.rx_data[87:80]};
-        SPI_RXBUFFER_OFFSET + 11: obi_rdata = {{24{1'b0}}, reg_q.rx_data[95:88]};
-        SPI_RXBUFFER_OFFSET + 12: obi_rdata = {{24{1'b0}}, reg_q.rx_data[103:96]};
-        SPI_RXBUFFER_OFFSET + 13: obi_rdata = {{24{1'b0}}, reg_q.rx_data[111:104]};
-        SPI_RXBUFFER_OFFSET + 14: obi_rdata = {{24{1'b0}}, reg_q.rx_data[119:112]};
-        SPI_RXBUFFER_OFFSET + 15: obi_rdata = {{24{1'b0}}, reg_q.rx_data[127:120]};
+      case ({read_addr_q, 2'b00})
+        SPI_CONTROL_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.control};
+        SPI_STATUS_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.status};
+        SPI_TXBUFFER_OFFSET:    obi_rdata = {{24{1'b0}}, reg_q.tx_data};
+        SPI_RXBUFFER_OFFSET: begin
+             obi_rdata = {{24{1'b0}}, reg_q.rx_data};
+             read_to_rxbuffer = 1'b1;
+        end
+        SPI_ADDRESS_LO_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_low};
+        SPI_ADDRESS_HI_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_high};
+        SPI_LENGTH_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.length};
         default: begin
           obi_rdata = 32'hDEAD_BEEF;
           obi_err   = 1'b1;
@@ -186,5 +156,17 @@ module spi_reg_top import spi_reg_pkg::*; #(
       endcase
     end
   end
+
+  logic read_to_rxbuffer_q;
+
+    always_ff @(posedge clk_i or negedge rst_ni) begin
+      if (!rst_ni)
+        read_to_rxbuffer_q <= 1'b0;
+      else
+        read_to_rxbuffer_q <= read_to_rxbuffer;
+    end
+
+    assign rx_read_pulse = read_to_rxbuffer & ~read_to_rxbuffer_q;
+
 
 endmodule
