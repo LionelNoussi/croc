@@ -68,14 +68,20 @@ __interupt_table:
 handle_irq_19:
 
   # Save caller-saved registers (optional depending on what you touch)
-  addi sp, sp, -4
+  addi sp, sp, -8
   sw a5, 0(sp)
+  sw a4, 4(sp)
 
   # Read from DMA_REG(DMA_INTERRUPT_REG_OFFSET) to clear interrupt
   lui     a5,0x50000
   lw      a5,16(a5)
-  # j dma_irq_handler # software version
+
+  # Gpio write
+  lui     a5,0x3005
+  addi    a4, zero, 2
+  sw      a4, 0x200(a5)
 
   lw a5, 0(sp)
-  addi sp, sp, 4
+  lw a4, 4(sp)
+  addi sp, sp, 8
   mret

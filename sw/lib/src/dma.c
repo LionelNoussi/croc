@@ -32,7 +32,7 @@ dma_control_t encode_dma_controls(const dma_control_struct_t* opts) {
 dma_condition_t encode_dma_condition(const dma_condition_struct_t* cond) {
     return ((cond->cond_addr_offset  & DMA_COND_OFFSET_MASK)          << DMA_COND_OFFSET_SHIFT)         |
            ((cond->bitmask           & DMA_COND_MASK_MASK)            << DMA_COND_MASK_SHIFT)           |
-           ((cond->conditional_type  & DMA_COND_TYPE_MASK)            << DMA_COND_TYPE_SHIFT)           |
+           ((cond->cond_base_addr    & DMA_COND_BASE_ADDR_MASK)       << DMA_COND_BASE_ADDR_SHIFT)      |
            ((cond->negate            & DMA_COND_NEGATE_MASK)          << DMA_COND_NEGATE_SHIFT)         |
            ((cond->enable            & DMA_COND_ENABLE_MASK)          << DMA_COND_ENABLE_SHIFT);
 }
@@ -82,6 +82,107 @@ void disable_dma_irq(void) {
     asm volatile("csrc mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
 }
 
-void dma_irq_handler() {
-    *DMA_REG(DMA_INTERRUPT_OFFSET);
+
+void uart_read_dma(uint8_t* destination_array, uint8_t N) {
+    enable_dma_irq();
+    *dma_src_reg = UART_BASE_ADDR;
+    *dma_dst_reg = (uint32_t) destination_array;
+    *dma_cond_reg = 0x14010001;
+    *dma_ctrl_reg = 0x17 | ((N & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+
+    /*
+    Magic numbers of condition and control reg come from:
+
+    // Condition is static and is always the same struct
+    dma_condition_struct_t dma_condition_struct = {
+        .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
+        .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
+        .cond_base_addr = DMA_COND_SRC_BASE,
+        .negate = 0,
+        .enable = 1
+    };
+    encode_dma_condition(&dma_condition_struct) --> 0x14010001;
+
+    // Only variable part is the number of transfers N
+    dma_control_struct_t dma_control_struct = {
+        .src_offset = UART_RBR_REG_OFFSET,
+        .dst_offset = 0,
+        .num_transfers = 0, // replace with N later
+        .interrupt_enable = 1,
+        .increment_src = 0,
+        .increment_dst = 1,
+        .transfer_size = DMA_TRANSFER_BYTE,
+        .activate = 1
+    };
+    encode_dma_controls(&dma_control_struct) --> 0x17;
+    */
+}
+
+void uart_write_dma(uint8_t* source_array, uint8_t N) {
+    enable_dma_irq();
+    *dma_src_reg = (uint32_t) source_array;
+    *dma_dst_reg = UART_BASE_ADDR;
+    *dma_cond_reg = 0x14200005;
+    *dma_ctrl_reg = 0x1B | ((N & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+
+    /*
+    Magic numbers of condition and control reg come from:
+
+    // Condition is static and is always the same struct
+    dma_condition_struct_t dma_condition_struct = {
+        .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
+        .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
+        .cond_base_addr = DMA_COND_DST_BASE,
+        .negate = 0,
+        .enable = 1
+    };
+    encode_dma_condition(&dma_condition_struct) --> 0x14200005;
+
+    // Only variable part is the number of transfers N
+    dma_control_struct_t dma_control_struct = {
+        .src_offset = 0,
+        .dst_offset = UART_THR_REG_OFFSET,
+        .num_transfers = 0,
+        .interrupt_enable = 1,
+        .increment_src = 1,
+        .increment_dst = 0,
+        .transfer_size = DMA_TRANSFER_BYTE,
+        .activate = 1
+    };
+
+    encode_dma_controls(&dma_control_struct) --> 0x1B;
+    */
+}
+
+
+void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
+    dma_control_t controls;
+    enable_dma_irq();
+    if ((num_bytes & 3) == 0 && (((uint32_t) src & 3) == 0) && (((uint32_t) dst & 3) == 0)) {
+        unsigned num_words = num_bytes >> 2;
+        controls = 0x1D | ((num_words & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+    } else {
+        controls = 0x1F | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+    }
+    *dma_src_reg = (uint32_t) src;
+    *dma_dst_reg = (uint32_t) dst;
+    *dma_ctrl_reg = controls;
+    asm volatile ("wfi");
+    return dst;
+
+    /*
+    // Only variable part is the number of transfers N
+    dma_control_struct_t dma_control_struct = {
+        .src_offset = 0,
+        .dst_offset = 0,
+        .num_transfers = 0, // Change later
+        .interrupt_enable = 1,
+        .increment_src = 1,
+        .increment_dst = 1,
+        .transfer_size = DMA_TRANSFER_BYTE or DMA_TRANSFER_WORD,
+        .activate = 1
+    };
+
+    encode_dma_controls(&dma_control_struct) --> 0x1F if byte 0x1D if word;
+    */
 }

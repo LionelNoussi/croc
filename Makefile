@@ -50,8 +50,8 @@ clean-deps:
 ############
 # SW_HEX := sw/bin/helloworld.hex
 # SW_HEX := sw/bin/test_dma.hex
-# SW_HEX := sw/bin/dma_demo_memcpy.hex
-SW_HEX := sw/bin/dma_demo_in_stream.hex
+SW_HEX := sw/bin/dma_demo_memcpy.hex
+# SW_HEX := sw/bin/dma_demo_in_stream.hex
 # SW_HEX := sw/bin/dma_demo_out_stream.hex
 
 $(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld

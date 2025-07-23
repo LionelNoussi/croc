@@ -56,7 +56,7 @@ typedef struct {
     uint8_t increment_src;         // bit 3
     uint8_t increment_dst;         // bit 2
     dma_transfer_size_t transfer_size;      // bit 1
-    uint8_t activate;
+    uint8_t activate;               // bit 0
 } dma_control_struct_t;
 
 // Encodes DMA control word from control struct
@@ -72,14 +72,14 @@ dma_control_t encode_dma_controls(const dma_control_struct_t* opts);
 // Bit positions
 #define DMA_COND_OFFSET_SHIFT             24
 #define DMA_COND_MASK_SHIFT               16
-#define DMA_COND_TYPE_SHIFT               2
+#define DMA_COND_BASE_ADDR_SHIFT          2
 #define DMA_COND_NEGATE_SHIFT             1
 #define DMA_COND_ENABLE_SHIFT             0
 
 // Bit masks
 #define DMA_COND_OFFSET_MASK              0xFF
 #define DMA_COND_MASK_MASK                0xFF
-#define DMA_COND_TYPE_MASK                0x1
+#define DMA_COND_BASE_ADDR_MASK           0x1
 #define DMA_COND_NEGATE_MASK              0x1
 #define DMA_COND_ENABLE_MASK              0x1
 
@@ -160,6 +160,27 @@ void enable_dma_irq(void);
 
 void disable_dma_irq(void);
 
-void dma_irq_handler() __attribute__((used, externally_visible));
+
+// -----------------------------------------------------------------------------
+// UART API
+// -----------------------------------------------------------------------------
+
+void uart_read_dma(uint8_t* destination_array, uint8_t N);
+
+void uart_write_dma(uint8_t* source_array, uint8_t N);
+
+// -----------------------------------------------------------------------------
+// SPI API
+// -----------------------------------------------------------------------------
+
+void spi_read_dma(uint8_t* destination_array, uint8_t N);
+
+void spi_write_dma(uint8_t* source_array, uint8_t N);
+
+// -----------------------------------------------------------------------------
+// DMA MEMCPY
+// -----------------------------------------------------------------------------
+
+void* memcpy_dma(void* dst, const void* src, unsigned num_bytes);
 
 #endif // DMA_H

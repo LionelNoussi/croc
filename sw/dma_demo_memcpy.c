@@ -10,27 +10,38 @@
 #include "util.h"
 #include "print.h"
 
-#define N 64
+#define N 256u
 
-void* memcpy(void* dest, const void* src, unsigned len) {
-    unsigned char* d = (unsigned char*) dest;
-    const unsigned char* s = (const unsigned char*) src;
-    // while (len--) {
-    //     *d++ = *s++;
-    // }
-    for (int i = 0; i < len; i++) {
-        d[i] = s[i];
+void print_array(uint8_t* arr, uint16_t len) {
+    uart_write('[');
+    for (int i = 0; i < len - 1; i++) {
+        uart_write(arr[i]);
+        uart_write(',');
+        uart_write(' ');
     }
-    return dest;
+    uart_write(arr[len-1]);
+    uart_write(']');
+    uart_write('\n');
 }
 
-
-void* memcpy_dma(void* dest, const void* src, unsigned len) {
-    dma_control_t controls = 0x1F | (len << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-    enable_dma_irq();
-    program_dma((uint32_t) src, (uint32_t) dest, controls, 0);
-    asm volatile ("wfi");
-    return dest;
+void* memcpy(void* dst, const void* src, unsigned num_bytes) {
+    unsigned len;
+    if ((num_bytes & 3) == 0 && (((uint32_t) src & 3) == 0) && (((uint32_t) dst & 3) == 0)) {
+        len = num_bytes >> 2;
+        uint32_t* dw = (uint32_t*) dst;
+        const uint32_t* sw = (const uint32_t*) src;
+        for (int i = 0; i < len; i++) {
+            dw[i] = sw[i];
+        }
+    } else {
+        len = num_bytes;
+        unsigned char* d = (unsigned char*) dst;
+        const unsigned char* s = (const unsigned char*) src;
+        for (int i = 0; i < len; i++) {
+            d[i] = s[i];
+        }
+    }
+    return dst;
 }
 
 
@@ -44,7 +55,7 @@ int main() {
     uint8_t dst_arr[N];
 
     for (int i = 0; i < N; i++) {
-        src_arr[i] = i;
+        src_arr[i] = (65 + (i % 26));
     }
 
     start = get_mcycle();
@@ -52,6 +63,8 @@ int main() {
     end = get_mcycle();
 
     printf("Memcpy took %u cycles.\n", (uint32_t) (end - start));
+    printf("Destination array is: ");
+    print_array(dst_arr, N);
 
     // Clearing dst array
     for (int i = 0; i < N; i++) {
@@ -63,6 +76,8 @@ int main() {
     end = get_mcycle();
 
     printf("Memcpy with dma took %u cycles.\n", (uint32_t) (end - start));
+    printf("Destination array is: ");
+    print_array(dst_arr, N);
     uart_write_flush();
     return 1;
 }

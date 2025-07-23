@@ -8,10 +8,25 @@
 #include "dma.h"
 #include "uart.h"
 #include "gpio.h"
+#include "print.h"
 #define N 32
 #define NUM_WINDOWS 8
 
 #define USE_DMA
+
+#define SENDIGN_GPIO 1
+#define COMPUTING_GPIO 2
+
+#define SENDING 1
+#define COMPUTING 1
+
+// Helper function to write different outputs and states to the gpios
+uint32_t write_gpio_state(int sending, int computing) {
+    gpio_write(
+        (sending << SENDIGN_GPIO) |
+        (computing << COMPUTING_GPIO)
+    );
+}
 
 
 void* memcpy(void* dest, const void* src, unsigned len) {
@@ -57,71 +72,43 @@ void compute(uint8_t* buffer) {
     }
 #else
     void physics_simulation_dma() {
-        // Send start signal to testbench
-        uart_write(0x00);
         
         // One buffer of double length for double buffering
         // For clarity: buffer0 = buffer; buffer1 = buffer + N
-        int8_t  buffer[2*N];
+        uint8_t  buffer[2*N];
         uint8_t buffer_offset = 0;     // 0 for buffer0, N for buffer1
-        int8_t* current_buffer;     // buffer + offset;
+        uint8_t* current_buffer;     // buffer + offset;
         
         uint8_t result = 0;
-
-        dma_control_struct_t dma_control_struct = {
-            .src_offset = 0,
-            .dst_offset = UART_RBR_REG_OFFSET,
-            .num_transfers = N,
-            .interrupt_enable = 1,
-            .increment_src = 1,
-            .increment_dst = 0,
-            .transfer_size = DMA_TRANSFER_BYTE,
-            .activate = 0
-        };
-    
-        dma_condition_struct_t dma_condition_struct = {
-            .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
-            .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
-            .cond_base_addr = DMA_COND_DST_BASE,
-            .negate = 0,
-            .enable = 1
-        };
-        
-        dma_control_t dma_controls = encode_dma_controls(&dma_control_struct);
-        program_dma((uint32_t) buffer, UART_BASE_ADDR, dma_controls, encode_dma_condition(&dma_condition_struct));
-
-        dma_controls |= 1;  // Set activate bit in dma_controls
 
         for (int win = 0; win < NUM_WINDOWS; win++) {
             // Get reference to current buffer
             current_buffer = buffer + buffer_offset;
             
-            gpio_write(dma_busy() << 1 | 4);
+            write_gpio_state(dma_busy(), COMPUTING);
             compute(current_buffer);
-            gpio_write(dma_busy() << 1);
+            write_gpio_state(dma_busy(), !COMPUTING);
             
             // Wait for the dma to finish transfering previous output
             if (dma_busy()) {
                 asm volatile("wfi");
             }
 
-            // Start dma to send current output
-            gpio_write(0);
+            write_gpio_state(!SENDING, !COMPUTING);
             enable_dma_irq();
-            control_dma(dma_controls);
-            gpio_write(2);
+            uart_write_dma(current_buffer, N);
+            write_gpio_state(SENDING, !COMPUTING);
 
-            // Prepare next buffer (alternatingly switch destination offset between 0 and N)
+            // Prepare next buffer: alternate offset between 0 and N
+            // if (buffer_offset == N) {buffer_offset = 0;} else {buffer_offset = N;}
             buffer_offset ^= N;
-            dma_controls ^= ((N & DMA_CTRL_SRC_OFFSET_MASK) << DMA_CTRL_SRC_OFFSET_SHIFT);
         }
         
         // Wait for the last dma transfer to finish
         if (dma_busy()) {
             asm volatile("wfi");
         }
-        gpio_write(0);
-        disable_dma_irq();  // just to be sure
+        write_gpio_state(!SENDING, !COMPUTING);
     }
 #endif
 

@@ -8,10 +8,29 @@
 #include "dma.h"
 #include "uart.h"
 #include "gpio.h"
+#include "print.h"
+
 #define N 32
-#define NUM_WINDOWS 4
+#define NUM_WINDOWS 8
+#define THRESHOLD 40000
 
 #define USE_DMA
+
+#define OUTPUT_GPIO 0
+#define LOADING_GPIO 1
+#define COMPUTING_GPIO 2
+
+#define LOADING 1
+#define COMPUTING 1
+
+// Helper function to write different outputs and states to the gpios
+uint32_t write_gpio_state(int loading, int computing, int output) {
+    gpio_write(
+        (loading << LOADING_GPIO) |
+        (computing << COMPUTING_GPIO) |
+        (output << OUTPUT_GPIO)
+    );
+}
 
 
 void* memcpy(void* dest, const void* src, unsigned len) {
@@ -24,20 +43,77 @@ void* memcpy(void* dest, const void* src, unsigned len) {
 }
 
 
-int ret_val = 0;
-int compute(uint8_t* buffer) {
-    // Fake compute function for now.
-    volatile int x = 0;
-    for (int i = 0; i < 3000; i++) {
-        x = x + 1;
+
+
+// 8-bit fixed-point cosine LUT for 32 points (scaled by 127)
+const int8_t cos_lut[32] = {
+    127, 125, 117, 106, 90, 71, 49, 25,
+    0, -25, -49, -71, -90, -106, -117, -125,
+    -127, -125, -117, -106, -90, -71, -49, -25,
+    0, 25, 49, 71, 90, 106, 117, 125
+};
+
+
+static inline int16_t mul8x8(int8_t a, int8_t b) {
+    uint16_t ua = (a < 0) ? -a : a;
+    uint8_t ub = (b < 0) ? -b : b;
+
+    int16_t result = 0;
+    while (ub) {
+        if (ub & 1)
+            result += ua;
+        ua <<= 1;
+        ub >>= 1;
     }
-    if (ret_val) {
-        ret_val = 0;
-    } else {
-        ret_val = 1;
-    }
-    return ret_val;
+
+    if ((a ^ b) < 0)  // sign bit differs -> negative result
+        result = -result;
+
+    return result;
 }
+
+int detect_keyword(uint8_t* time_window) {
+    int8_t* samples = (int8_t*)time_window;
+
+    const unsigned quarter_N = N / 4;  // 8 for N=32
+    const unsigned half_N = N / 2;
+
+    // Loop over frequency bins k
+    for (unsigned k = 0; k <= half_N; ++k) {
+        int32_t real_sum = 0;
+        int32_t imag_sum = 0;
+        uint8_t phase = 0;  // phase accumulator for (k * n) mod N
+
+        // Inner loop: accumulate DFT real and imaginary parts
+        for (unsigned n = 0; n < N; ++n) {
+            uint8_t cos_index = phase;                      // cos phase index
+            uint8_t sin_index = (phase + quarter_N) & 31;  // sin phase index (90° shift). Module N=32 by doing &31
+
+            int8_t sample = samples[n];
+
+            int16_t real_part = mul8x8(sample, cos_lut[cos_index]);
+            int16_t imag_part = mul8x8(sample, cos_lut[sin_index]);
+
+            real_sum += real_part;
+            imag_sum += imag_part;
+
+            phase = (phase + k) & 31;  // increment phase modulo N
+        }
+
+        // Approximate magnitude using sum of absolute values (cheap abs)
+        int32_t abs_real = (real_sum < 0) ? -real_sum : real_sum;
+        int32_t abs_imag = (imag_sum < 0) ? -imag_sum : imag_sum;
+        int32_t magnitude_approx = abs_real + abs_imag;
+
+        // Threshold check for keyword detection
+        if (magnitude_approx > THRESHOLD) {
+            return 1;  // keyword detected
+        }
+    }
+
+    return 0;  // no keyword detected
+}
+
 
 
 #ifndef USE_DMA
@@ -64,7 +140,7 @@ int compute(uint8_t* buffer) {
             // }
 
             gpio_write(4 + result);
-            result = compute(buffer);
+            result = detect_keyword(buffer);
         }
         gpio_write(result);
     }
@@ -77,74 +153,45 @@ int compute(uint8_t* buffer) {
         // For clarity: buffer0 = buffer; buffer1 = buffer + N
         int8_t  buffer[2*N];
         uint8_t dst_offset = 0;     // 0 for buffer0, N for buffer1
-        int8_t* current_buffer;     // buffer + offset;
+        int8_t* current_buffer = buffer;     // buffer + offset;
         
         uint8_t result = 0;
 
-        dma_condition_struct_t dma_condition_struct = {
-            .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
-            .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
-            .cond_base_addr = DMA_COND_SRC_BASE,
-            .negate = 0,
-            .enable = 1
-        };
-
-        dma_control_struct_t dma_control_struct = {
-            .src_offset = UART_RBR_REG_OFFSET,
-            .dst_offset = 0,
-            .num_transfers = N,
-            .interrupt_enable = 1,
-            .increment_src = 0,
-            .increment_dst = 1,
-            .transfer_size = DMA_TRANSFER_BYTE,
-            .activate = 1
-        };
-        
-        dma_control_t dma_controls = encode_dma_controls(&dma_control_struct);
-        
         // Start the DMA
-        enable_dma_irq();
-        program_dma(UART_BASE_ADDR, (uint32_t) buffer, dma_controls, encode_dma_condition(&dma_condition_struct));
+        write_gpio_state(LOADING, !COMPUTING, 0);
+        uart_read_dma(current_buffer, N);
 
         for (int win = 0; win < NUM_WINDOWS; win++) {
-            // Write 01_ to GPIO to signal loading state
-            gpio_write(2+result);   
             
             // Get reference to current buffer
+            // if (dst_offset == N) {dst_offset = 0;} else {dst_offset = N;}
             current_buffer = buffer + dst_offset;
-            
-            // Prepare next dma load (alternatingly switch destination offset between 0 and N)
-            dst_offset ^= N;
-            dma_controls ^= ((N & DMA_CTRL_DST_OFFSET_MASK) << DMA_CTRL_DST_OFFSET_SHIFT);
             
             // Wait for the dma to finish loading data into the current buffer
             if (dma_busy()) {
                 asm volatile("wfi");
             }
 
-            // Write 00_ to GPIO to signal setup state
-            gpio_write(result);   
+            write_gpio_state(!LOADING, !COMPUTING, result);  
 
             // Start DMA to fill next buffer, except in last iteration
             if (win != NUM_WINDOWS - 1) {
-                // Write 01_ to GPIO signal loading state
-                gpio_write(2+result);
+                write_gpio_state(LOADING, COMPUTING, result);
                 
+                // Alternate offset between 0 and N
+                dst_offset ^= N;
                 // Tell testbench to send another array
                 uart_write(0x0);
-
-                // Start dma again with new offset
-                enable_dma_irq();
-                control_dma(dma_controls);
+                // Start dma
+                uart_read_dma(buffer + dst_offset, N);
             }
-            
-            // Write 11_ to GPIO to indicate computing state
-            gpio_write((dma_busy() << 1) + 4 + result);
-            result = compute(current_buffer);
+
+            result = detect_keyword(current_buffer);
+
+            write_gpio_state(dma_busy(), !COMPUTING, result);
         }
         
-        gpio_write(result);
-        disable_dma_irq();  // just to be sure
+        write_gpio_state(!LOADING, !COMPUTING, result);
     }
 #endif
 
@@ -163,8 +210,6 @@ int main() {
     #else
         keyword_detection_dma();
     #endif
-
-    compute(0);
     
     return 1;
 }

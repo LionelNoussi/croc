@@ -364,9 +364,12 @@ module tb_croc_soc #(
 
 
     initial begin
-        parameter int N = 32;
-        byte_bt source_array[N];
+        parameter int TIME_WINDOWS = 8;
+        parameter int DMA_DEMO_N = 32;
+        byte_bt source_array[TIME_WINDOWS][DMA_DEMO_N];
+        byte_bt start_bite;
         int fd, code;
+        int win;
         string line;
         byte_bt val;
 
@@ -376,25 +379,33 @@ module tb_croc_soc #(
         end
         $display("Opened file.");
 
-        for (int i = 0; i < N; i++) begin
-            code = $fgets(line, fd);
-            if (code <= 0) begin
-                $fatal("Error reading input file at byte %0d", i);
+        for (int w = 0; w < TIME_WINDOWS; w++) begin
+            for (int i = 0; i < DMA_DEMO_N; i++) begin
+                code = $fgets(line, fd);
+                if (code <= 0) begin
+                    $fatal("Error reading input file at byte %0d", i);
+                end
+                $sscanf(line, "%h", val);
+                source_array[w][i] = val;
             end
-            $sscanf(line, "%h", val);
-            source_array[i] = val;
         end
         $fclose(fd);
         $display("Loaded input array.″");
 
         @(posedge fetch_en_i);
-
+        
+        win = 0;
         forever begin
-            byte_bt start_bite;
             uart_read_byte(start_bite);
             if (start_bite == 8'h00) begin
-                for (int i = 0; i < N; i++) begin
-                    uart_write_byte(source_array[i]);
+                $display("@%t | [SSD] Read request byte. Sending data...", $time);
+                for (int i = 0; i < DMA_DEMO_N; i++) begin
+                    // $display("Sent byte %0h", source_array[win][i]);
+                    uart_write_byte(source_array[win][i]);
+                end
+                win = win + 1;
+                if (win >= TIME_WINDOWS) begin
+                    win = 0;
                 end
             end
         end
