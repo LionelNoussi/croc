@@ -92,6 +92,8 @@ module spi #(
 
 
     logic tx_pulse;
+    logic spi_tx_fifo_rd_en_q, spi_tx_fifo_rd_en_d;
+
 
     spi_fifo_buffer #(
         .DEPTH(16),
@@ -99,13 +101,13 @@ module spi #(
     ) i_spi_tx_fifo (
         .clk_i(clk_i),
         .rst_ni(rst_ni),
-        .wr_en_i(core_tx_wr_en),        // core writes to tx_data register
-        .wr_data_i(reg2hw.tx_data),     // core register value
-        .rd_en_i(spi_tx_fifo_rd_en),    // FSM reads when sending
+        .spi_write_i(tx_pulse),        // core writes to tx_data register
+        .spi_data_i(reg2hw.tx_data),     // core register value
+        .obi_read_en(spi_tx_fifo_rd_en_q),    // FSM reads when sending
         .rd_data_o(tx_fifo_data),       // drive tx_shift_reg from here
-        .full_o(tx_fifo_full),
+        .full_o(),
         .almost_full_o(),
-        .empty_o(tx_fifo_empty),
+        .empty_o(),
         .almost_empty_o()
     );
 
@@ -147,6 +149,7 @@ module spi #(
         rx_shift_reg_q  <= 0;
         tx_shift_reg_q  <= 0;
         rw_type_q       <= 0;
+        spi_tx_fifo_rd_en_q <= 0;
     end else begin
         spi_state_q     <= spi_state_d;
         bit_cnt_q       <= bit_cnt_d;
@@ -158,6 +161,7 @@ module spi #(
         rx_shift_reg_q  <= rx_shift_reg_d;
         tx_shift_reg_q  <= tx_shift_reg_d;
         rw_type_q       <= rw_type_d;
+        spi_tx_fifo_rd_en_q <= spi_tx_fifo_rd_en_d;
     end
     end
 
@@ -182,6 +186,7 @@ module spi #(
         rx_shift_reg_d  = rx_shift_reg_q;
         tx_shift_reg_d  = tx_shift_reg_q;
         rw_type_d       = rw_type_q;
+        spi_tx_fifo_rd_en_d = 0;
         // hw2reg.status[0] = ; //need a register here
         case (spi_state_q) 
             IDLE: begin
@@ -198,6 +203,7 @@ module spi #(
                 cmd_d = reg2hw.control;
                 length_d = reg2hw.length;
                 rw_type_d = reg2hw.control[2:1];
+                spi_tx_fifo_rd_en_d = (byte_type == BYTE_DATA) && (rw_type_q == 2'b10);
             end
 
             SHIFT: begin
@@ -266,8 +272,7 @@ module spi #(
                 end
                 BYTE_DATA: begin
                     if(rw_type_q == 2'b10) begin //write
-                        tx_shift_reg_d = tx_fifo_data;  // pull from fifo
-                        spi_tx_fifo_rd_en = 1'b1;       // set fifo enable bit
+                        tx_shift_reg_d = tx_fifo_data;  // pull from fifo     // set fifo enable bit
                     end
                 end
             endcase

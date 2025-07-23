@@ -14,31 +14,21 @@ static inline void delay_cycles(volatile uint32_t cycles) {
 // Write data to external memory via SPI
 void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
     // Set target address
-    // SPI_ADDR_HI = (addr >> 8) & 0xFF;
-    // SPI_ADDR_LO = addr & 0xFF;
-    uint8_t low = 0xA1;
-    uint8_t high = 0x1D;
-    SPI_ADDR_HI = low;
-    SPI_ADDR_LO = high;
+    SPI_ADDR_HI = (addr >> 8) & 0xFF;
+    SPI_ADDR_LO = addr & 0xFF;
 
-
-    // Write data to TX buffer
-    // for (uint8_t i = 0; i < length; i++) {
-    //     SPI_TX(i) = data[i];
-    // }
+    for (uint8_t i = 0; i < length; i++) {
+        SPI_TX = data[i];
+    }
 
     // Set transfer length
-    uint8_t length2= 0x46;
-    SPI_LENGTH = length2;
+    SPI_LENGTH = length;
 
-    uint8_t testd = 0x82;
-    SPI_TX = testd;
-  
     // Start write: [7:3]=length, [2:1]=0b10 (write), [0]=1 (start)
     SPI_CTRL = (length << 3) | (2 << 1) | 0x1;
 
     // Wait until done
-    // while ((SPI_STATUS & 0x1) == 0);
+    while ((SPI_STATUS & 0x1) == 0);
     uint8_t read = SPI_RX;
 }
 
@@ -67,6 +57,12 @@ void spi_read(uint16_t addr, uint8_t *data, uint8_t length) {
         data[i] = SPI_RX;
         // delay_cycles(10000);
     }
+
+    for (uint8_t i = 0; i< length; i++)  {
+        SPI_TX = data[i];
+    }
+
+    
 }
 
 

@@ -69,7 +69,8 @@ module spi_reg_top import spi_reg_pkg::*; #(
   assign rx_read_access_d = obi_req_i.req && !obi_req_i.a.we &&
                           (obi_req_i.a.addr[AddressWidth-1:2] == SPI_RXBUFFER_OFFSET[AddressWidth-1:2]);
 
-
+  assign tx_write_access_d = obi_req_i.req && obi_req_i.a.we &&
+                           (obi_req_i.a.addr[AddressWidth-1:2] == SPI_TXBUFFER_OFFSET[AddressWidth-1:2]);
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Registers
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -165,24 +166,25 @@ module spi_reg_top import spi_reg_pkg::*; #(
   logic read_to_rxbuffer_q;
   logic rx_read_access_d, rx_read_access_q;
 
+  logic tx_write_access_d, tx_write_access_q;
+  logic write_to_txbuffer_q;
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       rx_read_access_q     <= 1'b0;
       read_to_rxbuffer_q   <= 1'b0;
+      tx_write_access_q    <= 1'b0;
+      write_to_txbuffer_q  <= 1'b0;
     end else begin
       rx_read_access_q     <= rx_read_access_d;
       read_to_rxbuffer_q   <= rx_read_access_q;
+      tx_write_access_q    <= tx_write_access_d;
+      write_to_txbuffer_q  <= tx_write_access_q;
     end
   end
+
   assign rx_read_pulse = rx_read_access_q & ~read_to_rxbuffer_q;
 
-
-
-
-  logic tx_write_access_d, tx_write_access_q;
-  logic write_to_txbuffer_q;
-
-
+  assign tx_write_pulse = tx_write_access_q & ~write_to_txbuffer_q;
 
 endmodule
