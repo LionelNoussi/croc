@@ -19,7 +19,8 @@ module spi_reg_top import spi_reg_pkg::*; #(
     input  spi_hw2reg_t hw2reg,
 
 
-    output logic rx_read_pulse;
+    output logic rx_read_pulse,
+    output logic tx_write_pulse
 );
 
   // OBI preparation signals
@@ -63,6 +64,11 @@ module spi_reg_top import spi_reg_pkg::*; #(
   `FF(req_q, req_d, '0, clk_i, rst_ni)
   `FF(we_q, we_d, '0, clk_i, rst_ni)
   `FF(w_err_q, w_err_d, '0, clk_i, rst_ni)
+
+
+  assign rx_read_access_d = obi_req_i.req && !obi_req_i.a.we &&
+                          (obi_req_i.a.addr[AddressWidth-1:2] == SPI_RXBUFFER_OFFSET[AddressWidth-1:2]);
+
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Registers
@@ -144,7 +150,6 @@ module spi_reg_top import spi_reg_pkg::*; #(
         SPI_TXBUFFER_OFFSET:    obi_rdata = {{24{1'b0}}, reg_q.tx_data};
         SPI_RXBUFFER_OFFSET: begin
              obi_rdata = {{24{1'b0}}, reg_q.rx_data};
-             read_to_rxbuffer = 1'b1;
         end
         SPI_ADDRESS_LO_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_low};
         SPI_ADDRESS_HI_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_high};
@@ -158,15 +163,26 @@ module spi_reg_top import spi_reg_pkg::*; #(
   end
 
   logic read_to_rxbuffer_q;
+  logic rx_read_access_d, rx_read_access_q;
+
 
   always_ff @(posedge clk_i or negedge rst_ni) begin
-    if (!rst_ni)
-      read_to_rxbuffer_q <= 1'b0;
-    else
-      read_to_rxbuffer_q <= read_to_rxbuffer;
+    if (!rst_ni) begin
+      rx_read_access_q     <= 1'b0;
+      read_to_rxbuffer_q   <= 1'b0;
+    end else begin
+      rx_read_access_q     <= rx_read_access_d;
+      read_to_rxbuffer_q   <= rx_read_access_q;
+    end
   end
+  assign rx_read_pulse = rx_read_access_q & ~read_to_rxbuffer_q;
 
-  assign rx_read_pulse = read_to_rxbuffer & ~read_to_rxbuffer_q;
+
+
+
+  logic tx_write_access_d, tx_write_access_q;
+  logic write_to_txbuffer_q;
+
 
 
 endmodule

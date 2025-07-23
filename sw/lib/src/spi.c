@@ -65,7 +65,7 @@ void spi_read(uint16_t addr, uint8_t *data, uint8_t length) {
     // Read from RX buffer
     for (uint8_t i = 0; i < length; i++) {
         data[i] = SPI_RX;
-        delay_cycles(100000);
+        // delay_cycles(10000);
     }
 }
 

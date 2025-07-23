@@ -56,7 +56,8 @@ module spi #(
         .obi_rsp_o,
         .reg2hw(reg2hw),
         .hw2reg(hw2reg),
-        .rx_read_pulse(rx_pulse)
+        .rx_read_pulse(rx_pulse),
+        .tx_write_pulse(tx_pulse)
     );
 
     typedef enum logic [2:0] {
@@ -67,7 +68,7 @@ module spi #(
     } spi_state_e;
 
     logic spi_fifo_write;
-    assign spi_fifo_write = (spi_state_q == DONE) && (rw_type_q == 2'b01);
+    assign spi_fifo_write = (spi_state_q == DONE) && (rw_type_q == 2'b01) && (byte_type == BYTE_DATA);
     logic rx_pulse;
     logic obi_read_enable;
     // assign obi_read_enable = (obi_req_i.addr == SPI_RXBUFFER_OFFSET) && obi_req_i.req && !obi_req_i.we;
@@ -90,29 +91,25 @@ module spi #(
     );
 
 
-    // logic core_tx_wr_en;
-    // assign core_tx_wr_en = (obi_req_i.addr == SPI_TXBUFFER_OFFSET) && obi_req_i.req && obi_req_i.we;
+    logic tx_pulse;
 
-    // spi_fifo_buffer #(
-    //     .DEPTH(16),
-    //     .DATA_WIDTH(8)
-    // ) i_spi_tx_fifo (
-    //     .clk_i(clk_i),
-    //     .rst_ni(rst_ni),
-    //     .wr_en_i(core_tx_wr_en),        // core writes to tx_data register
-    //     .wr_data_i(reg2hw.tx_data),     // core register value
-    //     .rd_en_i(spi_tx_fifo_rd_en),    // FSM reads when sending
-    //     .rd_data_o(tx_fifo_data),       // drive tx_shift_reg from here
-    //     .full_o(tx_fifo_full),
-    //     .almost_full_o(),
-    //     .empty_o(tx_fifo_empty),
-    //     .almost_empty_o()
-    // );
-
+    spi_fifo_buffer #(
+        .DEPTH(16),
+        .DATA_WIDTH(8)
+    ) i_spi_tx_fifo (
+        .clk_i(clk_i),
+        .rst_ni(rst_ni),
+        .wr_en_i(core_tx_wr_en),        // core writes to tx_data register
+        .wr_data_i(reg2hw.tx_data),     // core register value
+        .rd_en_i(spi_tx_fifo_rd_en),    // FSM reads when sending
+        .rd_data_o(tx_fifo_data),       // drive tx_shift_reg from here
+        .full_o(tx_fifo_full),
+        .almost_full_o(),
+        .empty_o(tx_fifo_empty),
+        .almost_empty_o()
+    );
 
 
-    // logic [7:0] dummy_rx;
-    // logic []
 
     spi_state_e spi_state_d, spi_state_q;
 
@@ -226,7 +223,7 @@ module spi #(
             end
 
             DONE: begin
-                if (byte_cnt_q >= length_q +4) begin
+                if (byte_cnt_q >= length_q +3) begin
                     spi_state_d = IDLE;
                 end else begin
                     spi_state_d = LOAD;
@@ -241,7 +238,7 @@ module spi #(
                 // if (byte_cnt_q >= 4 && byte_cnt_q < length_q+4) begin
                 //     hw2reg.status = byte_cnt_q - 3;
                 // end else
-                if (byte_cnt_q >= length_q + 4) begin
+                if (byte_cnt_q >= length_q + 3) begin
                     hw2reg.status[0] = 1;
                     byte_cnt_d = 0;
                 end else begin
@@ -269,7 +266,8 @@ module spi #(
                 end
                 BYTE_DATA: begin
                     if(rw_type_q == 2'b10) begin //write
-                        tx_shift_reg_d = 8'h3d;
+                        tx_shift_reg_d = tx_fifo_data;  // pull from fifo
+                        spi_tx_fifo_rd_en = 1'b1;       // set fifo enable bit
                     end
                 end
             endcase

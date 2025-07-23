@@ -32,14 +32,14 @@ module spi_slave (
   // ------------------------------
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
-      shift_reg_out <= 8'h25;
-      dummy_value    <= 8'h25;
+      shift_reg_out <= 8'hF5;
+      dummy_value    <= 8'hF5;
     end else if (cs_falling_edge) begin
       // Update with new value each time CS goes low
       // (Optional: cycle through dummy values)
       // shift_reg_out <= shift_reg_out + 8'h1;  // e.g. A5, A6, A7, ...
       miso_o        <= dummy_value[7];
-      shift_reg_out <= dummy_value;
+      shift_reg_out <= {dummy_value[6:0], 1'b0};
     end
   end
 
@@ -79,7 +79,6 @@ module spi_slave (
     if (!cs_n_i && bit_cnt == 3'd7) begin
       // $display("@%t | [SPI SLAVE] Received byte: 0x%02h", $time, {shift_reg_in[6:0], mosi_i});
     end
-
   end
 
 endmodule
