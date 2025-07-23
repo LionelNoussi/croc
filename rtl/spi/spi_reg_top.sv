@@ -19,7 +19,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     input  spi_hw2reg_t hw2reg,
 
 
-    output logic rx_read_pulse
+    output logic rx_read_pulse;
 );
 
   // OBI preparation signals
@@ -159,14 +159,14 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
   logic read_to_rxbuffer_q;
 
-    always_ff @(posedge clk_i or negedge rst_ni) begin
-      if (!rst_ni)
-        read_to_rxbuffer_q <= 1'b0;
-      else
-        read_to_rxbuffer_q <= read_to_rxbuffer;
-    end
+  always_ff @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni)
+      read_to_rxbuffer_q <= 1'b0;
+    else
+      read_to_rxbuffer_q <= read_to_rxbuffer;
+  end
 
-    assign rx_read_pulse = read_to_rxbuffer & ~read_to_rxbuffer_q;
+  assign rx_read_pulse = read_to_rxbuffer & ~read_to_rxbuffer_q;
 
 
 endmodule
