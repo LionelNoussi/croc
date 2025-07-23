@@ -9,6 +9,7 @@
 #include "uart.h"
 #include "gpio.h"
 #include "print.h"
+#include "interrupts.h"
 
 #define N 32
 #define NUM_WINDOWS 8
@@ -23,6 +24,7 @@
 #define LOADING 1
 #define COMPUTING 1
 
+
 // Helper function to write different outputs and states to the gpios
 uint32_t write_gpio_state(int loading, int computing, int output) {
     gpio_write(
@@ -30,6 +32,11 @@ uint32_t write_gpio_state(int loading, int computing, int output) {
         (computing << COMPUTING_GPIO) |
         (output << OUTPUT_GPIO)
     );
+}
+
+
+void dma_irq_handler_user() {
+    gpio_toggle(2);
 }
 
 
@@ -41,8 +48,6 @@ void* memcpy(void* dest, const void* src, unsigned len) {
     }
     return dest;
 }
-
-
 
 
 // 8-bit fixed-point cosine LUT for 32 points (scaled by 127)

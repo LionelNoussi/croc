@@ -43,45 +43,49 @@ _eoc:
   sw      a0, 0(t0)
   wfi
 
+
+
+// ------------------------------------------------------------------------------------
+// INTERRUPTS
+// ------------------------------------------------------------------------------------
+
 # mtvec will point to the beginning of this table
 # when an interrupt or exception occurs, it will jump to mtvec + exception id
 # exception IDs can be found in cve2_pkg.sv
-# Uses up some space and only fast interrupts and timer interrupts can be enabled
-# consider pointing mtvec to to the table address - 15, so that only fast interrupts have an interrupt manager, but risky
+# interrupt handlers are implemented in interrupts.c
 .section .text.__interupt_table
 .globl __interupt_table
 .align 8
 __interupt_table:
-  .set i, 0
-  .rept 32
-    .if i == 19
-      j handle_irq_19
-    .else
-      j _eoc
-    .endif
-    .set i, i + 1
-  .endr
-
-
-.section .text.handle_irq_19
-.globl handle_irq_19
-handle_irq_19:
-
-  # Save caller-saved registers (optional depending on what you touch)
-  addi sp, sp, -8
-  sw a5, 0(sp)
-  sw a4, 4(sp)
-
-  # Read from DMA_REG(DMA_INTERRUPT_REG_OFFSET) to clear interrupt
-  lui     a5,0x50000
-  lw      a5,16(a5)
-
-  # Gpio write
-  lui     a5,0x3005
-  addi    a4, zero, 2
-  sw      a4, 0x200(a5)
-
-  lw a5, 0(sp)
-  lw a4, 4(sp)
-  addi sp, sp, 8
-  mret
+  j _eoc            # IRQ 0
+  j _eoc            # IRQ 1
+  j _eoc            # IRQ 2
+  j _eoc            # IRQ 3
+  j _eoc            # IRQ 4
+  j _eoc            # IRQ 5
+  j _eoc            # IRQ 6
+  j _eoc            # IRQ 7
+  j _eoc            # IRQ 8
+  j _eoc            # IRQ 9
+  j _eoc            # IRQ 10
+  j _eoc            # IRQ 11
+  j _eoc            # IRQ 12
+  j _eoc            # IRQ 13
+  j _eoc            # IRQ 14
+  j _eoc            # IRQ 15
+  j _eoc            # IRQ 16
+  j _eoc            # IRQ 17
+  j _eoc            # IRQ 18
+  j handle_irq_19   # IRQ 19
+  j _eoc            # IRQ 20
+  j _eoc            # IRQ 21
+  j _eoc            # IRQ 22
+  j _eoc            # IRQ 23
+  j _eoc            # IRQ 24
+  j _eoc            # IRQ 25
+  j _eoc            # IRQ 26
+  j _eoc            # IRQ 27
+  j _eoc            # IRQ 28
+  j _eoc            # IRQ 29
+  j _eoc            # IRQ 30
+  j _eoc            # IRQ 31

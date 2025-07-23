@@ -9,6 +9,9 @@
 #include "uart.h"
 #include "gpio.h"
 #include "print.h"
+#include "interrupts.h"
+
+
 #define N 32
 #define NUM_WINDOWS 8
 
@@ -26,6 +29,11 @@ uint32_t write_gpio_state(int sending, int computing) {
         (sending << SENDIGN_GPIO) |
         (computing << COMPUTING_GPIO)
     );
+}
+
+
+void dma_irq_handler_user() {
+    gpio_toggle(2);
 }
 
 
