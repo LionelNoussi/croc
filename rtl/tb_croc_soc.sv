@@ -43,7 +43,7 @@ module tb_croc_soc #(
 
     // assign spi_miso_i = 1'b0;  // dummy response
 
-    localparam int unsigned GpioCount = 28;
+    localparam int unsigned GpioCount = 32;
 
     logic [GpioCount-1:0] gpio_i;             
     logic [GpioCount-1:0] gpio_o;            

@@ -34,7 +34,7 @@ module spi #(
 );
 
   import spi_reg_pkg::*;
-  localparam logic [7:0] CLK_DIV_MAX = 8'd5;
+//   localparam logic [4:0] CLK_DIV_MAX = 8'd5;
   //-----------------------------------------------------------------------------------------------
   // Instantiations
   //-----------------------------------------------------------------------------------------------
@@ -93,6 +93,7 @@ module spi #(
 
     logic tx_pulse;
     logic spi_tx_fifo_rd_en_q, spi_tx_fifo_rd_en_d;
+    logic [7:0] tx_fifo_data;
 
 
     spi_fifo_buffer #(
@@ -123,8 +124,8 @@ module spi #(
     logic [7:0] cmd_q, cmd_d;
     logic [7:0] length_d, length_q;
     logic [2:0] rw_type_d, rw_type_q;
+    logic [4:0] clk_scale_q, clk_scale_d;
 
-    // wire [1:0] rw_type = reg2hw.control[2:1];
 
 
     typedef enum logic [2:0] {
@@ -150,6 +151,7 @@ module spi #(
         tx_shift_reg_q  <= 0;
         rw_type_q       <= 0;
         spi_tx_fifo_rd_en_q <= 0;
+        clk_scale_q     <= 1;
     end else begin
         spi_state_q     <= spi_state_d;
         bit_cnt_q       <= bit_cnt_d;
@@ -162,6 +164,7 @@ module spi #(
         tx_shift_reg_q  <= tx_shift_reg_d;
         rw_type_q       <= rw_type_d;
         spi_tx_fifo_rd_en_q <= spi_tx_fifo_rd_en_d;
+        clk_scale_q     <= clk_scale_d;
     end
     end
 
@@ -187,6 +190,7 @@ module spi #(
         tx_shift_reg_d  = tx_shift_reg_q;
         rw_type_d       = rw_type_q;
         spi_tx_fifo_rd_en_d = 0;
+        clk_scale_d     = clk_scale_q;
         // hw2reg.status[0] = ; //need a register here
         case (spi_state_q) 
             IDLE: begin
@@ -201,6 +205,7 @@ module spi #(
                 sclk_int_d = 0;
                 clk_div_count_d = 0;
                 cmd_d = reg2hw.control;
+                clk_scale_d = reg2hw.control[7:3];
                 length_d = reg2hw.length;
                 rw_type_d = reg2hw.control[2:1];
                 spi_tx_fifo_rd_en_d = (byte_type == BYTE_DATA) && (rw_type_q == 2'b10);
@@ -208,12 +213,12 @@ module spi #(
 
             SHIFT: begin
 
-                if((bit_cnt_q == 3'b111) && (clk_div_count_q +1  == CLK_DIV_MAX) && (sclk_int_q == 1'b1)) begin
+                if((bit_cnt_q == 3'b111) && (clk_div_count_q +1  == clk_scale_q) && (sclk_int_q == 1'b1)) begin
                     spi_state_d = DONE;
                 end
 
                 clk_div_count_d = clk_div_count_q +1;
-                if (clk_div_count_d == CLK_DIV_MAX) begin
+                if (clk_div_count_d == clk_scale_q) begin
                     clk_div_count_d = 8'h0;
                     sclk_int_d = ~sclk_int_q; //eventuell jetzt vertauscht
                     if(sclk_int_d == 1'b1) begin
@@ -255,7 +260,7 @@ module spi #(
             default: spi_state_d = IDLE;
         endcase
 
-        // determines which data has to be sent during the shift, possible problem with the shift state
+        // determines which data has to be sent during the shift
         if(spi_state_q != SHIFT) begin
             case (byte_type)
                 BYTE_CMD: begin 

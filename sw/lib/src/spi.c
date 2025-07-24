@@ -24,8 +24,11 @@ void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
     // Set transfer length
     SPI_LENGTH = length;
 
+    length = 5;
     // Start write: [7:3]=length, [2:1]=0b10 (write), [0]=1 (start)
     SPI_CTRL = (length << 3) | (2 << 1) | 0x1;
+    SPI_LENGTH = length;
+    SPI_CTRL = (length << 3) | (2 << 1) | 0x0;
 
     // Wait until done
     while ((SPI_STATUS & 0x1) == 0);
