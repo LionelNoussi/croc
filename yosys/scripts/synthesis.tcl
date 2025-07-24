@@ -81,6 +81,7 @@ yosys setattr -set keep_hierarchy 1 "t:tc_sram_impl$*"
 yosys setattr -set keep_hierarchy 1 "t:cdc_*$*"
 yosys setattr -set keep_hierarchy 1 "t:sync$*"
 yosys setattr -set keep_hierarchy 1 "t:dma$*"
+yosys setattr -set keep_hierarchy 1 "t:spi$*"
 
 # map dont_touch attribute commonly applied to output-nets of async regs to keep
 yosys attrmap -rename dont_touch keep

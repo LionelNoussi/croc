@@ -46,7 +46,6 @@ sources:
       - rtl/gpio/gpio.sv
       - rtl/spi/spi_reg_top.sv
       - rtl/spi/spi.sv
-      - rtl/spi/spi_slave.sv
       - rtl/spi/spi_fifo_buffer.sv
       # Level 2
       - rtl/croc_domain.sv
@@ -71,6 +70,7 @@ sources:
 
   - target: any(simulation, verilator)
     files:
+      - rtl/spi/spi_slave.sv
       - rtl/tb_croc_soc.sv
 
   - target: genesys2

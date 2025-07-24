@@ -66,7 +66,4 @@ void spi_read(uint16_t addr, uint8_t *data, uint8_t length) {
         SPI_TX = data[i];
     }
 
-    
 }
-
-

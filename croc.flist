@@ -158,10 +158,14 @@
 /scratch/vlsi2_45fs25/croc/rtl/dma/dma_pkg.sv
 /scratch/vlsi2_45fs25/croc/rtl/soc_ctrl/soc_ctrl_reg_pkg.sv
 /scratch/vlsi2_45fs25/croc/rtl/gpio/gpio_reg_pkg.sv
+/scratch/vlsi2_45fs25/croc/rtl/spi/spi_reg_pkg.sv
 /scratch/vlsi2_45fs25/croc/rtl/core_wrap.sv
 /scratch/vlsi2_45fs25/croc/rtl/soc_ctrl/soc_ctrl_reg_top.sv
 /scratch/vlsi2_45fs25/croc/rtl/gpio/gpio_reg_top.sv
 /scratch/vlsi2_45fs25/croc/rtl/gpio/gpio.sv
+/scratch/vlsi2_45fs25/croc/rtl/spi/spi_reg_top.sv
+/scratch/vlsi2_45fs25/croc/rtl/spi/spi.sv
+/scratch/vlsi2_45fs25/croc/rtl/spi/spi_fifo_buffer.sv
 /scratch/vlsi2_45fs25/croc/rtl/croc_domain.sv
 /scratch/vlsi2_45fs25/croc/rtl/user_domain.sv
 /scratch/vlsi2_45fs25/croc/rtl/user_domain/user_rom.sv

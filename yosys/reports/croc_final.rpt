@@ -457,8 +457,8 @@
 
 === cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a ===
 
-   Number of wires:                 95
-   Number of wire bits:             97
+   Number of wires:                117
+   Number of wire bits:            119
    Number of public wires:          27
    Number of public wire bits:      29
    Number of ports:                 13
@@ -466,43 +466,42 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 76
+   Number of cells:                 98
      cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst      1
      cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src      1
-     sg13g2_a21o_1                   1
-     sg13g2_a21oi_1                  6
-     sg13g2_a221oi_1                 3
+     sg13g2_a21o_1                   3
+     sg13g2_a21oi_1                 15
      sg13g2_a22oi_1                  2
      sg13g2_and2_1                   1
-     sg13g2_and3_1                   1
+     sg13g2_and2_2                   1
+     sg13g2_buf_4                    2
+     sg13g2_buf_8                    1
      sg13g2_dfrbp_1                  6
      sg13g2_inv_1                    7
-     sg13g2_inv_4                    1
-     sg13g2_mux2_1                   7
-     sg13g2_nand2_1                  3
-     sg13g2_nand2b_1                 1
-     sg13g2_nand3_1                  1
-     sg13g2_nand3b_1                 1
-     sg13g2_nand4_1                  1
-     sg13g2_nor2_1                  10
-     sg13g2_nor2b_1                  1
-     sg13g2_nor3_1                   7
-     sg13g2_nor4_1                   2
-     sg13g2_nor4_2                   2
-     sg13g2_o21ai_1                  7
-     sg13g2_or2_1                    2
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  9
+     sg13g2_nand2b_1                 3
+     sg13g2_nand3_1                  4
+     sg13g2_nand3b_1                 2
+     sg13g2_nor2_1                   6
+     sg13g2_nor2_2                   1
+     sg13g2_nor2b_1                  2
+     sg13g2_nor3_1                   8
+     sg13g2_nor3_2                   1
+     sg13g2_o21ai_1                 12
+     sg13g2_or2_1                    5
      sg13g2_or3_1                    1
 
    Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src is unknown!
    Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst is unknown!
 
-   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a': 981.514800
-     of which used for sequential elements: 283.046400 (28.84%)
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a': 1144.810800
+     of which used for sequential elements: 283.046400 (24.72%)
 
 === cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b ===
 
-   Number of wires:                101
-   Number of wire bits:            103
+   Number of wires:                117
+   Number of wire bits:            119
    Number of public wires:          27
    Number of public wire bits:      29
    Number of ports:                 13
@@ -510,44 +509,42 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 82
+   Number of cells:                 98
      cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst      1
      cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src      1
-     sg13g2_a21o_1                   2
-     sg13g2_a21oi_1                  5
-     sg13g2_a21oi_2                  1
-     sg13g2_a221oi_1                 2
-     sg13g2_a22oi_1                  3
+     sg13g2_a21o_1                   3
+     sg13g2_a21oi_1                 15
+     sg13g2_a22oi_1                  2
      sg13g2_and2_1                   1
-     sg13g2_and3_1                   1
-     sg13g2_buf_2                    2
+     sg13g2_and2_2                   1
+     sg13g2_buf_4                    2
+     sg13g2_buf_8                    1
      sg13g2_dfrbp_1                  6
-     sg13g2_inv_1                    6
-     sg13g2_mux2_1                   7
-     sg13g2_nand2_1                  4
+     sg13g2_inv_1                    7
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  9
      sg13g2_nand2b_1                 3
-     sg13g2_nand3_1                  1
-     sg13g2_nand3b_1                 1
-     sg13g2_nand4_1                  1
-     sg13g2_nor2_1                   9
-     sg13g2_nor2b_1                  3
-     sg13g2_nor3_1                   7
-     sg13g2_nor4_1                   2
-     sg13g2_nor4_2                   1
-     sg13g2_o21ai_1                  9
-     sg13g2_or2_1                    2
-     sg13g2_or3_2                    1
+     sg13g2_nand3_1                  4
+     sg13g2_nand3b_1                 2
+     sg13g2_nor2_1                   6
+     sg13g2_nor2_2                   1
+     sg13g2_nor2b_1                  2
+     sg13g2_nor3_1                   8
+     sg13g2_nor3_2                   1
+     sg13g2_o21ai_1                 12
+     sg13g2_or2_1                    5
+     sg13g2_or3_1                    1
 
    Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src is unknown!
    Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst is unknown!
 
-   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b': 1032.280200
-     of which used for sequential elements: 283.046400 (27.42%)
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b': 1144.810800
+     of which used for sequential elements: 283.046400 (24.72%)
 
 === cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a ===
 
-   Number of wires:                107
-   Number of wire bits:            109
+   Number of wires:                114
+   Number of wire bits:            116
    Number of public wires:          27
    Number of public wire bits:      29
    Number of ports:                 13
@@ -555,43 +552,40 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                 88
+   Number of cells:                 95
      cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst      1
      cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src      1
-     sg13g2_a21o_1                   1
-     sg13g2_a21oi_1                 12
-     sg13g2_a221oi_1                 2
-     sg13g2_a22oi_1                  1
-     sg13g2_and2_1                   2
-     sg13g2_and2_2                   1
+     sg13g2_a21o_1                   3
+     sg13g2_a21oi_1                  7
+     sg13g2_a221oi_1                 4
+     sg13g2_a22oi_1                  2
+     sg13g2_and2_1                   1
+     sg13g2_buf_1                    1
      sg13g2_buf_16                   1
-     sg13g2_buf_8                    1
+     sg13g2_buf_2                    1
      sg13g2_dfrbp_1                  6
-     sg13g2_inv_1                    7
+     sg13g2_inv_1                   10
      sg13g2_mux2_1                   6
-     sg13g2_nand2_1                  5
-     sg13g2_nand2b_1                 6
-     sg13g2_nand3_1                  2
-     sg13g2_nand3b_1                 1
-     sg13g2_nor2_1                   5
-     sg13g2_nor2_2                   1
-     sg13g2_nor2b_1                  3
-     sg13g2_nor3_1                  11
-     sg13g2_nor3_2                   1
+     sg13g2_nand2_1                  3
+     sg13g2_nand2b_1                 1
+     sg13g2_nor2_1                  14
+     sg13g2_nor2b_1                  1
+     sg13g2_nor2b_2                  1
+     sg13g2_nor3_1                  14
      sg13g2_nor4_1                   2
-     sg13g2_o21ai_1                  8
-     sg13g2_or2_1                    1
+     sg13g2_o21ai_1                 12
+     sg13g2_or2_1                    3
 
    Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_src is unknown!
    Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst is unknown!
 
-   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a': 1104.931800
-     of which used for sequential elements: 283.046400 (25.62%)
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a': 1137.553200
+     of which used for sequential elements: 283.046400 (24.88%)
 
 === cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b ===
 
-   Number of wires:                119
-   Number of wire bits:            121
+   Number of wires:                117
+   Number of wire bits:            119
    Number of public wires:          27
    Number of public wire bits:      29
    Number of ports:                 13
@@ -599,42 +593,42 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                100
+   Number of cells:                 98
      cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst      1
      cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src      1
-     sg13g2_a21o_1                   2
-     sg13g2_a21oi_1                  8
-     sg13g2_a21oi_2                  1
-     sg13g2_a221oi_1                 2
-     sg13g2_a22oi_1                  4
-     sg13g2_and2_1                   3
-     sg13g2_buf_1                    1
-     sg13g2_buf_16                   2
+     sg13g2_a21o_1                   3
+     sg13g2_a21oi_1                 15
+     sg13g2_a22oi_1                  2
+     sg13g2_and2_1                   1
+     sg13g2_and2_2                   1
+     sg13g2_buf_4                    2
      sg13g2_buf_8                    1
      sg13g2_dfrbp_1                  6
-     sg13g2_inv_1                    9
-     sg13g2_mux2_1                   6
-     sg13g2_nand2_1                  5
+     sg13g2_inv_1                    7
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                  9
      sg13g2_nand2b_1                 3
-     sg13g2_nand3_1                  2
-     sg13g2_nor2_1                  12
-     sg13g2_nor2b_1                  4
-     sg13g2_nor3_1                  11
-     sg13g2_nor4_2                   1
+     sg13g2_nand3_1                  4
+     sg13g2_nand3b_1                 2
+     sg13g2_nor2_1                   6
+     sg13g2_nor2_2                   1
+     sg13g2_nor2b_1                  2
+     sg13g2_nor3_1                   8
+     sg13g2_nor3_2                   1
      sg13g2_o21ai_1                 12
-     sg13g2_or2_1                    2
-     sg13g2_or2_2                    1
+     sg13g2_or2_1                    5
+     sg13g2_or3_1                    1
 
    Area for cell type \cdc_4phase_src$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_src is unknown!
    Area for cell type \cdc_4phase_dst$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b.i_state_transition_cdc_dst is unknown!
 
-   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b': 1239.084000
-     of which used for sequential elements: 283.046400 (22.84%)
+   Chip area for module '\cdc_reset_ctrlr_half$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_b': 1144.810800
+     of which used for sequential elements: 283.046400 (24.72%)
 
 === core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap ===
 
-   Number of wires:               6127
-   Number of wire bits:           6331
+   Number of wires:               6281
+   Number of wire bits:           6485
    Number of public wires:        1138
    Number of public wire bits:    1342
    Number of ports:                 25
@@ -642,63 +636,62 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               5261
+   Number of cells:               5415
      $scopeinfo                     12
      cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i      1
      cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i      1
-     sg13g2_a21o_1                 117
-     sg13g2_a21oi_1                521
-     sg13g2_a21oi_2                  1
-     sg13g2_a221oi_1               189
-     sg13g2_a22oi_1                169
-     sg13g2_and2_1                 135
-     sg13g2_and3_1                  37
-     sg13g2_and3_2                   1
-     sg13g2_and4_1                  15
-     sg13g2_buf_1                  343
-     sg13g2_buf_16                   3
-     sg13g2_buf_2                    8
-     sg13g2_buf_4                    8
-     sg13g2_buf_8                    4
+     sg13g2_a21o_1                 129
+     sg13g2_a21oi_1                573
+     sg13g2_a21oi_2                  4
+     sg13g2_a221oi_1               152
+     sg13g2_a22oi_1                208
+     sg13g2_and2_1                 152
+     sg13g2_and3_1                  33
+     sg13g2_and4_1                  20
+     sg13g2_buf_1                  323
+     sg13g2_buf_2                   20
+     sg13g2_buf_4                    3
+     sg13g2_buf_8                    7
      sg13g2_dfrbp_1                365
-     sg13g2_inv_1                  202
-     sg13g2_mux2_1                 613
-     sg13g2_mux4_1                  33
-     sg13g2_nand2_1                492
-     sg13g2_nand2_2                  1
-     sg13g2_nand2b_1                94
-     sg13g2_nand3_1                201
+     sg13g2_inv_1                  223
+     sg13g2_mux2_1                 583
+     sg13g2_mux4_1                  35
+     sg13g2_nand2_1                470
+     sg13g2_nand2b_1               118
+     sg13g2_nand3_1                200
      sg13g2_nand3b_1                19
      sg13g2_nand4_1                 49
-     sg13g2_nor2_1                 412
+     sg13g2_nor2_1                 484
      sg13g2_nor2_2                   2
-     sg13g2_nor2b_1                 70
-     sg13g2_nor3_1                 192
-     sg13g2_nor3_2                   2
-     sg13g2_nor4_1                  60
-     sg13g2_nor4_2                   2
-     sg13g2_o21ai_1                589
-     sg13g2_or2_1                   73
-     sg13g2_or3_1                   29
-     sg13g2_or4_1                   16
+     sg13g2_nor2b_1                 57
+     sg13g2_nor2b_2                  2
+     sg13g2_nor3_1                 178
+     sg13g2_nor3_2                   8
+     sg13g2_nor4_1                  55
+     sg13g2_nor4_2                   6
+     sg13g2_o21ai_1                625
+     sg13g2_or2_1                   95
+     sg13g2_or2_2                    1
+     sg13g2_or3_1                   30
+     sg13g2_or4_1                   17
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                145
+     sg13g2_xnor2_1                120
      sg13g2_xor2_1                  33
 
    Area for cell type $scopeinfo is unknown!
    Area for cell type \cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i is unknown!
    Area for cell type \cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i is unknown!
 
-   Chip area for module '\core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap': 68690.424600
-     of which used for sequential elements: 17218.656000 (25.07%)
+   Chip area for module '\core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap': 69552.604800
+     of which used for sequential elements: 17218.656000 (24.76%)
 
 === croc_chip ===
 
-   Number of wires:                157
-   Number of wire bits:            157
-   Number of public wires:         156
-   Number of public wire bits:     156
+   Number of wires:                161
+   Number of wire bits:            161
+   Number of public wires:         160
+   Number of public wire bits:     160
    Number of ports:                 48
    Number of port bits:             48
    Number of memories:               0
@@ -708,9 +701,9 @@
      croc_soc$croc_chip.i_croc_soc      1
      sg13g2_IOPadIOVdd               4
      sg13g2_IOPadIOVss               4
-     sg13g2_IOPadIn                  9
+     sg13g2_IOPadIn                 10
      sg13g2_IOPadInOut30mA          32
-     sg13g2_IOPadOut16mA             7
+     sg13g2_IOPadOut16mA             6
      sg13g2_IOPadVdd                 4
      sg13g2_IOPadVss                 4
      sg13g2_tielo                    1
@@ -722,65 +715,61 @@
 
 === croc_domain$croc_chip.i_croc_soc.i_croc ===
 
-   Number of wires:              12022
-   Number of wire bits:          12369
-   Number of public wires:        3681
-   Number of public wire bits:    4028
-   Number of ports:                 22
-   Number of port bits:            369
+   Number of wires:              12138
+   Number of wire bits:          12485
+   Number of public wires:        3840
+   Number of public wire bits:    4187
+   Number of ports:                 26
+   Number of port bits:            373
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               9296
+   Number of cells:               9334
      $scopeinfo                     82
      core_wrap$croc_chip.i_croc_soc.i_croc.i_core_wrap      1
      dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top      1
      dma$croc_chip.i_croc_soc.i_croc.i_dma      1
      dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag      1
      gpio$croc_chip.i_croc_soc.i_croc.i_gpio      1
-     sg13g2_a21o_1                 211
-     sg13g2_a21oi_1                470
-     sg13g2_a21oi_2                  6
-     sg13g2_a221oi_1               267
-     sg13g2_a22oi_1                431
-     sg13g2_and2_1                 185
-     sg13g2_and3_1                  56
+     sg13g2_a21o_1                 161
+     sg13g2_a21oi_1                418
+     sg13g2_a21oi_2                  4
+     sg13g2_a221oi_1               359
+     sg13g2_a22oi_1                378
+     sg13g2_and2_1                 133
+     sg13g2_and3_1                  55
      sg13g2_and3_2                   4
-     sg13g2_and4_1                   7
-     sg13g2_buf_1                  793
-     sg13g2_buf_2                    9
-     sg13g2_buf_4                    6
-     sg13g2_buf_8                    2
+     sg13g2_and4_1                  15
+     sg13g2_buf_1                  794
+     sg13g2_buf_2                    5
+     sg13g2_buf_4                    1
      sg13g2_dfrbp_1                700
-     sg13g2_inv_1                  251
-     sg13g2_inv_2                    1
-     sg13g2_mux2_1                 490
-     sg13g2_mux2_2                   1
-     sg13g2_mux4_1                  98
-     sg13g2_nand2_1                442
+     sg13g2_inv_1                  257
+     sg13g2_mux2_1                 366
+     sg13g2_mux4_1                 106
+     sg13g2_nand2_1                524
      sg13g2_nand2_2                  1
-     sg13g2_nand2b_1               192
-     sg13g2_nand2b_2                 5
-     sg13g2_nand3_1               2193
-     sg13g2_nand3b_1                63
-     sg13g2_nand4_1                 66
-     sg13g2_nor2_1                 613
-     sg13g2_nor2_2                   5
-     sg13g2_nor2b_1                135
-     sg13g2_nor2b_2                  3
-     sg13g2_nor3_1                 411
-     sg13g2_nor3_2                  11
-     sg13g2_nor4_1                  67
-     sg13g2_nor4_2                   4
-     sg13g2_o21ai_1                630
-     sg13g2_or2_1                  209
+     sg13g2_nand2b_1               253
+     sg13g2_nand3_1               2150
+     sg13g2_nand3b_1                33
+     sg13g2_nand4_1                 75
+     sg13g2_nor2_1                 768
+     sg13g2_nor2_2                   3
+     sg13g2_nor2b_1                144
+     sg13g2_nor3_1                 259
+     sg13g2_nor3_2                   2
+     sg13g2_nor4_1                  76
+     sg13g2_nor4_2                   8
+     sg13g2_o21ai_1                777
+     sg13g2_or2_1                  247
      sg13g2_or3_1                   19
-     sg13g2_or4_1                   18
+     sg13g2_or4_1                   13
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                 76
-     sg13g2_xor2_1                  47
+     sg13g2_xnor2_1                 79
+     sg13g2_xor2_1                  48
      soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl      1
+     spi$croc_chip.i_croc_soc.i_croc.i_spi      1
      sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_cd      1
      sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_cts      1
      sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_dsr      1
@@ -799,6 +788,7 @@
    Area for cell type \soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl is unknown!
    Area for cell type \gpio$croc_chip.i_croc_soc.i_croc.i_gpio is unknown!
    Area for cell type \timer_unit$croc_chip.i_croc_soc.i_croc.i_timer is unknown!
+   Area for cell type \spi$croc_chip.i_croc_soc.i_croc.i_spi is unknown!
    Area for cell type \dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top is unknown!
    Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_cts is unknown!
    Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_dsr is unknown!
@@ -806,17 +796,17 @@
    Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_cd is unknown!
    Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_rx.i_sync is unknown!
 
-   Chip area for module '\croc_domain$croc_chip.i_croc_soc.i_croc': 117986.841000
-     of which used for sequential elements: 33022.080000 (27.99%)
+   Chip area for module '\croc_domain$croc_chip.i_croc_soc.i_croc': 117027.212400
+     of which used for sequential elements: 33022.080000 (28.22%)
 
 === croc_soc$croc_chip.i_croc_soc ===
 
-   Number of wires:                289
-   Number of wire bits:            382
-   Number of public wires:         284
-   Number of public wire bits:     377
-   Number of ports:                 16
-   Number of port bits:            109
+   Number of wires:                293
+   Number of wire bits:            386
+   Number of public wires:         288
+   Number of public wire bits:     381
+   Number of ports:                 20
+   Number of port bits:            113
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
@@ -844,8 +834,8 @@
 
 === cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i ===
 
-   Number of wires:               5713
-   Number of wire bits:           6238
+   Number of wires:               5421
+   Number of wire bits:           5946
    Number of public wires:        2482
    Number of public wire bits:    3007
    Number of ports:                 56
@@ -853,52 +843,52 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               3309
+   Number of cells:               3017
      $scopeinfo                     19
-     sg13g2_a21o_1                  66
-     sg13g2_a21oi_1                317
-     sg13g2_a21oi_2                  5
-     sg13g2_a221oi_1                80
-     sg13g2_a22oi_1                159
-     sg13g2_and2_1                  83
-     sg13g2_and3_1                  34
-     sg13g2_and3_2                   1
-     sg13g2_and4_1                  29
-     sg13g2_and4_2                   1
-     sg13g2_buf_1                  212
-     sg13g2_buf_2                   20
-     sg13g2_buf_8                    2
+     sg13g2_a21o_1                  44
+     sg13g2_a21oi_1                259
+     sg13g2_a221oi_1                77
+     sg13g2_a22oi_1                131
+     sg13g2_and2_1                  95
+     sg13g2_and2_2                   1
+     sg13g2_and3_1                  21
+     sg13g2_and3_2                   2
+     sg13g2_and4_1                  32
+     sg13g2_buf_1                  169
+     sg13g2_buf_2                   35
+     sg13g2_buf_4                   15
+     sg13g2_buf_8                    1
      sg13g2_dfrbp_1                465
-     sg13g2_inv_1                  107
-     sg13g2_mux2_1                 349
-     sg13g2_mux4_1                   7
-     sg13g2_nand2_1                250
+     sg13g2_inv_1                   76
+     sg13g2_mux2_1                 447
+     sg13g2_mux4_1                   9
+     sg13g2_nand2_1                207
      sg13g2_nand2_2                  1
-     sg13g2_nand2b_1                39
-     sg13g2_nand2b_2                 1
-     sg13g2_nand3_1                125
-     sg13g2_nand3b_1                12
-     sg13g2_nand4_1                 58
-     sg13g2_nor2_1                 324
-     sg13g2_nor2_2                   4
-     sg13g2_nor2b_1                 33
-     sg13g2_nor3_1                  98
+     sg13g2_nand2b_1                33
+     sg13g2_nand3_1                100
+     sg13g2_nand3b_1                19
+     sg13g2_nand4_1                 48
+     sg13g2_nor2_1                 216
+     sg13g2_nor2b_1                 53
+     sg13g2_nor2b_2                  1
+     sg13g2_nor3_1                  92
      sg13g2_nor3_2                   3
-     sg13g2_nor4_1                  16
-     sg13g2_nor4_2                   4
-     sg13g2_o21ai_1                294
-     sg13g2_or2_1                   33
-     sg13g2_or3_1                    1
-     sg13g2_or4_1                    1
+     sg13g2_nor4_1                  22
+     sg13g2_nor4_2                   1
+     sg13g2_o21ai_1                182
+     sg13g2_or2_1                   21
+     sg13g2_or2_2                    1
+     sg13g2_or3_1                    8
+     sg13g2_or4_1                    8
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                 37
-     sg13g2_xor2_1                  17
+     sg13g2_xnor2_1                 64
+     sg13g2_xor2_1                  37
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for module '\cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i': 50989.516200
-     of which used for sequential elements: 21936.096000 (43.02%)
+   Chip area for module '\cve2_cs_registers$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.cs_registers_i': 49905.563400
+     of which used for sequential elements: 21936.096000 (43.96%)
 
 === cve2_register_file_ff$croc_chip.i_croc_soc.i_croc.i_core_wrap.i_ibex.register_file_i ===
 
@@ -943,64 +933,64 @@
 
 === dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top ===
 
-   Number of wires:               5763
-   Number of wire bits:           6090
-   Number of public wires:        1116
-   Number of public wire bits:    1443
+   Number of wires:               5938
+   Number of wire bits:           6265
+   Number of public wires:        1105
+   Number of public wire bits:    1432
    Number of ports:                 33
    Number of port bits:            360
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               4762
+   Number of cells:               4948
      $scopeinfo                      5
-     sg13g2_a21o_1                  50
-     sg13g2_a21oi_1                246
-     sg13g2_a221oi_1                78
-     sg13g2_a22oi_1                225
-     sg13g2_and2_1                  83
-     sg13g2_and3_1                  11
-     sg13g2_and4_1                   3
-     sg13g2_buf_1                  372
-     sg13g2_buf_2                   10
+     sg13g2_a21o_1                  41
+     sg13g2_a21oi_1                300
+     sg13g2_a21oi_2                  1
+     sg13g2_a221oi_1                44
+     sg13g2_a22oi_1                198
+     sg13g2_and2_1                  85
+     sg13g2_and3_1                  13
+     sg13g2_and4_1                  21
+     sg13g2_buf_1                  389
+     sg13g2_buf_2                   19
      sg13g2_buf_4                    1
      sg13g2_dfrbp_1                663
-     sg13g2_inv_1                  306
-     sg13g2_mux2_1                 207
-     sg13g2_mux4_1                 146
-     sg13g2_nand2_1                695
-     sg13g2_nand2_2                  1
-     sg13g2_nand2b_1                44
+     sg13g2_inv_1                  336
+     sg13g2_mux2_1                 170
+     sg13g2_mux4_1                 153
+     sg13g2_nand2_1                674
+     sg13g2_nand2_2                  2
+     sg13g2_nand2b_1                35
      sg13g2_nand2b_2                 1
-     sg13g2_nand3_1                323
-     sg13g2_nand3b_1                10
-     sg13g2_nand4_1                 33
-     sg13g2_nor2_1                 248
-     sg13g2_nor2_2                  10
-     sg13g2_nor2b_1                 55
-     sg13g2_nor2b_2                  3
-     sg13g2_nor3_1                  94
-     sg13g2_nor3_2                   4
-     sg13g2_nor4_1                  21
-     sg13g2_nor4_2                   1
-     sg13g2_o21ai_1                737
-     sg13g2_or2_1                   32
+     sg13g2_nand3_1                379
+     sg13g2_nand3b_1                 7
+     sg13g2_nand4_1                 72
+     sg13g2_nor2_1                 295
+     sg13g2_nor2_2                   2
+     sg13g2_nor2b_1                 41
+     sg13g2_nor3_1                 125
+     sg13g2_nor3_2                   2
+     sg13g2_nor4_1                  28
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                775
+     sg13g2_or2_1                   24
      sg13g2_or3_1                    3
-     sg13g2_or4_1                    1
+     sg13g2_or4_1                    6
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                 28
-     sg13g2_xor2_1                  10
+     sg13g2_xnor2_1                 25
+     sg13g2_xor2_1                   9
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for module '\dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top': 72536.650200
-     of which used for sequential elements: 31276.627200 (43.12%)
+   Chip area for module '\dm_top$croc_chip.i_croc_soc.i_croc.i_dm_top.i_dm_top': 73802.307600
+     of which used for sequential elements: 31276.627200 (42.38%)
 
 === dma$croc_chip.i_croc_soc.i_croc.i_dma ===
 
-   Number of wires:               2776
-   Number of wire bits:           3103
+   Number of wires:               2812
+   Number of wire bits:           3139
    Number of public wires:         335
    Number of public wire bits:     662
    Number of ports:                  9
@@ -1008,56 +998,50 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               2483
+   Number of cells:               2519
      $scopeinfo                      2
-     sg13g2_a21o_1                  16
-     sg13g2_a21oi_1                209
-     sg13g2_a221oi_1                50
-     sg13g2_a22oi_1                105
+     sg13g2_a21o_1                  34
+     sg13g2_a21oi_1                196
+     sg13g2_a221oi_1                42
+     sg13g2_a22oi_1                109
      sg13g2_and2_1                  52
-     sg13g2_and3_1                  14
-     sg13g2_and3_2                   1
-     sg13g2_and4_1                   7
-     sg13g2_buf_1                  113
-     sg13g2_buf_2                    4
-     sg13g2_buf_4                    1
-     sg13g2_buf_8                    1
+     sg13g2_and3_1                  24
+     sg13g2_and4_1                   6
+     sg13g2_buf_1                  122
+     sg13g2_buf_16                   1
+     sg13g2_buf_2                    1
      sg13g2_dfrbp_1                423
-     sg13g2_inv_1                   60
-     sg13g2_inv_2                    1
-     sg13g2_inv_4                    1
-     sg13g2_mux2_1                 252
-     sg13g2_mux4_1                  30
-     sg13g2_nand2_1                237
-     sg13g2_nand2_2                  1
-     sg13g2_nand2b_1                28
-     sg13g2_nand3_1                 64
-     sg13g2_nand3b_1                11
-     sg13g2_nand4_1                 22
-     sg13g2_nor2_1                 227
-     sg13g2_nor2_2                   1
-     sg13g2_nor2b_1                 29
-     sg13g2_nor2b_2                  1
-     sg13g2_nor3_1                  88
-     sg13g2_nor3_2                   3
-     sg13g2_nor4_1                  17
-     sg13g2_o21ai_1                188
-     sg13g2_or2_1                   22
-     sg13g2_or3_1                    4
+     sg13g2_inv_1                   67
+     sg13g2_mux2_1                 248
+     sg13g2_mux4_1                  28
+     sg13g2_nand2_1                239
+     sg13g2_nand2b_1                24
+     sg13g2_nand3_1                 76
+     sg13g2_nand3b_1                15
+     sg13g2_nand4_1                 27
+     sg13g2_nor2_1                 218
+     sg13g2_nor2b_1                 44
+     sg13g2_nor3_1                  79
+     sg13g2_nor3_2                   1
+     sg13g2_nor4_1                  14
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                211
+     sg13g2_or2_1                   27
+     sg13g2_or3_1                    6
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                123
-     sg13g2_xor2_1                  73
+     sg13g2_xnor2_1                119
+     sg13g2_xor2_1                  60
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for module '\dma$croc_chip.i_croc_soc.i_croc.i_dma': 42364.085400
-     of which used for sequential elements: 19954.771200 (47.10%)
+   Chip area for module '\dma$croc_chip.i_croc_soc.i_croc.i_dma': 42576.219000
+     of which used for sequential elements: 19954.771200 (46.87%)
 
 === dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag ===
 
-   Number of wires:               1480
-   Number of wire bits:           1553
+   Number of wires:               1377
+   Number of wire bits:           1450
    Number of public wires:         361
    Number of public wire bits:     434
    Number of ports:                 16
@@ -1065,42 +1049,40 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               1225
+   Number of cells:               1122
      $scopeinfo                      2
      cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req      1
      cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp      1
-     sg13g2_a21o_1                   2
-     sg13g2_a21oi_1                145
-     sg13g2_a21oi_2                  3
-     sg13g2_a221oi_1                 3
+     sg13g2_a21o_1                   4
+     sg13g2_a21oi_1                 80
+     sg13g2_a21oi_2                  1
+     sg13g2_a221oi_1                 5
      sg13g2_a22oi_1                 54
-     sg13g2_and2_1                  51
-     sg13g2_and3_1                   3
-     sg13g2_and4_1                   2
-     sg13g2_buf_1                   74
-     sg13g2_buf_2                   11
-     sg13g2_buf_4                    3
-     sg13g2_buf_8                    2
+     sg13g2_and2_1                  13
+     sg13g2_and2_2                   1
+     sg13g2_and3_1                  42
+     sg13g2_and4_1                   1
+     sg13g2_buf_1                   69
+     sg13g2_buf_2                    7
+     sg13g2_buf_4                    1
      sg13g2_dfrbp_1                168
-     sg13g2_inv_1                   45
-     sg13g2_inv_2                    1
-     sg13g2_inv_8                    1
-     sg13g2_mux2_1                  49
-     sg13g2_nand2_1                143
-     sg13g2_nand2_2                  1
-     sg13g2_nand2b_1                56
-     sg13g2_nand3_1                132
-     sg13g2_nand3b_1                 9
-     sg13g2_nand4_1                  2
-     sg13g2_nor2_1                  94
-     sg13g2_nor2b_1                 14
-     sg13g2_nor3_1                  40
-     sg13g2_nor3_2                   1
-     sg13g2_nor4_1                   4
-     sg13g2_nor4_2                   1
-     sg13g2_o21ai_1                 45
-     sg13g2_or2_1                   16
-     sg13g2_or3_1                   42
+     sg13g2_inv_1                   44
+     sg13g2_mux2_1                   4
+     sg13g2_nand2_1                138
+     sg13g2_nand2b_1                77
+     sg13g2_nand3_1                 51
+     sg13g2_nand3b_1                 2
+     sg13g2_nand4_1                  1
+     sg13g2_nor2_1                 145
+     sg13g2_nor2b_1                 10
+     sg13g2_nor3_1                  39
+     sg13g2_nor3_2                   2
+     sg13g2_nor4_1                   6
+     sg13g2_nor4_2                   3
+     sg13g2_o21ai_1                125
+     sg13g2_or2_1                   10
+     sg13g2_or3_1                    9
+     sg13g2_or4_1                    2
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
      tc_clk_inverter$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_jtag_tap.i_tck_inv      1
@@ -1112,13 +1094,13 @@
    Area for cell type \cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req is unknown!
    Area for cell type \cdc_2phase_clearable$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_resp is unknown!
 
-   Chip area for module '\dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag': 17601.267600
-     of which used for sequential elements: 7925.299200 (45.03%)
+   Chip area for module '\dmi_jtag$croc_chip.i_croc_soc.i_croc.i_dmi_jtag': 16184.221200
+     of which used for sequential elements: 7925.299200 (48.97%)
 
 === gpio$croc_chip.i_croc_soc.i_croc.i_gpio ===
 
-   Number of wires:               2104
-   Number of wire bits:           2341
+   Number of wires:               2180
+   Number of wire bits:           2417
    Number of public wires:        1051
    Number of public wire bits:    1288
    Number of ports:                  9
@@ -1126,33 +1108,36 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               1281
+   Number of cells:               1357
      $scopeinfo                      1
-     sg13g2_a21o_1                  64
-     sg13g2_a21oi_1                 82
-     sg13g2_a221oi_1                44
-     sg13g2_a22oi_1                 39
-     sg13g2_and2_1                  45
-     sg13g2_and3_1                  32
-     sg13g2_and4_1                   1
-     sg13g2_buf_1                   45
+     sg13g2_a21o_1                  31
+     sg13g2_a21oi_1                 68
+     sg13g2_a221oi_1                82
+     sg13g2_a22oi_1                 14
+     sg13g2_and2_1                  69
+     sg13g2_and3_1                  33
+     sg13g2_and4_1                  31
+     sg13g2_buf_1                   60
+     sg13g2_buf_2                    1
+     sg13g2_buf_4                    1
      sg13g2_dfrbp_1                270
-     sg13g2_inv_1                   44
-     sg13g2_mux2_1                 128
-     sg13g2_nand2_1                125
-     sg13g2_nand2_2                  8
-     sg13g2_nand2b_1                61
-     sg13g2_nand3_1                 34
+     sg13g2_inv_1                   96
+     sg13g2_mux2_1                 130
+     sg13g2_nand2_1                 67
+     sg13g2_nand2_2                 16
+     sg13g2_nand2b_1               128
+     sg13g2_nand3_1                 37
      sg13g2_nand3b_1                 1
-     sg13g2_nand4_1                 39
-     sg13g2_nor2_1                  26
-     sg13g2_nor2b_1                 19
-     sg13g2_nor3_1                   3
-     sg13g2_nor4_1                  48
-     sg13g2_nor4_2                   3
-     sg13g2_o21ai_1                 82
-     sg13g2_or2_1                    1
-     sg13g2_or3_1                    3
+     sg13g2_nand4_1                 67
+     sg13g2_nor2_1                   3
+     sg13g2_nor2b_1                  2
+     sg13g2_nor3_1                   2
+     sg13g2_nor4_1                  12
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                 95
+     sg13g2_or2_1                    3
+     sg13g2_or3_1                    1
+     sg13g2_or4_1                    1
      sg13g2_tielo                    1
      sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[0].i_sync      1
      sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[10].i_sync      1
@@ -1221,13 +1206,13 @@
    Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[30].i_sync is unknown!
    Area for cell type \sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[31].i_sync is unknown!
 
-   Chip area for module '\gpio$croc_chip.i_croc_soc.i_croc.i_gpio': 23141.197800
-     of which used for sequential elements: 12737.088000 (55.04%)
+   Chip area for module '\gpio$croc_chip.i_croc_soc.i_croc.i_gpio': 23980.395600
+     of which used for sequential elements: 12737.088000 (53.11%)
 
 === soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl ===
 
-   Number of wires:                224
-   Number of wire bits:            395
+   Number of wires:                234
+   Number of wire bits:            405
    Number of public wires:          11
    Number of public wire bits:     182
    Number of ports:                  7
@@ -1235,33 +1220,87 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                256
+   Number of cells:                266
      $scopeinfo                     10
+     sg13g2_a21o_1                   1
      sg13g2_a21oi_1                  2
      sg13g2_a221oi_1                31
-     sg13g2_a22oi_1                  1
-     sg13g2_and3_1                   1
-     sg13g2_buf_1                   12
+     sg13g2_a22oi_1                  3
+     sg13g2_and2_1                   2
+     sg13g2_buf_1                   13
      sg13g2_buf_8                    3
      sg13g2_dfrbp_1                 67
-     sg13g2_inv_1                   34
-     sg13g2_mux2_1                  71
-     sg13g2_nand2_1                  2
+     sg13g2_inv_1                   37
+     sg13g2_mux2_1                  67
+     sg13g2_nand2_1                  3
+     sg13g2_nand2b_1                 2
      sg13g2_nand3_1                  5
-     sg13g2_nor2_1                   6
+     sg13g2_nand3b_1                 3
+     sg13g2_nor2_1                   1
      sg13g2_nor2b_1                  1
-     sg13g2_nor3_1                   1
+     sg13g2_nor3_1                   3
      sg13g2_nor4_1                   2
-     sg13g2_nor4_2                   1
-     sg13g2_o21ai_1                  2
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                  5
      sg13g2_or2_1                    2
-     sg13g2_or3_1                    1
      sg13g2_tiehi                    1
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for module '\soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl': 5504.851800
-     of which used for sequential elements: 3160.684800 (57.42%)
+   Chip area for module '\soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl': 5577.352200
+     of which used for sequential elements: 3160.684800 (56.67%)
+
+=== spi$croc_chip.i_croc_soc.i_croc.i_spi ===
+
+   Number of wires:               1883
+   Number of wire bits:           1996
+   Number of public wires:         532
+   Number of public wire bits:     645
+   Number of ports:                  8
+   Number of port bits:            121
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               1389
+     $scopeinfo                      3
+     sg13g2_a21o_1                  33
+     sg13g2_a21oi_1                 36
+     sg13g2_a221oi_1                16
+     sg13g2_a22oi_1                 27
+     sg13g2_and2_1                  25
+     sg13g2_and4_1                   3
+     sg13g2_buf_1                   50
+     sg13g2_buf_2                   10
+     sg13g2_buf_4                    1
+     sg13g2_dfrbp_1                425
+     sg13g2_inv_1                   30
+     sg13g2_mux2_1                 332
+     sg13g2_mux4_1                  73
+     sg13g2_nand2_1                 56
+     sg13g2_nand2b_1                16
+     sg13g2_nand3_1                 21
+     sg13g2_nand3b_1                 2
+     sg13g2_nand4_1                 10
+     sg13g2_nor2_1                  44
+     sg13g2_nor2_2                  19
+     sg13g2_nor2b_1                 18
+     sg13g2_nor3_1                  14
+     sg13g2_nor3_2                   4
+     sg13g2_nor4_1                  11
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                 35
+     sg13g2_or2_1                   28
+     sg13g2_or3_1                    1
+     sg13g2_or4_1                    4
+     sg13g2_tiehi                    1
+     sg13g2_tielo                    1
+     sg13g2_xnor2_1                 25
+     sg13g2_xor2_1                  13
+
+   Area for cell type $scopeinfo is unknown!
+
+   Chip area for module '\spi$croc_chip.i_croc_soc.i_croc.i_spi': 34156.873800
+     of which used for sequential elements: 20049.120000 (58.70%)
 
 === sync$croc_chip.i_croc_soc.i_croc.i_dmi_jtag.i_dmi_cdc.i_cdc_req.i_cdc_reset_ctrlr.i_cdc_reset_ctrlr_half_a.i_state_transition_cdc_dst.i_sync ===
 
@@ -2248,8 +2287,8 @@
 
 === timer_unit$croc_chip.i_croc_soc.i_croc.i_timer ===
 
-   Number of wires:               1963
-   Number of wire bits:           2065
+   Number of wires:               1989
+   Number of wire bits:           2091
    Number of public wires:         488
    Number of public wire bits:     590
    Number of ports:                 19
@@ -2257,55 +2296,53 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:               1648
+   Number of cells:               1674
      $scopeinfo                      4
      sg13g2_a21o_1                   6
-     sg13g2_a21oi_1                 52
-     sg13g2_a221oi_1                 8
-     sg13g2_a22oi_1                 73
-     sg13g2_and2_1                  26
-     sg13g2_and2_2                   2
-     sg13g2_and3_1                  12
-     sg13g2_and3_2                   1
-     sg13g2_and4_1                  14
-     sg13g2_and4_2                   2
-     sg13g2_buf_1                   67
-     sg13g2_buf_2                    4
+     sg13g2_a21oi_1                 61
+     sg13g2_a221oi_1                 7
+     sg13g2_a22oi_1                 76
+     sg13g2_and2_1                  30
+     sg13g2_and2_2                   1
+     sg13g2_and3_1                   8
+     sg13g2_and3_2                   2
+     sg13g2_and4_1                  21
+     sg13g2_and4_2                   3
+     sg13g2_buf_1                   71
      sg13g2_dfrbp_1                276
-     sg13g2_inv_1                   43
-     sg13g2_mux2_1                 121
-     sg13g2_nand2_1                165
-     sg13g2_nand2_2                  3
+     sg13g2_inv_1                   41
+     sg13g2_mux2_1                 128
+     sg13g2_nand2_1                153
+     sg13g2_nand2_2                  1
      sg13g2_nand2b_1                18
-     sg13g2_nand3_1                 54
-     sg13g2_nand3b_1                 3
-     sg13g2_nand4_1                 62
-     sg13g2_nor2_1                 182
-     sg13g2_nor2_2                   1
-     sg13g2_nor2b_1                 45
-     sg13g2_nor3_1                  73
-     sg13g2_nor3_2                   4
-     sg13g2_nor4_1                  43
-     sg13g2_o21ai_1                 55
-     sg13g2_or2_1                    4
-     sg13g2_or2_2                    3
-     sg13g2_or3_1                    5
-     sg13g2_or3_2                    1
-     sg13g2_or4_1                    2
+     sg13g2_nand3_1                 65
+     sg13g2_nand3b_1                 4
+     sg13g2_nand4_1                 69
+     sg13g2_nor2_1                 177
+     sg13g2_nor2_2                   2
+     sg13g2_nor2b_1                 42
+     sg13g2_nor3_1                  79
+     sg13g2_nor4_1                  35
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                 59
+     sg13g2_or2_1                    5
+     sg13g2_or3_1                    6
+     sg13g2_or4_1                    6
+     sg13g2_or4_2                    1
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                123
-     sg13g2_xor2_1                  89
+     sg13g2_xnor2_1                117
+     sg13g2_xor2_1                  96
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for module '\timer_unit$croc_chip.i_croc_soc.i_croc.i_timer': 27385.608600
-     of which used for sequential elements: 13020.134400 (47.54%)
+   Chip area for module '\timer_unit$croc_chip.i_croc_soc.i_croc.i_timer': 27771.962400
+     of which used for sequential elements: 13020.134400 (46.88%)
 
 === user_domain$croc_chip.i_croc_soc.i_user ===
 
-   Number of wires:                178
-   Number of wire bits:            432
+   Number of wires:                173
+   Number of wire bits:            427
    Number of public wires:          90
    Number of public wire bits:     344
    Number of ports:                 10
@@ -2313,39 +2350,38 @@
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                126
+   Number of cells:                121
      $scopeinfo                      7
-     sg13g2_a21o_1                   1
      sg13g2_a21oi_1                  8
-     sg13g2_and2_1                  16
-     sg13g2_and3_2                   1
-     sg13g2_and4_1                   1
+     sg13g2_a21oi_2                  1
+     sg13g2_a221oi_1                 1
+     sg13g2_a22oi_1                  1
+     sg13g2_and2_1                  12
      sg13g2_buf_1                    1
-     sg13g2_buf_4                    1
      sg13g2_dfrbp_1                 18
-     sg13g2_inv_1                    8
-     sg13g2_mux2_1                  11
-     sg13g2_mux2_2                   1
-     sg13g2_nand2_1                 10
-     sg13g2_nand2b_1                 8
-     sg13g2_nand3_1                  1
-     sg13g2_nand3b_1                 1
+     sg13g2_inv_1                   12
+     sg13g2_mux2_1                  10
+     sg13g2_nand2_1                  8
+     sg13g2_nand2b_1                 5
      sg13g2_nand4_1                  1
      sg13g2_nor2_1                   5
-     sg13g2_nor2b_1                  4
+     sg13g2_nor2b_1                  5
+     sg13g2_nor2b_2                  1
      sg13g2_nor3_1                   2
+     sg13g2_nor3_2                   2
      sg13g2_nor4_1                   3
-     sg13g2_nor4_2                   4
-     sg13g2_o21ai_1                  6
-     sg13g2_or2_1                    3
+     sg13g2_nor4_2                   2
+     sg13g2_o21ai_1                 10
+     sg13g2_or2_1                    2
+     sg13g2_or2_2                    1
      sg13g2_tiehi                    1
      sg13g2_tielo                    1
-     sg13g2_xnor2_1                  2
+     sg13g2_xnor2_1                  1
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for module '\user_domain$croc_chip.i_croc_soc.i_user': 1905.120000
-     of which used for sequential elements: 849.139200 (44.57%)
+   Chip area for module '\user_domain$croc_chip.i_croc_soc.i_user': 1808.919000
+     of which used for sequential elements: 849.139200 (46.94%)
 
 === design hierarchy ===
 
@@ -2426,6 +2462,7 @@
            sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[8].i_sync      1
            sync$croc_chip.i_croc_soc.i_croc.i_gpio.gen_gpios[9].i_sync      1
          soc_ctrl_reg_top$croc_chip.i_croc_soc.i_croc.i_soc_ctrl      1
+         spi$croc_chip.i_croc_soc.i_croc.i_spi      1
          sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_cd      1
          sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_cts      1
          sync$croc_chip.i_croc_soc.i_croc.i_uart.i_uart_modem.i_sync_dsr      1
@@ -2440,77 +2477,73 @@
        tc_clk_mux2$croc_chip.i_croc_soc.i_rstgen.i_rstgen_bypass.i_tc_clk_mux2_rst_no      1
        user_domain$croc_chip.i_croc_soc.i_user      1
 
-   Number of wires:              45996
-   Number of wire bits:          49369
-   Number of public wires:       13572
-   Number of public wire bits:   16945
-   Number of ports:                726
-   Number of port bits:           4099
+   Number of wires:              48123
+   Number of wire bits:          51609
+   Number of public wires:       14260
+   Number of public wire bits:   17746
+   Number of ports:                742
+   Number of port bits:           4228
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:              34849
-     $scopeinfo                    146
+   Number of cells:              36406
+     $scopeinfo                    149
      RM_IHPSG13_1P_256x64_c2_bm_bist      2
      sg13g2_IOPadIOVdd               4
      sg13g2_IOPadIOVss               4
-     sg13g2_IOPadIn                  9
+     sg13g2_IOPadIn                 10
      sg13g2_IOPadInOut30mA          32
-     sg13g2_IOPadOut16mA             7
+     sg13g2_IOPadOut16mA             6
      sg13g2_IOPadVdd                 4
      sg13g2_IOPadVss                 4
-     sg13g2_a21o_1                 617
-     sg13g2_a21oi_1               2095
-     sg13g2_a21oi_2                 17
-     sg13g2_a221oi_1               759
-     sg13g2_a22oi_1               1464
-     sg13g2_and2_1                 697
-     sg13g2_and2_2                   7
-     sg13g2_and3_1                 203
-     sg13g2_and3_2                   9
-     sg13g2_and4_1                  79
+     sg13g2_a21o_1                 574
+     sg13g2_a21oi_1               2065
+     sg13g2_a21oi_2                 11
+     sg13g2_a221oi_1               820
+     sg13g2_a22oi_1               1405
+     sg13g2_and2_1                 686
+     sg13g2_and2_2                  10
+     sg13g2_and3_1                 230
+     sg13g2_and3_2                   8
+     sg13g2_and4_1                 150
      sg13g2_and4_2                   3
-     sg13g2_buf_1                 2357
-     sg13g2_buf_16                  19
-     sg13g2_buf_2                  130
-     sg13g2_buf_4                   27
-     sg13g2_buf_8                   46
-     sg13g2_dfrbp_1               4737
-     sg13g2_inv_1                 1157
-     sg13g2_inv_2                    3
-     sg13g2_inv_4                    2
-     sg13g2_inv_8                    1
-     sg13g2_mux2_1                4407
-     sg13g2_mux2_2                   2
-     sg13g2_mux4_1                 570
-     sg13g2_nand2_1               2656
-     sg13g2_nand2_2                 17
-     sg13g2_nand2b_1               636
-     sg13g2_nand2b_2                11
-     sg13g2_nand3_1               3147
-     sg13g2_nand3b_1               206
-     sg13g2_nand4_1                399
-     sg13g2_nor2_1                2198
-     sg13g2_nor2_2                  31
-     sg13g2_nor2b_1                455
-     sg13g2_nor2b_2                  8
-     sg13g2_nor3_1                1048
-     sg13g2_nor3_2                  32
-     sg13g2_nor4_1                 287
-     sg13g2_nor4_2                  24
-     sg13g2_o21ai_1               2676
-     sg13g2_or2_1                  412
-     sg13g2_or2_2                    4
-     sg13g2_or3_1                  108
-     sg13g2_or3_2                    2
-     sg13g2_or4_1                   38
-     sg13g2_tiehi                   14
-     sg13g2_tielo                   13
-     sg13g2_xnor2_1                536
-     sg13g2_xor2_1                 271
+     sg13g2_buf_1                 2386
+     sg13g2_buf_16                  15
+     sg13g2_buf_2                  161
+     sg13g2_buf_4                   36
+     sg13g2_buf_8                   44
+     sg13g2_dfrbp_1               5162
+     sg13g2_inv_1                 1278
+     sg13g2_mux2_1                4593
+     sg13g2_mux4_1                 660
+     sg13g2_nand2_1               2647
+     sg13g2_nand2_2                 21
+     sg13g2_nand2b_1               802
+     sg13g2_nand2b_2                 5
+     sg13g2_nand3_1               3105
+     sg13g2_nand3b_1               185
+     sg13g2_nand4_1                484
+     sg13g2_nor2_1                2413
+     sg13g2_nor2_2                  38
+     sg13g2_nor2b_1                463
+     sg13g2_nor2b_2                  6
+     sg13g2_nor3_1                 920
+     sg13g2_nor3_2                  30
+     sg13g2_nor4_1                 266
+     sg13g2_nor4_2                  32
+     sg13g2_o21ai_1               2959
+     sg13g2_or2_1                  492
+     sg13g2_or2_2                    3
+     sg13g2_or3_1                   86
+     sg13g2_or4_1                   57
+     sg13g2_or4_2                    1
+     sg13g2_tiehi                   15
+     sg13g2_tielo                   14
+     sg13g2_xnor2_1                552
+     sg13g2_xor2_1                 298
 
    Area for cell type $scopeinfo is unknown!
 
-   Chip area for top module '\croc_chip': 1661421.108800
-     of which used for sequential elements: 849.139200 (0.05%)
+   Chip area for top module '\croc_chip': 1695873.351800
+     of which used for sequential elements: 243514.252800 (14.36%)
 

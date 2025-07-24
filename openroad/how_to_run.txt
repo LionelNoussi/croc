@@ -1,0 +1,32 @@
+
+0. icdesign ihp13 -update all -nogui
+
+Entire flow:
+
+1. Write rtl, testbench and sw
+2. Add files to bender in appropriate sections
+3. oceda make -B sw
+4. oceda make verilator
+
+Simulation works? Lets move over to synthesis:
+
+5. oceda make yosys-flist
+6. oceda make yosys                (if you want to keep hierachy on your module, add it to the list in the yosys/scripts/synthesis.tcl script)
+7. oceda make sta
+
+After you have a netflist you're satisfied with,
+got to floorplan, place, CTS, route in openroad
+
+8. cd openroad          (from croc directory)
+9. oceda openroad scripts/S{1-6}_*          (exectue scripts in order. Feel free to look at reports in order as well.)
+
+After sctipt 5, everything is alredy done. S6 is only for analysis really.
+Next we have to prepare for DRC&LVS checks.
+
+10. cd klayout          (from croc directory)
+11. oceda ./def2gds.sh croc_chip ../openroad/out/croc.def
+12. cd calibre/lvs      (from croc directory)
+13. ./verilog2spice ../../openroad/out/croc_lvs.v croc_chip.spice
+
+Afterwards fix drc and lvs violations in Calibre, and save final GDS file.
+Probably also save the, def and spice files into the openroad out directory, to have a complete folder.

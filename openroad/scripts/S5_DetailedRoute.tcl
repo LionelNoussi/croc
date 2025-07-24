@@ -20,7 +20,7 @@ set_thread_count 6;
 detailed_route -output_drc reports/croc_route_drc.rpt \
               -bottom_routing_layer Metal2 \
               -top_routing_layer TopMetal1 \
-              -droute_end_iter 15 \
+              -droute_end_iter 30 \
               -drc_report_iter_step 5 \
               -save_guide_updates \
               -clean_patches \
@@ -36,14 +36,16 @@ estimate_parasitics -global_routing
 # Final Output
 report_metrics R7_croc_final
 save_checkpoint croc_final -lvs;
-save_checkpoint ../out/croc -lvs;
+save_checkpoint croc -lvs;
 
+# Write and read back parasitics, and create simple netlist for sta
 define_process_corner -ext_model_index 0 X
 extract_parasitics -ext_model_file IHP_rcx_patterns.rules
 write_spef out/croc.spef
 read_spef  out/croc.spef; # readback parasitics for OpenSTA
-# report_check_types  -violators > reports/croc_final.rpt
-report_metrics R8_sta_w_spef
+set stdfill [ list sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1 ]
+write_verilog -remove_cells "${stdfill} bondpad*" out/croc_sta.v
+
 
 utl::report "Done!"
 

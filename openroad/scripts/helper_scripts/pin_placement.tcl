@@ -111,10 +111,16 @@ place_pad -row IO_NORTH  -location [expr $startTop -  6*$pitch] "pad_gpio28_io" 
 place_pad -row IO_NORTH  -location [expr $startTop -  7*$pitch] "pad_gpio29_io"       ; # pin no:  8
 place_pad -row IO_NORTH  -location [expr $startTop -  8*$pitch] "pad_gpio30_io"       ; # pin no:  9
 place_pad -row IO_NORTH  -location [expr $startTop -  9*$pitch] "pad_gpio31_io"       ; # pin no: 10
-place_pad -row IO_NORTH  -location [expr $startTop - 10*$pitch] "pad_unused0_o"       ; # pin no: 11
-place_pad -row IO_NORTH  -location [expr $startTop - 11*$pitch] "pad_unused1_o"       ; # pin no: 12
-place_pad -row IO_NORTH  -location [expr $startTop - 12*$pitch] "pad_unused2_o"       ; # pin no: 13
-place_pad -row IO_NORTH  -location [expr $startTop - 13*$pitch] "pad_unused3_o"       ; # pin no: 14
+place_pad -row IO_NORTH  -location [expr $startTop - 10*$pitch] "pad_spi_sclk_o"       ; # pin no: 11
+place_pad -row IO_NORTH  -location [expr $startTop - 11*$pitch] "pad_spi_mosi_o"       ; # pin no: 12
+place_pad -row IO_NORTH  -location [expr $startTop - 12*$pitch] "pad_spi_miso_i"       ; # pin no: 13
+place_pad -row IO_NORTH  -location [expr $startTop - 13*$pitch] "pad_spi_cs_n_o"       ; # pin no: 14
+
+# place_pad -row IO_NORTH  -location [expr $startTop - 10*$pitch] "pad_unused0_o"       ; # pin no: 11
+# place_pad -row IO_NORTH  -location [expr $startTop - 11*$pitch] "pad_unused1_o"       ; # pin no: 12
+# place_pad -row IO_NORTH  -location [expr $startTop - 12*$pitch] "pad_unused2_o"       ; # pin no: 13
+# place_pad -row IO_NORTH  -location [expr $startTop - 13*$pitch] "pad_unused3_o"       ; # pin no: 14
+
 place_pad -row IO_NORTH  -location [expr $startTop - 14*$pitch] "pad_vss3"            ; # pin no: 15
 place_pad -row IO_NORTH  -location [expr $startTop - 15*$pitch] "pad_vdd3"            ; # pin no: 16
 

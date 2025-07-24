@@ -150,6 +150,9 @@ YS_NETLIST ?= croc		# name of the final netlist
 sta_clean:
 	rm -r sta/reports/
 
+
+NETLIST_NAME ?= croc_final
+NETLIST_TYPE ?= yosys
 sta:
 	cd sta; \
 	mkdir -p reports; \

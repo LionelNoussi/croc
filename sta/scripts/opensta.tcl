@@ -17,10 +17,10 @@ if { $::env(NETLIST_TYPE) eq "yosys" } {
     read_verilog "../yosys/out/croc.v"
 } elseif { $::env(NETLIST_TYPE) eq "openroad" } {
     puts "Loading OpenROAD netlist: openroad/checkpoints/${netlist_name}/${netlist_name}.v"
-    read_verilog "../openroad/checkpoints/${netlist_name}/${netlist_name}.v"
+    read_verilog "../openroad/checkpoints/${netlist_name}/${netlist_name}_sta.v"
 
     # Optional: read parasitics if they exist
-    set spef_file "openroad/checkpoints/${netlist_name}.spef"
+    set spef_file "../openroad/out/croc_sta.spef"
     if {[file exists $spef_file]} {
         puts "Reading SPEF: $spef_file"
         read_spef $spef_file
