@@ -177,7 +177,7 @@ int detect_keyword(uint8_t* time_window) {
                 asm volatile("wfi");
             }
 
-            write_gpio_state(!LOADING, !COMPUTING, result);  
+            write_gpio_state(!LOADING, COMPUTING, result);  
 
             // Start DMA to fill next buffer, except in last iteration
             if (win != NUM_WINDOWS - 1) {
@@ -195,8 +195,6 @@ int detect_keyword(uint8_t* time_window) {
 
             write_gpio_state(dma_busy(), !COMPUTING, result);
         }
-        
-        write_gpio_state(!LOADING, !COMPUTING, result);
     }
 #endif
 
