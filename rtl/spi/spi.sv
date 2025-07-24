@@ -117,7 +117,7 @@ module spi #(
     spi_state_e spi_state_d, spi_state_q;
 
     logic [7:0] rx_shift_reg_q, rx_shift_reg_d, tx_shift_reg_q, tx_shift_reg_d;
-    logic [2:0] bit_cnt_q, bit_cnt_d;
+    logic [3:0] bit_cnt_q, bit_cnt_d;
     logic [7:0] clk_div_count_q, clk_div_count_d;
     logic       sclk_int_q, sclk_int_d;
     logic [5:0] byte_cnt_q, byte_cnt_d;
@@ -126,6 +126,8 @@ module spi #(
     logic [2:0] rw_type_d, rw_type_q;
     logic [4:0] clk_scale_q, clk_scale_d;
     logic [7:0] status_q, status_d;
+    logic cpol_q, cpol,d;
+    logic cpha_q, cpha_d;
 
 
 
@@ -137,7 +139,9 @@ module spi #(
 
     assign sclk_o = sclk_int_q;
     assign mosi_o = tx_shift_reg_q[7];
-    assign cs_n_o = (spi_state_q == SHIFT) ? 1'b0 : 1'b1;
+    // assign cs_n_o = (spi_state_q == SHIFT) ? 1'b0 : 1'b1;
+    assign cs_n_o = (spi_state_q != IDLE) ? 1'b0 : 1'b1;
+
     
     assign hw2reg.status = status_q;
     assign hw2reg.fifo_status = fifo_status;
@@ -184,6 +188,22 @@ module spi #(
         endcase
     end
 
+    // logic active_clk;
+    // logic sampling_edge;
+    // always_comb begin
+    //     active_clk = cpol_q;
+    //     sampling_edge = 
+    // end
+
+    // always_comb begin
+    //     case({cpol, cpha})
+    //         00:
+    //         01:
+    //         10:
+    //         11: 
+    //     endcase
+    // end
+
     always_comb begin
         spi_state_d     = spi_state_q;
         bit_cnt_d       = bit_cnt_q;
@@ -219,18 +239,20 @@ module spi #(
 
             SHIFT: begin
 
-                if((bit_cnt_q == 3'b111) && (clk_div_count_q +1  == clk_scale_q) && (sclk_int_q == 1'b1)) begin
+                if((bit_cnt_q == 4'b0111) && (clk_div_count_q +1  == clk_scale_q) && (sclk_int_q == 1'b1)) begin
                     spi_state_d = DONE;
                 end
 
                 clk_div_count_d = clk_div_count_q +1;
-                if (clk_div_count_d == clk_scale_q) begin
-                    clk_div_count_d = 8'h0;
-                    sclk_int_d = ~sclk_int_q; //eventuell jetzt vertauscht
-                    if(sclk_int_d == 1'b1) begin
+                if (clk_div_count_q+1 == clk_scale_q) begin
+                    // clk_div_count_d = 8'h0;
+                    // sclk_int_d = ~sclk_int_q; //eventuell jetzt vertauscht
+                    if(sclk_int_d == 1'b0) begin
                         rx_shift_reg_d = {rx_shift_reg_q[6:0], miso_i}; // does this still conflicts with non shift laoding
                     end else begin
-                        tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
+                        // if(bit_cnt_q != 0) begin
+                            tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
+                        // end
                         bit_cnt_d  = bit_cnt_q + 1;
                     end
                 end
@@ -259,6 +281,16 @@ module spi #(
 
             default: spi_state_d = IDLE;
         endcase
+
+        if ((spi_state_q == SHIFT || spi_state_q == LOAD || spi_state_q == DONE)) begin
+            if (clk_div_count_q == clk_scale_q) begin
+                clk_div_count_d = 8'h0;
+                sclk_int_d = ~sclk_int_q;
+            end else begin
+                clk_div_count_d = clk_div_count_q + 1;
+            end
+        end
+
 
         // determines which data has to be sent during the shift
         if(spi_state_q != SHIFT) begin

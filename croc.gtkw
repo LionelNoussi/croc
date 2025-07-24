@@ -1,0 +1,107 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Jul 24 12:42:09 2025
+[*]
+[dumpfile] "/scratch/vlsi2_45fs25/croc/verilator/croc.vcd"
+[dumpfile_mtime] "Thu Jul 24 12:40:56 2025"
+[dumpfile_size] 37654476
+[savefile] "/scratch/vlsi2_45fs25/croc/croc.gtkw"
+[timestart] 13522340000
+[size] 1680 986
+[pos] -1 -1
+*-20.456680 13523950000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] tb_croc_soc.
+[treeopen] tb_croc_soc.i_croc_soc.
+[treeopen] tb_croc_soc.i_croc_soc.i_croc.
+[sst_width] 297
+[signals_width] 190
+[sst_expanded] 1
+[sst_vpaned_height] 284
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.byte_cnt_q[5:0]
+@100000028
+tb_croc_soc.i_croc_soc.i_croc.i_spi.byte_type[2:0]
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.clk_div_count_d[7:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.clk_div_count_q[7:0]
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_spi.clk_i
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.cmd_q[7:0]
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_spi.cs_n_o
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.fifo_status[7:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.length_q[7:0]
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_spi.miso_i
+tb_croc_soc.i_croc_soc.i_croc.i_spi.mosi_o
+tb_croc_soc.i_croc_soc.i_croc.i_spi.obi_read_enable
+tb_croc_soc.i_croc_soc.i_croc.i_spi.rw_type_q[2:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.rx_pulse
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.rx_shift_reg_d[7:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.rx_shift_reg_q[7:0]
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_spi.sclk_int_d
+tb_croc_soc.i_croc_soc.i_croc.i_spi.sclk_int_q
+tb_croc_soc.i_croc_soc.i_croc.i_spi.sclk_o
+tb_croc_soc.i_croc_soc.i_croc.i_spi.spi_fifo_write
+@100000028
+tb_croc_soc.i_croc_soc.i_croc.i_spi.spi_state_d[2:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.spi_state_q[2:0]
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_spi.spi_tx_fifo_rd_en_d
+tb_croc_soc.i_croc_soc.i_croc.i_spi.spi_tx_fifo_rd_en_q
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.status_q[7:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.tx_fifo_data[7:0]
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_spi.tx_pulse
+@22
+tb_croc_soc.i_croc_soc.i_croc.i_spi.tx_shift_reg_d[7:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.tx_shift_reg_q[7:0]
+@28
+tb_croc_soc.i_spi_slave.bit_cnt[2:0]
+tb_croc_soc.i_spi_slave.clk_i
+tb_croc_soc.i_spi_slave.cs_falling_edge
+tb_croc_soc.i_spi_slave.cs_n_i
+tb_croc_soc.i_spi_slave.cs_n_i_d
+@22
+tb_croc_soc.i_spi_slave.dummy_value[7:0]
+@28
+tb_croc_soc.i_spi_slave.miso_o
+tb_croc_soc.i_spi_slave.mosi_i
+tb_croc_soc.i_spi_slave.rst_ni
+tb_croc_soc.i_spi_slave.sclk_i
+@22
+tb_croc_soc.i_spi_slave.shift_reg_in[7:0]
+tb_croc_soc.i_spi_slave.shift_reg_out[7:0]
+[pattern_trace] 1
+[pattern_trace] 0
