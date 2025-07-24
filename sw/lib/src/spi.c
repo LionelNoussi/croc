@@ -32,10 +32,16 @@ void spi_write(uint16_t addr, uint8_t *data, uint8_t length) {
     // Wait until done
     while (SPI_STATUS != length);
     for(uint8_t i; i < length; i++){
+        uint8_t status = SPI_FIFOSTAT;
+        uint8_t stat = SPI_STATUS
+        if(status & )
         data[i] = SPI_RX;
     }
 }
 
+bool data_ready (){
+    
+}
 // Read data from external memory via SPI
 void spi_read(uint16_t addr, uint8_t *data, uint8_t length) {
     // Set target address
