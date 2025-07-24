@@ -22,6 +22,11 @@ module croc_chip import croc_pkg::*; #() (
   input  wire fetch_en_i,
   output wire status_o,
 
+  output wire spi_sclk_o,
+  output wire spi_mosi_o,
+  input  wire spi_miso_i,
+  output wire spi_cs_n_o,
+
   inout  wire gpio0_io,
   inout  wire gpio1_io,
   inout  wire gpio2_io,
@@ -53,11 +58,11 @@ module croc_chip import croc_pkg::*; #() (
   inout  wire gpio28_io,
   inout  wire gpio29_io,
   inout  wire gpio30_io,
-  inout  wire gpio31_io,
-  output wire unused0_o,
-  output wire unused1_o,
-  output wire unused2_o,
-  output wire unused3_o
+  inout  wire gpio31_io
+  // output wire unused0_o,
+  // output wire unused1_o,
+  // output wire unused2_o,
+  // output wire unused3_o
 ); 
     logic soc_clk_i;
     logic soc_rst_ni;
@@ -73,7 +78,7 @@ module croc_chip import croc_pkg::*; #() (
     logic soc_fetch_en_i;
     logic soc_status_o;
 
-    localparam int unsigned GpioCount = 32;
+    localparam int unsigned GpioCount = 28;
 
     logic [GpioCount-1:0] soc_gpio_i;             
     logic [GpioCount-1:0] soc_gpio_o;            
@@ -95,6 +100,11 @@ module croc_chip import croc_pkg::*; #() (
 
     sg13g2_IOPadIn        pad_fetch_en_i   (.pad(fetch_en_i),   .p2c(soc_fetch_en_i));
     sg13g2_IOPadOut16mA   pad_status_o     (.pad(status_o),     .c2p(soc_status_o));
+
+    sg13g2_IOPadOut16mA pad_spi_sclk_o (.pad(spi_sclk_o), .c2p(soc_spi_sclk_o));
+    sg13g2_IOPadOut16mA pad_spi_mosi_o (.pad(spi_mosi_o), .c2p(soc_spi_mosi_o));
+    sg13g2_IOPadIn      pad_spi_miso_i (.pad(spi_miso_i), .p2c(soc_spi_miso_i));
+    sg13g2_IOPadOut16mA pad_spi_cs_n_o (.pad(spi_cs_n_o), .c2p(soc_spi_cs_n_o));
 
     sg13g2_IOPadInOut30mA pad_gpio0_io     (.pad(gpio0_io),     .c2p(soc_gpio_o[0]),  .p2c(soc_gpio_i[0]),   .c2p_en(soc_gpio_out_en_o[0]));
     sg13g2_IOPadInOut30mA pad_gpio1_io     (.pad(gpio1_io),     .c2p(soc_gpio_o[1]),  .p2c(soc_gpio_i[1]),   .c2p_en(soc_gpio_out_en_o[1]));
@@ -128,10 +138,10 @@ module croc_chip import croc_pkg::*; #() (
     sg13g2_IOPadInOut30mA pad_gpio29_io    (.pad(gpio29_io),    .c2p(soc_gpio_o[29]), .p2c(soc_gpio_i[29]),  .c2p_en(soc_gpio_out_en_o[29]));
     sg13g2_IOPadInOut30mA pad_gpio30_io    (.pad(gpio30_io),    .c2p(soc_gpio_o[30]), .p2c(soc_gpio_i[30]),  .c2p_en(soc_gpio_out_en_o[30]));
     sg13g2_IOPadInOut30mA pad_gpio31_io    (.pad(gpio31_io),    .c2p(soc_gpio_o[31]), .p2c(soc_gpio_i[31]),  .c2p_en(soc_gpio_out_en_o[31]));
-    sg13g2_IOPadOut16mA pad_unused0_o      (.pad(unused0_o),    .c2p(soc_status_o));
-    sg13g2_IOPadOut16mA pad_unused1_o      (.pad(unused1_o),    .c2p(soc_status_o));
-    sg13g2_IOPadOut16mA pad_unused2_o      (.pad(unused2_o),    .c2p(soc_status_o));
-    sg13g2_IOPadOut16mA pad_unused3_o      (.pad(unused3_o),    .c2p(soc_status_o));
+    // sg13g2_IOPadOut16mA pad_unused0_o      (.pad(unused0_o),    .c2p(soc_status_o));
+    // sg13g2_IOPadOut16mA pad_unused1_o      (.pad(unused1_o),    .c2p(soc_status_o));
+    // sg13g2_IOPadOut16mA pad_unused2_o      (.pad(unused2_o),    .c2p(soc_status_o));
+    // sg13g2_IOPadOut16mA pad_unused3_o      (.pad(unused3_o),    .c2p(soc_status_o));
 
     (* dont_touch = "true" *)sg13g2_IOPadVdd pad_vdd0();
     (* dont_touch = "true" *)sg13g2_IOPadVdd pad_vdd1();
@@ -172,6 +182,11 @@ module croc_chip import croc_pkg::*; #() (
 
     .uart_rx_i      ( soc_uart_rx_i ),
     .uart_tx_o      ( soc_uart_tx_o ),
+
+    .spi_sclk_o    ( soc_spi_sclk_o ),
+    .spi_mosi_o    ( soc_spi_mosi_o ),
+    .spi_miso_i    ( soc_spi_miso_i ),
+    .spi_cs_n_o    ( soc_spi_cs_n_o ),
 
     .gpio_i         ( soc_gpio_i        ),             
     .gpio_o         ( soc_gpio_o        ),            

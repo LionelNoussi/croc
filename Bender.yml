@@ -33,6 +33,7 @@ sources:
   - rtl/dma/dma_pkg.sv
   - rtl/soc_ctrl/soc_ctrl_reg_pkg.sv
   - rtl/gpio/gpio_reg_pkg.sv
+  - rtl/spi/spi_reg_pkg.sv
   # add your design files containing anything but modules (packages) here
 
     # RTL
@@ -43,6 +44,10 @@ sources:
       - rtl/soc_ctrl/soc_ctrl_reg_top.sv
       - rtl/gpio/gpio_reg_top.sv
       - rtl/gpio/gpio.sv
+      - rtl/spi/spi_reg_top.sv
+      - rtl/spi/spi.sv
+      - rtl/spi/spi_slave.sv
+      - rtl/spi/spi_fifo_buffer.sv
       # Level 2
       - rtl/croc_domain.sv
       - rtl/user_domain.sv

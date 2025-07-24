@@ -12,6 +12,7 @@
 #include "util.h"
 #include "dma.h"
 
+#include "spi.h"
 
 /// @brief Example integer square root
 /// @return integer square root of n
@@ -87,7 +88,20 @@ int main() {
     printf("GPIO (expect 0x50): 0x%x\n", gpio_read());
     uart_write_flush();
 
-    // doing some compute
+    printf("Starting spi test \n");
+    uart_write_flush();
+    uint8_t tx_data[16] = {0xD2, 0xC3, 0xB4, 0xA5, 0x96,0x31,0x6d,0x8e,0,0,0,0,0,0,0,0};  // example data
+    uint16_t addr = 0xA0FA;
+
+    spi_write(addr, tx_data, 16);
+
+    printf("Got data values: 0x%x,0x%x,0x%x,0x%x,0x%x \n",tx_data[0], tx_data[1],tx_data[2],tx_data[3], tx_data[4]);
+    // printf("SPI read from 0x%x: 0x%x\n", addr, result_spi);
+    printf("Done with SPI test\n");
+    // printf("SPI returned: 0x%x\n", result_spi);
+    printf("Done with Spi test \n");
+    uart_write_flush();
+    // doing some computes
     uint32_t start = get_mcycle();
     uint32_t res   = isqrt(1234567890UL);
     uint32_t end   = get_mcycle();
