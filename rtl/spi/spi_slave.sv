@@ -12,9 +12,6 @@ module spi_slave (
   logic [7:0] shift_reg_out;
   logic [2:0] bit_cnt;
   logic [7:0] dummy_value;
-  logic [7:0] dummy_next;
-
-  assign dummy_next = dummy_value + 1;
 
   logic cs_n_i_d;  // delayed version for edge detection
 
@@ -53,21 +50,13 @@ module spi_slave (
     if (!rst_ni) begin
       shift_reg_in <= 8'h00;
       bit_cnt      <= 3'd0;
-      miso_o <= 1'b0;
     end else if (!cs_n_i) begin
+      shift_reg_in <= {shift_reg_in[6:0], mosi_i};
+      bit_cnt      <= bit_cnt + 1;
+    end
 
-      // bit_cnt      <= bit_cnt + 1;
-
-
-      if (bit_cnt == 3'd8) begin
-          bit_cnt         <= 3'd0;
-          // shift_reg_out   <= {(dummy_value + 1) [7:1], 1'b0};
-          shift_reg_in    <= {7'b0000000, mosi_i};
-      end else begin
-          bit_cnt <= bit_cnt + 1;
-          shift_reg_in <= {shift_reg_in[6:0], mosi_i};
-
-      end
+    if (bit_cnt == 3'd7) begin
+        dummy_value <= dummy_value + 1;
     end
   end
 
@@ -78,8 +67,13 @@ module spi_slave (
     if (!rst_ni) begin
       miso_o <= 1'b0;
     end else if (!cs_n_i) begin
-      miso_o        <= shift_reg_out[7];
-      shift_reg_out <= {shift_reg_out[6:0], 1'b0};
+      if(bit_cnt == 3'd7) begin
+        miso_o        <= dummy_value[7];
+        shift_reg_out <= {dummy_value[6:0], 1'b0};
+      end else begin
+        miso_o        <= shift_reg_out[7];
+        shift_reg_out <= {shift_reg_out[6:0], 1'b0};
+      end
     end else begin
       miso_o <= 1'b0;
     end

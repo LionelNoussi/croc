@@ -68,13 +68,10 @@ module spi #(
     } spi_state_e;
 
     logic spi_fifo_write;
-    assign spi_fifo_write = (spi_state_q == DONE) && !rx_full;
+    assign spi_fifo_write = (spi_state_q == DONE) && (rw_type_q == 2'b01) && (byte_type == BYTE_DATA);
     logic rx_pulse;
     logic obi_read_enable;
     // assign obi_read_enable = (obi_req_i.addr == SPI_RXBUFFER_OFFSET) && obi_req_i.req && !obi_req_i.we;
-
-
-    logic tx_empty, rx_empty, rx_full;
 
     logic [7:0] fifo_status;
     spi_fifo_buffer #(
@@ -87,9 +84,9 @@ module spi #(
         .spi_data_i(rx_shift_reg_q),  // from FSM
         .obi_read_en(rx_pulse),
         .rd_data_o(hw2reg.rx_data),
-        .full_o(rx_full),
+        .full_o(fifo_status[7]),
         .almost_full_o(fifo_status[6]),
-        .empty_o(rx_empty),
+        .empty_o(fifo_status[5]),
         .almost_empty_o(fifo_status[4])
     );
 
@@ -111,13 +108,11 @@ module spi #(
         .rd_data_o(tx_fifo_data),       // drive tx_shift_reg from here
         .full_o(fifo_status[3]),
         .almost_full_o(fifo_status[2]),
-        .empty_o(tx_empty),
+        .empty_o(fifo_status[1]),
         .almost_empty_o(fifo_status[0])
     );
 
-    assign fifo_status[5] = rx_empty;
-    assign fifo_status[1] = tx_empty;
-    assign fifo_status[7] = rx_full;
+
 
     spi_state_e spi_state_d, spi_state_q;
 
@@ -125,7 +120,7 @@ module spi #(
     logic [3:0] bit_cnt_q, bit_cnt_d;
     logic [7:0] clk_div_count_q, clk_div_count_d;
     logic       sclk_int_q, sclk_int_d;
-    logic [7:0] byte_cnt_q, byte_cnt_d;
+    logic [5:0] byte_cnt_q, byte_cnt_d;
     logic [7:0] cmd_q, cmd_d;
     logic [7:0] length_d, length_q;
     logic [2:0] rw_type_d, rw_type_q;
@@ -134,8 +129,17 @@ module spi #(
     logic cpol_q, cpol,d;
     logic cpha_q, cpha_d;
 
+
+
+    typedef enum logic [2:0] {
+        BYTE_CMD, BYTE_LENGTH, BYTE_ADDR1, BYTE_ADDR0, BYTE_DATA
+        } byte_type_e;
+    byte_type_e byte_type;
+
+
     assign sclk_o = sclk_int_q;
-    assign mosi_o = tx_shift_reg_q[7] && !((spi_state_q != IDLE) ? 1'b0 : 1'b1);
+    assign mosi_o = tx_shift_reg_q[7];
+    // assign cs_n_o = (spi_state_q == SHIFT) ? 1'b0 : 1'b1;
     assign cs_n_o = (spi_state_q != IDLE) ? 1'b0 : 1'b1;
 
     
@@ -173,6 +177,17 @@ module spi #(
         status_q        <= status_d;
     end
     end
+
+    always_comb begin
+        case (byte_cnt_q)
+            6'd0: byte_type = BYTE_CMD;
+            6'd1: byte_type = BYTE_LENGTH;
+            6'd2: byte_type = BYTE_ADDR1;
+            6'd3: byte_type = BYTE_ADDR0;
+            default: byte_type = BYTE_DATA;
+        endcase
+    end
+
     // logic active_clk;
     // logic sampling_edge;
     // always_comb begin
@@ -219,11 +234,7 @@ module spi #(
                 clk_scale_d = reg2hw.control[7:3];
                 length_d = reg2hw.length;
                 rw_type_d = reg2hw.control[2:1];
-                if (!tx_empty) begin
-                    spi_tx_fifo_rd_en_d = 1;
-                    tx_shift_reg_d = tx_fifo_data;
-                end
-
+                spi_tx_fifo_rd_en_d = (byte_type == BYTE_DATA) && (rw_type_q == 2'b10);
             end
 
             SHIFT: begin
@@ -240,7 +251,7 @@ module spi #(
                         rx_shift_reg_d = {rx_shift_reg_q[6:0], miso_i}; // does this still conflicts with non shift laoding
                     end else begin
                         // if(bit_cnt_q != 0) begin
-                        tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
+                            tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
                         // end
                         bit_cnt_d  = bit_cnt_q + 1;
                     end
@@ -251,16 +262,21 @@ module spi #(
             end
 
             DONE: begin
-                if (byte_cnt_q >= length_q) begin
+                if (byte_cnt_q >= length_q +3) begin
                     spi_state_d = IDLE;
-                    byte_cnt_d = 0;
                 end else begin
                     spi_state_d = LOAD;
+                end
+
+                sclk_int_d = 0;
+                if(byte_cnt_q >= 4) begin
+                    status_d = byte_cnt_q - 3; // with this we can only send 32 bits, do we need to extend this?
+                end
+                if (byte_cnt_q >= length_q + 3) begin
+                    byte_cnt_d = 0;
+                end else begin
                     byte_cnt_d = byte_cnt_q+1;
                 end
-                tx_shift_reg_d = tx_fifo_data;
-                sclk_int_d = 0;
-                status_d = byte_cnt_q; // with this we can only send 32 bits, do we need to extend this?
             end
 
             default: spi_state_d = IDLE;
@@ -275,9 +291,28 @@ module spi #(
             end
         end
 
-        if(spi_state_q != SHIFT) begin
-            tx_shift_reg_d = tx_fifo_data;  // pull from fifo     // set fifo enable bit
-        end
 
+        // determines which data has to be sent during the shift
+        if(spi_state_q != SHIFT) begin
+            case (byte_type)
+                BYTE_CMD: begin 
+                    tx_shift_reg_d = reg2hw.control;
+                end
+                BYTE_LENGTH: begin
+                    tx_shift_reg_d = reg2hw.length;
+                end
+                BYTE_ADDR0: begin
+                    tx_shift_reg_d = reg2hw.address_low;
+                end
+                BYTE_ADDR1: begin
+                    tx_shift_reg_d = reg2hw.address_high;
+                end
+                BYTE_DATA: begin
+                    if(rw_type_q == 2'b10) begin //write
+                        tx_shift_reg_d = tx_fifo_data;  // pull from fifo     // set fifo enable bit
+                    end
+                end
+            endcase
+        end
     end
 endmodule

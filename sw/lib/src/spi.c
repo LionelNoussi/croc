@@ -12,7 +12,7 @@ static inline void delay_cycles(volatile uint32_t cycles) {
 
 
 // Write data to external memory via SPI
-void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
+void spi_write(uint16_t addr, uint8_t *data, uint8_t length) {
     // Set target address
     SPI_ADDR_HI = (addr >> 8) & 0xFF;
     SPI_ADDR_LO = addr & 0xFF;
@@ -24,7 +24,6 @@ void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
     // Set transfer length
     SPI_LENGTH = length;
 
-    length = 5;
     // Start write: [7:3]=length, [2:1]=0b10 (write), [0]=1 (start)
     SPI_CTRL = (length << 3) | (2 << 1) | 0x1;
     SPI_LENGTH = length;
@@ -32,7 +31,9 @@ void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
 
     // Wait until done
     while (SPI_STATUS != length);
-    uint8_t read = SPI_RX;
+    for(uint8_t i; i < length; i++){
+        data[i] = SPI_RX;
+    }
 }
 
 // Read data from external memory via SPI

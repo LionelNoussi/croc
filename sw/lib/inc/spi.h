@@ -14,5 +14,5 @@
 
 
 // SPI read/write interface
-void spi_write(uint16_t addr, const uint8_t *data, uint8_t length);
+void spi_write(uint16_t addr, uint8_t *data, uint8_t length);
 void spi_read(uint16_t addr, uint8_t *data, uint8_t length);

@@ -73,7 +73,7 @@ int main() {
 
     printf("Starting spi test \n");
     uart_write_flush();
-    uint8_t tx_data[5] = {0xD2, 0xC3, 0xB4, 0xA5, 0x96};  // example data
+    uint8_t tx_data[16] = {0xD2, 0xC3, 0xB4, 0xA5, 0x96,0x31,0x6d,0x8e,0,0,0,0,0,0,0,0};  // example data
     uint16_t addr = 0xA0FA;
 
     spi_write(addr, tx_data, 16);
