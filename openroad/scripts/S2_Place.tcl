@@ -69,7 +69,8 @@ check_placement
 
 estimate_parasitics -placement
 
-report_check_types  -violators > reports/drv_placement.rpt
+# report_check_types  -violators > reports/drv_placement.rpt
+report_metrics R2_croc_placed
 
 utl::report "Finished!"
 save_checkpoint croc_placed

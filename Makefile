@@ -152,8 +152,9 @@ sta_clean:
 
 sta:
 	cd sta; \
-	mkdir reports; \
-	YS_NETLIST=$(YS_NETLIST) \
+	mkdir -p reports; \
+	NETLIST_TYPE=$(NETLIST_TYPE) \
+	NETLIST_NAME=$(NETLIST_NAME) \
 	sta scripts/opensta.tcl
 
 .PHONY: sta sta_clean

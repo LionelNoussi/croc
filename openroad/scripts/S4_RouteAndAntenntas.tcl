@@ -16,7 +16,7 @@ set_global_routing_layer_adjustment TopMetal1 0.20
 set_routing_layers -signal Metal2-TopMetal1 -clock Metal2-TopMetal1
 
 utl::report "Running Initial Global Routing..."
-global_route -congestion_report_file reports/congestion.rpt -allow_congestion -guide_file reports/route_guide1.guide
+global_route -congestion_report_file reports/R5_congestion.rpt -allow_congestion; # -guide_file reports/route_guide1.guide
 
 # Do the following to view the coarse routing grid
 # Display Control → Misc → GCell Grid
@@ -30,7 +30,7 @@ utl::report "Perform buffer insertion..."
 repair_design -verbose
 
 utl::report "Repairing the timing..."
-repair_timing -skip_pin_swap -setup -setup_margin 0.01 -verbose 
+repair_timing -skip_pin_swap -setup -setup_margin 0.1 -verbose 
 repair_timing -skip_pin_swap -hold -hold_margin 0.1 -verbose -repair_tns 100
 
 # check_placement -verbose
@@ -43,11 +43,12 @@ global_route -end_incremental -allow_congestion -verbose -guide_file reports/rou
 estimate_parasitics -global_routing
 
 # utl::report "Repairing Antennas..."
-# repair_antennas -ratio_margin 30 -iterations 5 ;
-check_antennas;
-report_check_types  -violators > reports/croc_w_global_route.rpt
+# repair_antennas -ratio_margin 30 -iterations 2 ;
+# repair_timing -skip_pin_swap -setup -setup_margin 0.1 -verbose ;
+# check_antennas;
+report_metrics R6_croc_global_route
 puts "Violations after global placement: max_slew:[sta::max_slew_violation_count]  max_fanout:[sta::max_fanout_violation_count]  max_cap:[sta::max_capacitance_violation_count]"
 
 utl::report "Done!"
-save_checkpoint croc_fixed_antennas;
+save_checkpoint croc_global_route;
 gui::show

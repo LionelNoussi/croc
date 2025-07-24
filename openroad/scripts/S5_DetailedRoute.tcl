@@ -5,7 +5,7 @@ if {[info script] ne ""} {
 }
 
 source scripts/util_scripts/setup.tcl
-load_checkpoint croc_fixed_antennas
+load_checkpoint croc_global_route
 
 set_wire_rc -clock -layer Metal4;
 set_wire_rc -signal -layers {Metal2 Metal3 Metal4 Metal5};
@@ -34,13 +34,16 @@ global_connect;
 estimate_parasitics -global_routing
 
 # Final Output
+report_metrics R7_croc_final
 save_checkpoint croc_final -lvs;
+save_checkpoint ../out/croc -lvs;
 
 define_process_corner -ext_model_index 0 X
 extract_parasitics -ext_model_file IHP_rcx_patterns.rules
 write_spef out/croc.spef
 read_spef  out/croc.spef; # readback parasitics for OpenSTA
-report_check_types  -violators > reports/croc_final.rpt
+# report_check_types  -violators > reports/croc_final.rpt
+report_metrics R8_sta_w_spef
 
 utl::report "Done!"
 

@@ -25,3 +25,6 @@ source scripts/util_scripts/checkpoint.tcl
 
 # initialize technology data
 source scripts/util_scripts/init_tech.tcl
+
+# create report functions
+source scripts/util_scripts/reports.tcl

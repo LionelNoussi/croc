@@ -1,5 +1,5 @@
 module dma_fifo_buffer #(
-    parameter DEPTH = 16,  // Must be power of 2
+    parameter DEPTH = 4,  // Must be power of 2
     parameter DATA_WIDTH = 32
 )(
     input  logic        clk_i,

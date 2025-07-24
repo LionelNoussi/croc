@@ -34,8 +34,8 @@ detailed_placement
 estimate_parasitics -placement
 
 set_propagated_clock [all_clocks]
-report_check_types  -violators > reports/croc_w_clock_tree_violations.rpt
-# gui::show
+# report_check_types  -violators > reports/croc_w_clock_tree_violations.rpt
+report_metrics R3_croc_clock_tree
 
 
 utl::report "Report before repair:"
@@ -59,7 +59,8 @@ report_clock_latency -clock clk_sys
 report_design_area
 report_power -corner tt
 report_checks -path_group clk_sys
-report_check_types  -violators > reports/croc_repaired.rpt
+# report_check_types  -violators > reports/croc_repaired.rpt
+report_metrics R4_croc_timing_reparired
 puts "Violations after global placement: max_slew:[sta::max_slew_violation_count]  max_fanout:[sta::max_fanout_violation_count]  max_cap:[sta::max_capacitance_violation_count]"
 
 save_checkpoint croc_w_clock_tree

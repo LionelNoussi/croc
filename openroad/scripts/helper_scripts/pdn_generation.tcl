@@ -96,4 +96,4 @@ add_pdn_connect -grid sram_256x64_grid -layers {TopMetal1 Metal3}
 add_pdn_connect -grid sram_256x64_grid -layers {TopMetal2 TopMetal1}
 add_pdn_connect -grid sram_256x64_grid -layers {Metal3 Metal1}
 
-pdngen -failed_via_report reports/croc_pdngen.rpt
+pdngen -failed_via_report reports/R1_pdn_gen_fail_report.rpt

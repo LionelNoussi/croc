@@ -43,6 +43,6 @@ gui::set_display_controls "Heat Maps/IR Drop" visible true
 gui::set_heatmap IRDrop Layer Metal1
 gui::set_heatmap IRDrop ShowLegend 1
 
-save_checkpoint croc_final
+save_checkpoint croc_analyzed
 
 gui::show

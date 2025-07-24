@@ -5,7 +5,7 @@
 make_io_sites -horizontal_site sg13g2_ioSite \
     -vertical_site sg13g2_ioSite \
     -corner_site sg13g2_ioSite \
-    -offset 0 \
+    -offset 70 \
     -rotation_horizontal R0 \
     -rotation_vertical R0 \
     -rotation_corner R0
@@ -14,11 +14,11 @@ make_io_sites -horizontal_site sg13g2_ioSite \
 # Pad Placement #
 #################
 
-set chipW            1995;    # 2235 with sealring spacing and bondpad
-set chipH            1995;    # 2235 with sealring spacing and bondpad
+# set chipW            1995;    # 2235 with sealring spacing and bondpad
+# set chipH            1995;    # 2235 with sealring spacing and bondpad
 
-# set chipW 2135 ;    # 2235 with sealring spacing
-# set chipH 2135 ;    # 2235 with sealring spacing
+set chipW 2135 ;    # 2235 with sealring spacing
+set chipH 2135 ;    # 2235 with sealring spacing
 
 set bondpadW 70;
 set bondpadH 70;
@@ -35,15 +35,15 @@ set offset 12.5
 set pitch 102 ;
 
 
-# set startLeft [expr $chipH - $bondpadH - $padD - $offset - $padW]
-# set startBottom [expr $bondpadW + $padD + $offset]
-# set startRight [expr $bondpadH + $padD + $offset]
-# set startTop [expr $chipW - $bondpadW - $padD - $offset - $padW]
+set startLeft [expr $chipH - $bondpadH - $padD - $offset - $padW]
+set startBottom [expr $bondpadW + $padD + $offset]
+set startRight [expr $bondpadH + $padD + $offset]
+set startTop [expr $chipW - $bondpadW - $padD - $offset - $padW]
 
-set startLeft [expr $chipH - $padD - $offset - $padW]
-set startBottom [expr + $padD + $offset]
-set startRight [expr + $padD + $offset]
-set startTop [expr $chipW - $padD - $offset - $padW]
+# set startLeft [expr $chipH - $padD - $offset - $padW]
+# set startBottom [expr + $padD + $offset]
+# set startRight [expr + $padD + $offset]
+# set startTop [expr $chipW - $padD - $offset - $padW]
 
 # Edge: LEFT (top to bottom)
 
