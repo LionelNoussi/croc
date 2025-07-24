@@ -31,7 +31,7 @@ void spi_write(uint16_t addr, const uint8_t *data, uint8_t length) {
     SPI_CTRL = (length << 3) | (2 << 1) | 0x0;
 
     // Wait until done
-    while ((SPI_STATUS & 0x1) == 0);
+    while (SPI_STATUS != length);
     uint8_t read = SPI_RX;
 }
 

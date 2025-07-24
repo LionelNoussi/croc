@@ -78,6 +78,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
   typedef struct packed {
     logic [7:0] control;
     logic [7:0] status;
+    logic [7:0] fifo_status;
     logic [7:0] tx_data;
     logic [7:0] rx_data;
     logic [7:0] address_low;
@@ -116,6 +117,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     // Update from logic
     new_reg.status  = hw2reg.status;
     new_reg.rx_data = hw2reg.rx_data;
+    new_reg.fifo_status = hw2reg.fifo_status;
 
     reg_d = new_reg;
 
@@ -155,6 +157,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
         SPI_ADDRESS_LO_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_low};
         SPI_ADDRESS_HI_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_high};
         SPI_LENGTH_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.length};
+        SPI_FIFOSTAT_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.fifo_status};
         default: begin
           obi_rdata = 32'hDEAD_BEEF;
           obi_err   = 1'b1;

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: SHL-0.51
 //
 // Authors:
-// - TODO: Add authors
+
 
 `include "common_cells/registers.svh"
 
@@ -73,7 +73,7 @@ module spi #(
     logic obi_read_enable;
     // assign obi_read_enable = (obi_req_i.addr == SPI_RXBUFFER_OFFSET) && obi_req_i.req && !obi_req_i.we;
 
-
+    logic [7:0] fifo_status;
     spi_fifo_buffer #(
         .DEPTH(16),
         .DATA_WIDTH(8)
@@ -84,10 +84,10 @@ module spi #(
         .spi_data_i(rx_shift_reg_q),  // from FSM
         .obi_read_en(rx_pulse),
         .rd_data_o(hw2reg.rx_data),
-        .full_o(),
-        .almost_full_o(),
-        .empty_o(),
-        .almost_empty_o()
+        .full_o(fifo_status[7]),
+        .almost_full_o(fifo_status[6]),
+        .empty_o(fifo_status[5]),
+        .almost_empty_o(fifo_status[4])
     );
 
 
@@ -106,10 +106,10 @@ module spi #(
         .spi_data_i(reg2hw.tx_data),     // core register value
         .obi_read_en(spi_tx_fifo_rd_en_q),    // FSM reads when sending
         .rd_data_o(tx_fifo_data),       // drive tx_shift_reg from here
-        .full_o(),
-        .almost_full_o(),
-        .empty_o(),
-        .almost_empty_o()
+        .full_o(fifo_status[3]),
+        .almost_full_o(fifo_status[2]),
+        .empty_o(fifo_status[1]),
+        .almost_empty_o(fifo_status[0])
     );
 
 
@@ -125,6 +125,7 @@ module spi #(
     logic [7:0] length_d, length_q;
     logic [2:0] rw_type_d, rw_type_q;
     logic [4:0] clk_scale_q, clk_scale_d;
+    logic [7:0] status_q, status_d;
 
 
 
@@ -137,6 +138,9 @@ module spi #(
     assign sclk_o = sclk_int_q;
     assign mosi_o = tx_shift_reg_q[7];
     assign cs_n_o = (spi_state_q == SHIFT) ? 1'b0 : 1'b1;
+    
+    assign hw2reg.status = status_q;
+    assign hw2reg.fifo_status = fifo_status;
 
     always_ff @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
@@ -152,6 +156,7 @@ module spi #(
         rw_type_q       <= 0;
         spi_tx_fifo_rd_en_q <= 0;
         clk_scale_q     <= 1;
+        status_q        <= 0;
     end else begin
         spi_state_q     <= spi_state_d;
         bit_cnt_q       <= bit_cnt_d;
@@ -165,6 +170,7 @@ module spi #(
         rw_type_q       <= rw_type_d;
         spi_tx_fifo_rd_en_q <= spi_tx_fifo_rd_en_d;
         clk_scale_q     <= clk_scale_d;
+        status_q        <= status_d;
     end
     end
 
@@ -191,7 +197,7 @@ module spi #(
         rw_type_d       = rw_type_q;
         spi_tx_fifo_rd_en_d = 0;
         clk_scale_d     = clk_scale_q;
-        // hw2reg.status[0] = ; //need a register here
+        status_d        = status_q;
         case (spi_state_q) 
             IDLE: begin
                 if (reg2hw.control[0]) begin
@@ -240,17 +246,11 @@ module spi #(
                     spi_state_d = LOAD;
                 end
 
-                // if(rw_type_q == 2'b10) begin
-                //     // hw2reg.rx_data[8*(byte_cnt_q - 4) +: 8] = rx_shift_reg_q; // how do i assign this properly, i dont understand anymore what this does
-                //     // spi_rx_fifo_wr_en = (spi_state_q == DONE) && (rw_type_q == 2'b10);
-                // end
                 sclk_int_d = 0;
-                //status still a bit messy
-                // if (byte_cnt_q >= 4 && byte_cnt_q < length_q+4) begin
-                //     hw2reg.status = byte_cnt_q - 3;
-                // end else
+                if(byte_cnt_q >= 4) begin
+                    status_d = byte_cnt_q - 3; // with this we can only send 32 bits, do we need to extend this?
+                end
                 if (byte_cnt_q >= length_q + 3) begin
-                    hw2reg.status[0] = 1;
                     byte_cnt_d = 0;
                 end else begin
                     byte_cnt_d = byte_cnt_q+1;
