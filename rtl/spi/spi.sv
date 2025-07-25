@@ -261,6 +261,7 @@ module spi #(
                 tx_shift_reg_d = tx_fifo_data;
                 sclk_int_d = 0;
                 status_d = byte_cnt_q; // with this we can only send 32 bits, do we need to extend this?
+                cmd_d = 0;
             end
 
             default: spi_state_d = IDLE;
