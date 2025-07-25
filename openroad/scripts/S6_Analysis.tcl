@@ -3,7 +3,7 @@ if {[info script] ne ""} {
 }
 
 source scripts/util_scripts/setup.tcl
-load_checkpoint croc_final
+load_checkpoint croc_global_route
 
 gui::show
 

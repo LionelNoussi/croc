@@ -10,23 +10,7 @@
 #
 # Last Modification: 19.02.2025
 
-set netlist_name $::env(NETLIST_NAME)
-
-if { $::env(NETLIST_TYPE) eq "yosys" } {
-    puts "Loading Yosys netlist: yosys/out/croc.v"
-    read_verilog "../yosys/out/croc.v"
-} elseif { $::env(NETLIST_TYPE) eq "openroad" } {
-    puts "Loading OpenROAD netlist: openroad/checkpoints/${netlist_name}/${netlist_name}.v"
-    read_verilog "../openroad/checkpoints/${netlist_name}/${netlist_name}_sta.v"
-
-    # Optional: read parasitics if they exist
-    set spef_file "../openroad/out/croc_sta.spef"
-    if {[file exists $spef_file]} {
-        puts "Reading SPEF: $spef_file"
-        read_spef $spef_file
-    }
-}
-
+set netlist_name croc
 
 # Read library files
 set lib_dir "../technology/lib"
@@ -34,17 +18,29 @@ read_liberty ${lib_dir}/sg13g2_stdcell_typ_1p20V_25C.lib
 read_liberty ${lib_dir}/RM_IHPSG13_1P_256x64_c2_bm_bist_typ_1p20V_25C.lib
 read_liberty ${lib_dir}/sg13g2_io_typ_1p2V_3p3V_25C.lib
 
-# Load netlist
-# read_verilog ../yosys/out/${netlist_name}.v
-link_design croc_chip
 
-# Only read SPEF/SDF if they exist
-if {[file exists ../openroad/out/croc.spef]} {
-    read_spef ../openroad/out/croc.spef
+if { $::env(NETLIST_TYPE) eq "yosys" } {
+    puts "Loading Yosys netlist: yosys/out/croc.v"
+    read_verilog "../yosys/out/croc.v"
+    link_design croc_chip
+} elseif { $::env(NETLIST_TYPE) eq "openroad" } {
+    puts "Loading OpenROAD netlist: openroad/out/croc.v"
+    read_verilog "../openroad/out/croc.v"
+    link_design croc_chip
+    report_net [list [get_nets *gpio*]]
+    exit
+
+    # Optional: read parasitics if they exist
+    set spef_file "../openroad/out/croc.spef"
+    if {[file exists $spef_file]} {
+        puts "Reading SPEF: $spef_file"
+        set_spef_hier_separator /
+        set_spef_net_name_mode hierarchical
+        read_spef $spef_file
+    }
 }
-if {[file exists ../openroad/out/croc.sdf]} {
-    read_sdf ../openroad/out/croc.sdf
-}
+
+
 
 # Set constraints
 # ##################################################################################################

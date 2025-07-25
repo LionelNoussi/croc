@@ -151,13 +151,11 @@ sta_clean:
 	rm -r sta/reports/
 
 
-NETLIST_NAME ?= croc_final
 NETLIST_TYPE ?= yosys
 sta:
 	cd sta; \
 	mkdir -p reports; \
 	NETLIST_TYPE=$(NETLIST_TYPE) \
-	NETLIST_NAME=$(NETLIST_NAME) \
 	sta scripts/opensta.tcl
 
 .PHONY: sta sta_clean

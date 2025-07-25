@@ -24,7 +24,7 @@ After sctipt 5, everything is alredy done. S6 is only for analysis really.
 Next we have to prepare for DRC&LVS checks.
 
 10. cd klayout          (from croc directory)
-11. oceda ./def2gds.sh croc_chip ../openroad/out/croc.def
+11. oceda ./def2gds.sh croc_chip ../openroad/out/croc.def       (ignore "No module named 'imp'" error at the end.)
 12. cd calibre/lvs      (from croc directory)
 13. ./verilog2spice ../../openroad/out/croc_lvs.v croc_chip.spice
 

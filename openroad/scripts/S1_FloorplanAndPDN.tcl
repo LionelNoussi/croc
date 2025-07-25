@@ -15,6 +15,9 @@ source scripts/util_scripts/setup.tcl
 read_verilog ../yosys/out/croc.v
 link_design croc_chip
 
+# Connect power ports and set correct names
+source scripts/helper_scripts/power_connect.tcl
+
 # Create Floorplan
 utl::report "Creating Floorplan..."
 source scripts/helper_scripts/floorplanning.tcl

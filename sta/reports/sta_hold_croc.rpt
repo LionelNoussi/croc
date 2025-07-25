@@ -1,4 +1,4 @@
-Startpoint: i_croc_soc/i_croc/i_dma/dma_receive_obi_req_o[47]_reg
+Startpoint: i_croc_soc/i_croc/i_dma/dma_transmit_obi_req_o[50]_reg
             (rising edge-triggered flip-flop clocked by clk_sys)
 Endpoint: i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut
           (rising edge-triggered flip-flop clocked by clk_sys)
@@ -9,14 +9,15 @@ Path Type: min
 ---------------------------------------------------------
    0.00    0.00   clock clk_sys (rise edge)
    0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ i_croc_soc/i_croc/i_dma/dma_receive_obi_req_o[47]_reg/CLK (sg13g2_dfrbp_1)
-   0.32    0.32 ^ i_croc_soc/i_croc/i_dma/dma_receive_obi_req_o[47]_reg/Q (sg13g2_dfrbp_1)
-   0.08    0.40 v i_croc_soc/i_croc/$abc$216447$auto$blifparse.cc:396:parse_blif$221954/Y (sg13g2_nand3_1)
-   0.05    0.46 ^ i_croc_soc/i_croc/$abc$216447$auto$blifparse.cc:396:parse_blif$221955/Y (sg13g2_nand3_1)
-   0.07    0.53 v i_croc_soc/i_croc/$abc$216447$auto$blifparse.cc:396:parse_blif$221959/Y (sg13g2_nand3_1)
-   0.05    0.58 ^ i_croc_soc/i_croc/$abc$216447$auto$blifparse.cc:396:parse_blif$221960/Y (sg13g2_o21ai_1)
-   0.00    0.58 ^ i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut/A_ADDR[4] (RM_IHPSG13_1P_256x64_c2_bm_bist)
-           0.58   data arrival time
+   0.00    0.00 ^ i_croc_soc/i_croc/i_dma/dma_transmit_obi_req_o[50]_reg/CLK (sg13g2_dfrbp_2)
+   0.32    0.32 ^ i_croc_soc/i_croc/i_dma/dma_transmit_obi_req_o[50]_reg/Q (sg13g2_dfrbp_2)
+   0.06    0.38 v i_croc_soc/i_croc/$abc$202614$auto$blifparse.cc:396:parse_blif$209147/Y (sg13g2_nand3_1)
+   0.05    0.43 ^ i_croc_soc/i_croc/$abc$202614$auto$blifparse.cc:396:parse_blif$209149/Y (sg13g2_nand3_1)
+   0.08    0.51 v i_croc_soc/i_croc/$abc$202614$auto$blifparse.cc:396:parse_blif$209150/Y (sg13g2_nand3_1)
+   0.04    0.55 ^ i_croc_soc/i_croc/$abc$202614$auto$blifparse.cc:396:parse_blif$209151/Y (sg13g2_o21ai_1)
+   0.07    0.62 ^ wire32282/X (sg13g2_buf_1)
+   0.00    0.62 ^ i_croc_soc/i_croc/gen_sram_bank[0].i_sram/gen_512x32xBx1.i_cut/A_ADDR[7] (RM_IHPSG13_1P_256x64_c2_bm_bist)
+           0.62   data arrival time
 
    0.00    0.00   clock clk_sys (rise edge)
    0.00    0.00   clock network delay (ideal)
@@ -27,8 +28,8 @@ Path Type: min
            0.75   data required time
 ---------------------------------------------------------
            0.75   data required time
-          -0.58   data arrival time
+          -0.62   data arrival time
 ---------------------------------------------------------
-          -0.17   slack (VIOLATED)
+          -0.13   slack (VIOLATED)
 
 

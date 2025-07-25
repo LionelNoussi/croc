@@ -31,21 +31,25 @@ detailed_route -output_drc reports/croc_route_drc.rpt \
 utl::report "Placing filler cells..."
 filler_placement {sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1};
 global_connect;
-estimate_parasitics -global_routing
 
-# Final Output
+# Final checkpoint
 report_metrics R7_croc_final
 save_checkpoint croc_final -lvs;
-save_checkpoint croc -lvs;
+
+# Final Output
+write_verilog out/croc.v
+write_db out/croc.db
+write_sdc out/croc.sdc
+write_def out/croc.def
+set stdfill [ list sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1 ]
+write_verilog -include_pwr_gnd -remove_cells "${stdfill} bondpad*" out/croc_lvs.v
+write_verilog -remove_cells "${stdfill} bondpad*" out/croc_sta.v
 
 # Write and read back parasitics, and create simple netlist for sta
 define_process_corner -ext_model_index 0 X
 extract_parasitics -ext_model_file IHP_rcx_patterns.rules
 write_spef out/croc.spef
-read_spef  out/croc.spef; # readback parasitics for OpenSTA
-set stdfill [ list sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1 ]
-write_verilog -remove_cells "${stdfill} bondpad*" out/croc_sta.v
-
+read_spef  out/croc.spef; # readback parasitics makes things a lot worse
 
 utl::report "Done!"
 
