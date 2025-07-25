@@ -9,6 +9,7 @@ package spi_reg_pkg;
     logic [7:0] address_low;
     logic [7:0] address_high;
     logic [7:0] length;
+    logic [7:0] mode_ctrl;
   } spi_reg2hw_t;
 
 
@@ -27,6 +28,7 @@ package spi_reg_pkg;
   parameter logic [AddressWidth-1:0] SPI_ADDRESS_HI_OFFSET  = 12'h014;
   parameter logic [AddressWidth-1:0] SPI_LENGTH_OFFSET      = 12'h018;
   parameter logic [AddressWidth-1:0] SPI_FIFOSTAT_OFFSET    = 12'h01C;
+  parameter logic [AddressWidth-1:0] SPI_MODE_CTRL_OFFSET   = 12'h020;
 
 
 endpackage

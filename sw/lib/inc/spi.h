@@ -11,8 +11,11 @@
 #define SPI_ADDR_HI     (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x014))
 #define SPI_LENGTH      (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x018))
 #define SPI_FIFOSTAT    (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x01C))
+#define SPI_MODE_CTRL   (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x020))
 
 
 // SPI read/write interface
-void spi_write(uint16_t addr, uint8_t *data, uint8_t length);
-void spi_read(uint16_t addr, uint8_t *data, uint8_t length);
+void spi_write_full(uint16_t addr, uint8_t *data, uint8_t length);
+void spi_read_full(uint16_t addr, uint8_t *data, uint8_t length);
+void spi_write(uint16_t addr,uint8_t length);
+void spi_read(uint16_t addr, uint8_t length);

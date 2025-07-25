@@ -84,15 +84,15 @@ int main() {
         rx_data[i] = i + 1;
     }
     uint16_t addr = 0x0034;
-    spi_write(addr, rx_data, 10);
+    spi_write_full(addr, rx_data, 10);
     addr = 0x00a4;
-    spi_read(addr,rx_data,10);
+    spi_read_full(addr,rx_data,10);
     for(uint8_t i = 0; i< 10; i++){
         printf("received spi data value:0x%x \n", rx_data[i]);
     }
-    
+
     addr = 0x0034;
-    spi_read(addr, rx_data,10);
+    spi_read_full(addr, rx_data,10);
 
 
     // printf("SPI read from 0x%x: 0x%x\n", addr, result_spi);

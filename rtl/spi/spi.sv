@@ -131,8 +131,16 @@ module spi #(
     logic [2:0] rw_type_d, rw_type_q;
     logic [4:0] clk_scale_q, clk_scale_d;
     logic [7:0] status_q, status_d;
-    logic cpol_q, cpol,d;
-    logic cpha_q, cpha_d;
+
+
+    logic cpol;   //_q, cpol,d;
+    logic cpha;    //_q, cpha_d;
+    logic active_clk, sample_edge;
+
+    assign cpol = reg2hw.mode_ctrl[0];
+    assign cpha = reg2hw.mode_ctrl[1];
+    assign active_clk = cpol;                 // sets the acive clock
+    assign sample_edge = cpol ^ cpha;    // when it is zero, we sample on the rising edge, if 1 on the falling edge. Default mode is therfore SPI MODE 0
 
     assign sclk_o = sclk_int_q;
     assign mosi_o = tx_shift_reg_q[7] && !((spi_state_q != IDLE) ? 1'b0 : 1'b1);
@@ -147,7 +155,7 @@ module spi #(
         spi_state_q     <= IDLE;
         bit_cnt_q       <= 0;
         clk_div_count_q <= 0;
-        sclk_int_q      <= 0;
+        sclk_int_q      <= active_clk;
         byte_cnt_q      <= 0;
         cmd_q           <= 0;
         length_q        <= 0;
@@ -173,21 +181,6 @@ module spi #(
         status_q        <= status_d;
     end
     end
-    // logic active_clk;
-    // logic sampling_edge;
-    // always_comb begin
-    //     active_clk = cpol_q;
-    //     sampling_edge = 
-    // end
-
-    // always_comb begin
-    //     case({cpol, cpha})
-    //         00:
-    //         01:
-    //         10:
-    //         11: 
-    //     endcase
-    // end
 
     always_comb begin
         spi_state_d     = spi_state_q;
@@ -203,17 +196,19 @@ module spi #(
         spi_tx_fifo_rd_en_d = 0;
         clk_scale_d     = clk_scale_q;
         status_d        = status_q;
+    
         case (spi_state_q) 
             IDLE: begin
                 if (reg2hw.control[0]) begin
                     spi_state_d = LOAD;
                 end
+                sclk_int_d = active_clk;
             end
             LOAD: begin
                 spi_state_d = SHIFT;
                 rx_shift_reg_d = 0;
                 bit_cnt_d = 0;
-                sclk_int_d = 0;
+                sclk_int_d = active_clk;
                 clk_div_count_d = 0;
                 cmd_d = reg2hw.control;
                 clk_scale_d = reg2hw.control[7:3];
@@ -236,7 +231,7 @@ module spi #(
                 if (clk_div_count_q+1 == clk_scale_q) begin
                     // clk_div_count_d = 8'h0;
                     // sclk_int_d = ~sclk_int_q; //eventuell jetzt vertauscht
-                    if(sclk_int_d == 1'b0) begin
+                    if(sclk_int_d == sample_edge) begin
                         rx_shift_reg_d = {rx_shift_reg_q[6:0], miso_i}; // does this still conflicts with non shift laoding
                     end else begin
                         // if(bit_cnt_q != 0) begin
