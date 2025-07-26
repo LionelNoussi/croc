@@ -56,9 +56,6 @@ int main() {
     uart_write('\n');
     // ROM TEST END ---------------------------------
 
-    // DMA TEST
-    // test_dma();
-
     // uart loopback
     uart_loopback_enable();
     printf("internal msg\n");
@@ -115,8 +112,8 @@ int main() {
     // printf("SPI read from 0x%x: 0x%x\n", addr, result_spi);
     printf("Done with SPI test\n");
     // printf("SPI returned: 0x%x\n", result_spi);
-    printf("Done with Spi test \n");
     uart_write_flush();
+
     // doing some computes
     uint32_t start = get_mcycle();
     uint32_t res   = isqrt(1234567890UL);

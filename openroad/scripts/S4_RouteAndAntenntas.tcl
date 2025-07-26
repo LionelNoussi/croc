@@ -47,10 +47,71 @@ report_metrics R6_croc_global_route
 puts "Violations after global routing: max_slew:[sta::max_slew_violation_count]  max_fanout:[sta::max_fanout_violation_count]  max_cap:[sta::max_capacitance_violation_count]"
 utl::report "Done with GlobalRoute Script!"
 
-utl::report "Fixing Antennas..."
+
+
+
+
+
+
+utl::report "Checking fixing antennas and doing detailed routing twice!"
+
+utl::report "Repairing Antennas, design and timing..."
 repair_antennas -ratio_margin 30 -iterations 1;
-save_checkpoint croc_fixed_antennas;
-report_metrics FixedAntennasReport
+report_metrics FixedAntennasIter1
+save_checkpoint FixedAntennasIter1
+
+utl::report "Running first detailed routing..."
+set_global_routing_layer_adjustment Metal2-Metal3 0.30
+set_global_routing_layer_adjustment TopMetal1 0.20
+set_routing_layers -signal Metal2-TopMetal1 -clock Metal2-TopMetal1
+
+set_thread_count 6;
+detailed_route -output_drc reports/croc_route_drc1.rpt \
+              -bottom_routing_layer Metal2 \
+              -top_routing_layer TopMetal1 \
+              -droute_end_iter 30 \
+              -drc_report_iter_step 5 \
+              -save_guide_updates \
+              -clean_patches \
+              -verbose 1 \
+
+save_checkpoint croc_one_detailed_route
+
+utl::report "Repairing antennas again..."
+repair_antennas -ratio_margin 30 -iterations 1;
+
+report_metrics FixedAntennasDetailedRouteIter1
+
+utl::report "Running second detailed routing..."
+set_thread_count 6;
+detailed_route -output_drc reports/croc_route_drc2.rpt \
+              -bottom_routing_layer Metal2 \
+              -top_routing_layer TopMetal1 \
+              -droute_end_iter 30 \
+              -drc_report_iter_step 5 \
+              -save_guide_updates \
+              -clean_patches \
+              -verbose 1 \
+
+# FINISHING
+
+utl::report "Placing filler cells..."
+filler_placement {sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1};
+global_connect;
+
+# Final checkpoint
+report_metrics R7_croc_final
+save_checkpoint croc_final -lvs;
+
+# Final Output
+write_verilog out/croc.v
+write_db out/croc.db
+write_sdc out/croc.sdc
+write_def out/croc.def
+set stdfill [ list sg13g2_fill_8 sg13g2_fill_4 sg13g2_fill_2 sg13g2_fill_1 ]
+write_verilog -include_pwr_gnd -remove_cells "${stdfill} bondpad*" out/croc_lvs.v
+write_verilog -remove_cells "${stdfill} bondpad*" out/croc_sta.v
+
 
 utl::report "Done"
 gui::show

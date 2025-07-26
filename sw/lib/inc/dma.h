@@ -169,12 +169,12 @@ void uart_read_dma(uint8_t* destination_array, uint8_t N);
 void uart_write_dma(uint8_t* source_array, uint8_t N);
 
 // -----------------------------------------------------------------------------
-// SPI API
+// SPI SSDAPI
 // -----------------------------------------------------------------------------
 
-void spi_read_dma(uint8_t* destination_array, uint8_t N);
+void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes);
 
-void spi_write_dma(uint8_t* source_array, uint8_t N);
+void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes);
 
 // -----------------------------------------------------------------------------
 // DMA MEMCPY

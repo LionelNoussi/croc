@@ -520,7 +520,6 @@ always_comb begin: TRANSMITTER_STATE_MACHINE
 
     TRANSMITTER_IDLE: begin
       if (activate_signal_q) begin
-        // TODO add asserts here that check the validity of all the fields, before activating the dma
         transmitter_counter_d = 11'd1;
         transmitter_state_d = TRANSMITTER_WAIT_FOR_NEW_INPUTS;
         transmitter_obi_addr_d = dst_base_addr_q + dst_offset_q;
@@ -595,8 +594,7 @@ always_comb begin: TRANSMITTER_STATE_MACHINE
             transmitter_state_d = TRANSMITTER_WAIT_FOR_NEW_INPUTS;
           end
         
-        // Else still waiting for grant, so keep requesting
-        // with same data
+        // Else still waiting for grant, so keep requesting with same data
         end else begin
           transmitter_obi_req_d = 1'b1;
         end

@@ -117,7 +117,7 @@ void spi_read(uint16_t addr, uint8_t length) {
 
     uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
     uint8_t addr_lo = addr & 0xFF; 
-    // uint8_t control = (5 << 3) | (2 << 1) | 0x1;
+    // uint8_t control = (5 << 3) | (1 << 1) | 0x1;
     uint8_t control = 0b00101011;
 
     SPI_TX = control;
@@ -144,7 +144,7 @@ void spi_read_full(uint16_t addr, uint8_t *data, uint8_t length) {
     uint8_t addr_lo = addr & 0xFF; 
     // uint8_t control = (5 << 3) | (2 << 1) | 0x1;
     uint8_t control = 0b00101011;
-    uint8_t control_rst = (4 << 3) | (2 << 1) | 0x0;
+    uint8_t control_rst = (5 << 3) | (2 << 1) | 0x0;
 
     SPI_TX = control;
     // delay_cycles(2);
@@ -164,8 +164,8 @@ void spi_read_full(uint16_t addr, uint8_t *data, uint8_t length) {
 
     // Start write: [7:3]=length, [2:1]=0b10 (write), [0]=1 (start)
     SPI_CTRL = control;
-    SPI_LENGTH = length + 3;
-    SPI_CTRL = 0b00101010;
+    delay_cycles(5);
+    SPI_CTRL = control_rst;
     delay_cycles(15);
     // Wait until done
     while (SPI_STATUS != length + 3);
