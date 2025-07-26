@@ -84,6 +84,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     logic [7:0] address_low;
     logic [7:0] address_high;
     logic [7:0] length;
+    logic [7:0] mode_ctrl;
   } spi_reg_fields_t;
 
   spi_reg_fields_t reg_d, reg_q;
@@ -113,6 +114,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     reg2hw.address_low = reg_q.address_low;
     reg2hw.address_high = reg_q.address_high;
     reg2hw.length = reg_q.length;
+    reg2hw.mode_ctrl = reg_q.mode_ctrl;
 
     // Update from logic
     new_reg.status  = hw2reg.status;
@@ -134,11 +136,14 @@ module spi_reg_top import spi_reg_pkg::*; #(
           reg_d.address_low = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
         end
         SPI_ADDRESS_HI_OFFSET: begin
-          reg_d.address_high = (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
+          reg_d.address_high = (~bit_mask & new_reg.address_high) | (bit_mask & obi_wdata[7:0]);
         end
         SPI_LENGTH_OFFSET: begin
-          reg_d.length= (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
+          reg_d.length= (~bit_mask & new_reg.address_low) | (bit_mask & obi_wdata[7:0]);
         end
+        SPI_MODE_CTRL_OFFSET: begin
+          reg_d.mode_ctrl= (~bit_mask & new_reg.mode_ctrl) | (bit_mask & obi_wdata[7:0]);
+        end        
         default: begin
           w_err_d = 1'b1;
         end
@@ -158,6 +163,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
         SPI_ADDRESS_HI_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_high};
         SPI_LENGTH_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.length};
         SPI_FIFOSTAT_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.fifo_status};
+        SPI_MODE_CTRL_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.mode_ctrl};
         default: begin
           obi_rdata = 32'hDEAD_BEEF;
           obi_err   = 1'b1;

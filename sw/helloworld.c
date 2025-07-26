@@ -90,12 +90,28 @@ int main() {
 
     printf("Starting spi test \n");
     uart_write_flush();
-    uint8_t tx_data[16] = {0xD2, 0xC3, 0xB4, 0xA5, 0x96,0x31,0x6d,0x8e,0,0,0,0,0,0,0,0};  // example data
-    uint16_t addr = 0xA0FA;
+    uint8_t tx_data[10] = {1,2,3,4,5,6,7,8,9,10};  // example data
 
-    spi_write(addr, tx_data, 16);
+    
 
-    printf("Got data values: 0x%x,0x%x,0x%x,0x%x,0x%x \n",tx_data[0], tx_data[1],tx_data[2],tx_data[3], tx_data[4]);
+
+    uint8_t rx_data[10] = {0};
+    rx_data[0] = 1;
+    for(uint8_t i = 0; i < 10; i++){
+        rx_data[i] = i + 1;
+    }
+    uint16_t addr = 0x0034;
+    spi_write_full(addr, rx_data, 10);
+    addr = 0x00a4;
+    spi_read_full(addr,rx_data,10);
+    for(uint8_t i = 0; i< 10; i++){
+        printf("received spi data value:0x%x \n", rx_data[i]);
+    }
+
+    addr = 0x0034;
+    spi_read_full(addr, rx_data,10);
+
+
     // printf("SPI read from 0x%x: 0x%x\n", addr, result_spi);
     printf("Done with SPI test\n");
     // printf("SPI returned: 0x%x\n", result_spi);
