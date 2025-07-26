@@ -5,6 +5,14 @@ if {[info script] ne ""} {
 source scripts/util_scripts/setup.tcl
 load_checkpoint croc_global_route
 
+set_wire_rc -clock -layer Metal4;
+set_wire_rc -signal -layers {Metal2 Metal3 Metal4 Metal5};
+estimate_parasitics -global_routing
+
+set_global_routing_layer_adjustment Metal2-Metal3 0.30
+set_global_routing_layer_adjustment TopMetal1 0.20
+set_routing_layers -signal Metal2-TopMetal1 -clock Metal2-TopMetal1
+
 gui::show
 
 

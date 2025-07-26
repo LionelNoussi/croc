@@ -5,7 +5,7 @@ if {[info script] ne ""} {
 }
 
 source scripts/util_scripts/setup.tcl
-load_checkpoint croc_global_route
+load_checkpoint croc_fixed_antennas
 
 set_wire_rc -clock -layer Metal4;
 set_wire_rc -signal -layers {Metal2 Metal3 Metal4 Metal5};
@@ -46,10 +46,10 @@ write_verilog -include_pwr_gnd -remove_cells "${stdfill} bondpad*" out/croc_lvs.
 write_verilog -remove_cells "${stdfill} bondpad*" out/croc_sta.v
 
 # Write and read back parasitics, and create simple netlist for sta
-define_process_corner -ext_model_index 0 X
-extract_parasitics -ext_model_file IHP_rcx_patterns.rules
-write_spef out/croc.spef
-read_spef  out/croc.spef; # readback parasitics makes things a lot worse
+# define_process_corner -ext_model_index 0 X
+# extract_parasitics -ext_model_file IHP_rcx_patterns.rules
+# write_spef out/croc.spef
+# read_spef  out/croc.spef; # readback parasitics makes things a lot worse
 
 utl::report "Done!"
 

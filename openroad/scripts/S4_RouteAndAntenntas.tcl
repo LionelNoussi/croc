@@ -30,7 +30,7 @@ utl::report "Perform buffer insertion..."
 repair_design -verbose
 
 utl::report "Repairing the timing..."
-repair_timing -skip_pin_swap -setup -setup_margin 0.1 -verbose 
+repair_timing -skip_pin_swap -setup -setup_margin 0.05 -verbose -repair_tns 100
 repair_timing -skip_pin_swap -hold -hold_margin 0.1 -verbose -repair_tns 100
 
 # check_placement -verbose
@@ -41,15 +41,16 @@ detailed_placement
 global_route -end_incremental -allow_congestion -verbose -guide_file reports/route_guide2.guide
 
 estimate_parasitics -global_routing
-
-# utl::report "Repairing Antennas..."
-# repair_antennas -ratio_margin 30 -iterations 5;
-# repair_timing -skip_pin_swap -setup -setup_margin 0.1 -verbose ;
-# check_antennas;
+save_checkpoint croc_global_route;
 
 report_metrics R6_croc_global_route
-puts "Violations after global placement: max_slew:[sta::max_slew_violation_count]  max_fanout:[sta::max_fanout_violation_count]  max_cap:[sta::max_capacitance_violation_count]"
+puts "Violations after global routing: max_slew:[sta::max_slew_violation_count]  max_fanout:[sta::max_fanout_violation_count]  max_cap:[sta::max_capacitance_violation_count]"
+utl::report "Done with GlobalRoute Script!"
 
-save_checkpoint croc_global_route;
-utl::report "Done!"
+utl::report "Fixing Antennas..."
+repair_antennas -ratio_margin 30 -iterations 1;
+save_checkpoint croc_fixed_antennas;
+report_metrics FixedAntennasReport
+
+utl::report "Done"
 gui::show
