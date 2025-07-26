@@ -405,7 +405,7 @@ module tb_croc_soc #(
         forever begin
             uart_read_byte(start_bite);
             if (start_bite == 8'h00) begin
-                $display("@%t | [SSD] Read request byte. Sending data...", $time);
+                $display("@%t | [Sensor] Read request byte. Sending data...", $time);
                 for (int i = 0; i < DMA_DEMO_N; i++) begin
                     // $display("Sent byte %0h", source_array[win][i]);
                     uart_write_byte(source_array[win][i]);
