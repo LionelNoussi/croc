@@ -10,9 +10,10 @@
 #include "gpio.h"
 #include "print.h"
 #include "interrupts.h"
+#include "spi.h"
 
 #define N 8
-#define NUM_WINDOWS 8
+#define NUM_WINDOWS 2
 #define THRESHOLD 40000
 
 // #define USE_DMA
@@ -23,6 +24,34 @@
 
 #define LOADING 1
 #define COMPUTING 1
+
+
+// Helper function to write different outputs and states to the gpios
+uint32_t write_gpio_state(int loading, int computing, int output) {
+    gpio_write(
+        (loading << LOADING_GPIO) |
+        (computing << COMPUTING_GPIO) |
+        (output << OUTPUT_GPIO)
+    );
+}
+
+// Override of weak function defined in interrupts.h
+void dma_irq_handler_user() {
+    gpio_toggle(1 << LOADING_GPIO);
+}
+
+
+void print_array(uint8_t* array, uint8_t len) {
+    uart_write('[');
+    for (int i = 0; i < len - 1; i++) {
+        uart_write(array[i]);
+        uart_write(',');
+        uart_write(' ');
+    }
+    uart_write(array[array[len-1]]);
+    uart_write(']');
+    uart_write('\n');
+}
 
 
 void* memcpy(void* dst, const void* src, unsigned num_bytes) {
@@ -57,38 +86,28 @@ uint8_t compute(uint8_t* buffer) {
 
 
 #ifndef USE_DMA
-    void keyword_detection() {
-        uint16_t addr = 0;
-        int8_t buffer[N];
+    void normal_examble() {
+        uint16_t addr = 65;
+        uint8_t buffer[N];
         
         int result = 0;
         
         for (int win = 0; win < NUM_WINDOWS; win++) {
-            ssd_read_dma(buffer, addr, N);
+
+            write_gpio_state(LOADING, !COMPUTING, result);
+            // spi_read_full(addr, buffer, N);
+            // ssd_read_dma(buffer, addr, N);
+            print_array(buffer, N);
+
+            write_gpio_state(!LOADING, COMPUTING, result);
             addr += N;
-
             result = compute(buffer);
-            gpio_write(result);
-        }
-
-        for (int i = 0; i < N; i++) {
-            buffer[i] = i + 64;
-        }
-
-        addr = 0;
-        ssd_write_dma(buffer, addr, N);
-        
-        for (int i = 0; i < 500; i++) {
-            asm volatile ("nop");
-        }
-        
-        ssd_read_dma(buffer, addr, N);
-        
+            write_gpio_state(!LOADING, !COMPUTING, result);
+        }      
     }
 #else
-    void keyword_detection_dma() {
-        // Send start signal to testbench
-        uart_write(0x00);
+    void dma_examble() {
+        uint16_t addr = 0;
         
         // One buffer of double length for double buffering
         // For clarity: buffer0 = buffer; buffer1 = buffer + N
@@ -100,10 +119,9 @@ uint8_t compute(uint8_t* buffer) {
 
         // Start the DMA
         write_gpio_state(LOADING, !COMPUTING, 0);
-        uart_read_dma(current_buffer, N);
+        ssd_read_dma(current_buffer, addr, N);
 
         for (int win = 0; win < NUM_WINDOWS; win++) {
-            
             // Get reference to current buffer
             // if (dst_offset == N) {dst_offset = 0;} else {dst_offset = N;}
             current_buffer = buffer + dst_offset;
@@ -121,13 +139,12 @@ uint8_t compute(uint8_t* buffer) {
                 
                 // Alternate offset between 0 and N
                 dst_offset ^= N;
-                // Tell testbench to send another array
-                uart_write(0x0);
                 // Start dma
-                uart_read_dma(buffer + dst_offset, N);
+                addr += N;
+                ssd_read_dma(buffer + offset, addr, N);
             }
 
-            result = detect_keyword(current_buffer);
+            result = compute(current_buffer);
 
             write_gpio_state(dma_busy(), !COMPUTING, result);
         }
@@ -145,9 +162,9 @@ int main() {
     gpio_enable(0xF);   // enable lowest eight
 
     #ifndef USE_DMA
-        keyword_detection();
+        normal_examble();
     #else
-        keyword_detection_dma();
+        dma_example();
     #endif
     
     return 1;
