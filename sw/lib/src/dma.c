@@ -188,6 +188,14 @@ void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
 }
 
 
+
+static inline void delay_cycles(volatile uint32_t cycles) {
+    while (cycles--) {
+        __asm__ volatile ("nop");
+    }
+}
+
+
 #include "spi.h"
 #define SPI_STATUS_RX_EMPTY_MASK 32
 void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) {
@@ -250,14 +258,14 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     SPI_CTRL = control_on;
     SPI_CTRL = control_rst;
     
-    // Load four first dummy responses
-    for (uint8_t i = 0; i < 4; i++) {
+    // // Load four first dummy responses
+    // for (uint8_t i = 0; i < 4; i++) {
 
-        // Stall while, RX buffer is empty
-        while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
+    //     // Stall while, RX buffer is empty
+    //     while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
 
-        dummy = SPI_RX;
-    }
+    //     dummy = SPI_RX;
+    // }
 
     for (uint8_t i = 0; i < num_bytes; i++) {
         // Stall while, TX buffer full
@@ -266,9 +274,12 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
         // Write source array into SPI TX
         SPI_TX =  source_array[i];
     }
-
-    while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
-        dummy = SPI_RX;
-    }
+    delay_cycles(1000);
+    //need to also check if the com
+    do {
+        while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
+            dummy = SPI_RX;
+        }
+    } while(SPI_STATUS < num_bytes + 4);
 
 }

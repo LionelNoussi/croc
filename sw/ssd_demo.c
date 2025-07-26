@@ -11,7 +11,7 @@
 #include "print.h"
 #include "interrupts.h"
 
-#define N 8
+#define N 32
 #define NUM_WINDOWS 8
 #define THRESHOLD 40000
 
@@ -75,7 +75,7 @@ uint8_t compute(uint8_t* buffer) {
             buffer[i] = i + 64;
         }
 
-        addr = 0;
+        addr = 0x01A1;
         ssd_write_dma(buffer, addr, N);
         
         for (int i = 0; i < 500; i++) {
@@ -83,6 +83,12 @@ uint8_t compute(uint8_t* buffer) {
         }
         
         ssd_read_dma(buffer, addr, N);
+        
+
+        // printf("Hello world \n");
+        // uart_init();
+        // printf("Data buffer at 3: %d \n", buffer[3]);
+        // uart_write_flush();
         
     }
 #else
@@ -138,11 +144,14 @@ uint8_t compute(uint8_t* buffer) {
 int main() {
     // Setup UART
     uart_init();
-
+    printf("Hello world \n");
+    // uart_write_flush();
+    // if(1) return 1;
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // lowest 3 as outputs
     gpio_write(0);      // Prepare initial result
     gpio_enable(0xF);   // enable lowest eight
+
 
     #ifndef USE_DMA
         keyword_detection();

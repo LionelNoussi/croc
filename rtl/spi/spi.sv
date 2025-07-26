@@ -201,8 +201,10 @@ module spi #(
             IDLE: begin
                 if (reg2hw.control[0]) begin
                     spi_state_d = LOAD;
+                    status_d = 0;
                 end
                 sclk_int_d = active_clk;
+                
             end
             LOAD: begin
                 spi_state_d = SHIFT;
@@ -252,10 +254,11 @@ module spi #(
                 end else begin
                     spi_state_d = LOAD;
                     byte_cnt_d = byte_cnt_q+1;
+                    // status_d   = status_q+1;
                 end
                 tx_shift_reg_d = tx_fifo_data;
                 sclk_int_d = 0;
-                status_d = byte_cnt_q; // with this we can only send 32 bits, do we need to extend this?
+                status_d = byte_cnt_q+1;
                 cmd_d = 0;
             end
 
