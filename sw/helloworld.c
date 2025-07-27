@@ -87,15 +87,15 @@ int main() {
 
     printf("Starting spi test \n");
     uart_write_flush();
-    uint8_t N = 43;
-    uint8_t NUM_WINDOWS =2;
+    uint8_t N = 26;
+    uint8_t NUM_WINDOWS =1;
         uint16_t addr = 0;
         int8_t buffer[N];
         
         int result = 0;
         
         for (int win = 0; win < NUM_WINDOWS; win++) {
-            ssd_read(buffer, addr, N);
+            ssd_read_dma(buffer, addr, N);
             addr += N;
 
             // result = compute(buffer);
@@ -103,19 +103,22 @@ int main() {
         }
 
         for (int i = 0; i < N; i++) {
-            buffer[i] = i + 64;
+            buffer[i] = i + 210;
+        }
+        for (int i = 0; i < 500; i++) {
+            asm volatile ("nop");
         }
 
         addr = 0x01A1;
-        ssd_write(buffer, addr, N);
+        ssd_write_dma(buffer, addr, N);
         
         for (int i = 0; i < 500; i++) {
             asm volatile ("nop");
         }
         
-        ssd_read(buffer, addr, N);
+        ssd_read_dma(buffer, addr, N);
 
-        // ssd_read_dma(buffer, addr + N, N);
+        ssd_read_dma(buffer, addr + N, N);
 
         for (int i = 0; i < N; i++) {
             printf("buffer[0x%x] = 0x%x\n", i, buffer[i]);

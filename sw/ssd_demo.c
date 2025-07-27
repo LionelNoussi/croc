@@ -11,6 +11,9 @@
 #include "print.h"
 #include "interrupts.h"
 #include "spi.h"
+#include "timer.h"
+#include "util.h"
+
 
 #define N 8
 #define NUM_WINDOWS 2
@@ -24,6 +27,8 @@
 
 #define LOADING 1
 #define COMPUTING 1
+
+uint64_t start, end;
 
 
 // Helper function to write different outputs and states to the gpios
@@ -86,7 +91,7 @@ uint8_t compute(uint8_t* buffer) {
 
 
 #ifndef USE_DMA
-    void normal_examble() {
+    void normal_example() {
         uint16_t addr = 65;
         uint8_t buffer[N];
         
@@ -95,8 +100,15 @@ uint8_t compute(uint8_t* buffer) {
         for (int win = 0; win < NUM_WINDOWS; win++) {
 
             write_gpio_state(LOADING, !COMPUTING, result);
-            // spi_read_full(addr, buffer, N);
-            // ssd_read_dma(buffer, addr, N);
+            asm volatile ("nop;");
+            asm volatile ("nop;");
+            write_gpio_state(!LOADING, COMPUTING, result);
+            start = get_mcycle();
+            ssd_read(buffer,addr, N);
+            end = get_mcycle();
+            // putchar('\n');
+            // printf("SSD read took %u cycles.\r\n", (uint32_t)(end - start));
+            ssd_read(buffer, addr, N);
             print_array(buffer, N);
 
             write_gpio_state(!LOADING, COMPUTING, result);
@@ -106,7 +118,7 @@ uint8_t compute(uint8_t* buffer) {
         }      
     }
 #else
-    void dma_examble() {
+    void dma_example() {
         uint16_t addr = 0;
         
         // One buffer of double length for double buffering
@@ -162,7 +174,8 @@ int main() {
     gpio_enable(0xF);   // enable lowest eight
 
     #ifndef USE_DMA
-        normal_examble();
+
+        normal_example();
     #else
         dma_example();
     #endif

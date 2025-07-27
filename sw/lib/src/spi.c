@@ -271,7 +271,8 @@ void ssd_write(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     dummy = SPI_RX;
 }
 
-void empty_rx(){
+// clears the buffer only once, if you want to clear it after a write you need to wait for the write to be finished
+void spi_empty_rx(){
     uint8_t dummy;
     while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
             dummy = SPI_RX;
