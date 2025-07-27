@@ -182,3 +182,97 @@ void spi_read_full(uint16_t addr, uint8_t *data, uint8_t length) {
         // delay_cycles(2);
     }
 }
+
+
+
+#define SPI_STATUS_RX_EMPTY_MASK 32
+void ssd_read(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) {
+    uint8_t status;
+    const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
+    const uint8_t addr_lo = addr & 0xFF;
+    const uint8_t control_on = (5 << 3) | (1 << 1) | 0x1;
+    const uint8_t control_rst = (5 << 3) | (1 << 1) | 0x0;
+
+    // Pre-fill SPI TX Buffer with correct bytes to start SSD protocol without pause
+    SPI_TX = control_on;
+    SPI_TX = num_bytes;
+    SPI_TX = addr_hi;
+    SPI_TX = addr_lo;
+
+    // Telling the SPI how many transactions it should do
+    // This is done to facilitate unbroken communication
+    // If the TX buffer is empty at any point, it will continue to send 0x0
+    SPI_LENGTH = num_bytes + 3;
+    SPI_CTRL = control_on;
+    SPI_CTRL = control_rst;
+    
+    // Load four first dummy responses
+    for (uint8_t i = 0; i < 4; i++) {
+
+        // Stall while, RX buffer is empty
+        while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
+
+        SPI_RX;
+    }
+
+    for (uint8_t i = 0; i < num_bytes; i++) {
+        // Stall while, RX buffer is empty
+        while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
+
+        // Store result in destination array
+        destination_array[i] = SPI_RX;
+    }
+}
+
+# define SPI_STATUS_TX_ALMOST_FULL 3
+void ssd_write(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
+    uint8_t status, dummy;
+    const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
+    const uint8_t addr_lo = addr & 0xFF;
+    const uint8_t control_on = (5 << 3) | (2 << 1) | 0x1;
+    const uint8_t control_rst = (5 << 3) | (2 << 1) | 0x0;
+
+    // Pre-fill SPI TX Buffer with correct bytes to start SSD protocol without pause
+    SPI_TX = control_on;
+    SPI_TX = num_bytes;
+    SPI_TX = addr_hi;
+    SPI_TX = addr_lo;
+
+    // Telling the SPI how many transactions it should do
+    // This is done to facilitate unbroken communication
+    // If the TX buffer is empty at any point, it will continue to send 0x0
+    SPI_LENGTH = num_bytes + 3;
+    SPI_CTRL = control_on;
+    SPI_CTRL = control_rst;
+    
+    // // Load four first dummy responses
+    // for (uint8_t i = 0; i < 4; i++) {
+
+    //     // Stall while, RX buffer is empty
+    //     while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
+
+    //     dummy = SPI_RX;
+    // }
+
+    for (uint8_t i = 0; i < num_bytes; i++) {
+        // Stall while, TX buffer full
+        while (!(SPI_FIFOSTAT & SPI_STATUS_TX_ALMOST_FULL));
+
+        // Write source array into SPI TX
+        SPI_TX =  source_array[i];
+    }
+    //need to also check if the com
+    do {
+        while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
+            dummy = SPI_RX;
+        }
+    } while(SPI_STATUS < num_bytes + 4);
+    dummy = SPI_RX;
+}
+
+void empty_rx(){
+    uint8_t dummy;
+    while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
+            dummy = SPI_RX;
+    }
+}
