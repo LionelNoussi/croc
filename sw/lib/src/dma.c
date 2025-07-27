@@ -189,14 +189,6 @@ void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
 }
 
 
-
-static inline void delay_cycles(volatile uint32_t cycles) {
-    while (cycles--) {
-        __asm__ volatile ("nop");
-    }
-}
-
-
 #include "spi.h"
 #define SPI_STATUS_RX_EMPTY_MASK 32
 #define SPI_FIFOSTAT_OFFSET 0x1C
@@ -330,14 +322,14 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     asm volatile ("nop");
     SPI_CTRL = control_rst;
     
-    // // Load four first dummy responses
-    // for (uint8_t i = 0; i < 4; i++) {
+    // Load four first dummy responses
+    for (uint8_t i = 0; i < 4; i++) {
 
-    //     // Stall while, RX buffer is empty
-    //     while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
+        // Stall while, RX buffer is empty
+        while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
 
-    //     dummy = SPI_RX;
-    // }
+        dummy = SPI_RX;
+    }
 
     // Turning dma on to stream in rest of the data.
     // *dma_ctrl_reg = dma_controls;
@@ -350,13 +342,10 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
         // Write source array into SPI TX
         SPI_TX =  source_array[i];
     }
-    
-    //need to also check if the com
-    do {
-        while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
-            dummy = SPI_RX;
-        }
-    } while(SPI_STATUS < num_bytes + 4);
+
+    // if (dma_busy()) {
+    //     asm volatile ("wfi");
+    // }
 
     // At the end clear, the read buffer.
     // Either put this in the irq handler, or check and clear at the beginning of all spi functions.

@@ -99,21 +99,11 @@ uint8_t compute(uint8_t* buffer) {
             // ssd_read_dma(buffer, addr, N);
             print_array(buffer, N);
 
-        addr = 0x01A1;
-        ssd_write_dma(buffer, addr, N);
-        
-        for (int i = 0; i < 500; i++) {
-            asm volatile ("nop");
-        }
-        
-        ssd_read_dma(buffer, addr, N);
-        
-
-        // printf("Hello world \n");
-        // uart_init();
-        // printf("Data buffer at 3: %d \n", buffer[3]);
-        // uart_write_flush();
-        
+            write_gpio_state(!LOADING, COMPUTING, result);
+            addr += N;
+            result = compute(buffer);
+            write_gpio_state(!LOADING, !COMPUTING, result);
+        }      
     }
 #else
     void dma_examble() {
@@ -165,14 +155,11 @@ uint8_t compute(uint8_t* buffer) {
 int main() {
     // Setup UART
     uart_init();
-    printf("Hello world \n");
-    // uart_write_flush();
-    // if(1) return 1;
+
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // lowest 3 as outputs
     gpio_write(0);      // Prepare initial result
     gpio_enable(0xF);   // enable lowest eight
-
 
     #ifndef USE_DMA
         normal_examble();
