@@ -15,6 +15,7 @@ package spi_reg_pkg;
 
   typedef struct packed{
     logic [7:0] status;
+    logic [7:0] busy;
     logic [7:0] fifo_status;
     logic [7:0] rx_data;   // 16-byte RX buffer
   } spi_hw2reg_t;
@@ -29,6 +30,7 @@ package spi_reg_pkg;
   parameter logic [AddressWidth-1:0] SPI_LENGTH_OFFSET      = 12'h018;
   parameter logic [AddressWidth-1:0] SPI_FIFOSTAT_OFFSET    = 12'h01C;
   parameter logic [AddressWidth-1:0] SPI_MODE_CTRL_OFFSET   = 12'h020;
+  parameter logic [AddressWidth-1:0] SPI_MODE_BUSY_OFFSET   = 12'h024;
 
 
 endpackage

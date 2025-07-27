@@ -4,6 +4,7 @@
 #include "print.h"
 #include "timer.h"
 #include "uart.h"
+#include "spi.h"
 
 
 static volatile uint32_t* const dma_src_reg         = DMA_REG(DMA_SRC_REG_OFFSET);
@@ -198,6 +199,9 @@ void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
 
 void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) {
     while (dma_busy());
+    while(SPI_BUSY == 0x01);
+    spi_empty_rx();
+
     uint8_t status;
     const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
     const uint8_t addr_lo = addr & 0xFF;
@@ -216,7 +220,7 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
     const dma_control_t dma_controls = (uint32_t) (
         (SPI_RX_REG_OFFSET  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
         (0                  << DMA_CTRL_DST_OFFSET_SHIFT)       |
-        (0                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
+        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
         (0                  << DMA_CTRL_INC_SRC_SHIFT)          |
         (1                  << DMA_CTRL_INC_DEST_SHIFT)         |
         (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
@@ -260,13 +264,13 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
     // if (dma_busy()) {
     //     asm volatile ("wfi");
     // }
-    while (dma_busy());
+    // while (dma_busy());
 }
 
 
 void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     while (dma_busy());
-
+    while(SPI_BUSY);
     uint8_t status, dummy;
     const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
     const uint8_t addr_lo = addr & 0xFF;
@@ -285,7 +289,7 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     const dma_control_t dma_controls = (uint32_t) (
         (0                  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
         (SPI_TX_REG_OFFSET  << DMA_CTRL_DST_OFFSET_SHIFT)       |
-        (0                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
+        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
         (1                  << DMA_CTRL_INC_SRC_SHIFT)          |
         (0                  << DMA_CTRL_INC_DEST_SHIFT)         |
         (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
@@ -328,12 +332,12 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     // Either put this in the irq handler, or check and clear at the beginning of all spi functions.
 
     // could also simply call spi_empty_rx after
-    while(dma_busy());
+    // while(dma_busy());
 
-    do {
-        while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
-            dummy = SPI_RX;
-        }
-    } while(SPI_STATUS < num_bytes + 4);
-    dummy = SPI_RX;
+    // do {
+    //     while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
+    //         dummy = SPI_RX;
+    //     }
+    // } while(SPI_STATUS < num_bytes + 4);
+    // dummy = SPI_RX;
 }

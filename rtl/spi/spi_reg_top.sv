@@ -85,6 +85,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     logic [7:0] address_high;
     logic [7:0] length;
     logic [7:0] mode_ctrl;
+    logic [7:0] busy;
   } spi_reg_fields_t;
 
   spi_reg_fields_t reg_d, reg_q;
@@ -120,6 +121,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
     new_reg.status  = hw2reg.status;
     new_reg.rx_data = hw2reg.rx_data;
     new_reg.fifo_status = hw2reg.fifo_status;
+    new_reg.busy        = hw2reg.busy;
 
     reg_d = new_reg;
 
@@ -143,7 +145,10 @@ module spi_reg_top import spi_reg_pkg::*; #(
         end
         SPI_MODE_CTRL_OFFSET: begin
           reg_d.mode_ctrl= (~bit_mask & new_reg.mode_ctrl) | (bit_mask & obi_wdata[7:0]);
-        end        
+        end
+        SPI_MODE_BUSY_OFFSET: begin
+          reg_d.busy= (~bit_mask & new_reg.busy) | (bit_mask & obi_wdata[7:0]);
+        end                
         default: begin
           w_err_d = 1'b1;
         end
@@ -164,6 +169,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
         SPI_LENGTH_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.length};
         SPI_FIFOSTAT_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.fifo_status};
         SPI_MODE_CTRL_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.mode_ctrl};
+        SPI_MODE_BUSY_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.busy};
         default: begin
           obi_rdata = 32'hDEAD_BEEF;
           obi_err   = 1'b1;

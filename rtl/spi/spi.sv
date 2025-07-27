@@ -146,6 +146,7 @@ module spi #(
     assign mosi_o = tx_shift_reg_q[7] && !((spi_state_q != IDLE) ? 1'b0 : 1'b1);
     assign cs_n_o = (spi_state_q != IDLE) ? 1'b0 : 1'b1;
 
+    assign hw2reg.busy   = {6'd0, !cs_n_o};
     
     assign hw2reg.status = status_q;
     assign hw2reg.fifo_status = fifo_status;

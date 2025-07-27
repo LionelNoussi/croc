@@ -1,0 +1,58 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Sun Jul 27 18:55:41 2025
+[*]
+[dumpfile] "/scratch/vlsi2_45fs25/croc/verilator/croc.vcd"
+[dumpfile_mtime] "Sun Jul 27 18:55:27 2025"
+[dumpfile_size] 55692161
+[savefile] "/scratch/vlsi2_45fs25/croc/croc_demo.gtkw"
+[timestart] 15860000000
+[size] 1680 986
+[pos] -1 -1
+*-31.706234 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] tb_croc_soc.
+[treeopen] tb_croc_soc.i_croc_soc.
+[treeopen] tb_croc_soc.i_croc_soc.i_croc.
+[treeopen] tb_croc_soc.i_croc_soc.i_croc.i_spi.
+[sst_width] 297
+[signals_width] 283
+[sst_expanded] 1
+[sst_vpaned_height] 233
+@100000028
+tb_croc_soc.i_croc_soc.i_croc.i_dma.condition_type_q
+@28
+tb_croc_soc.i_croc_soc.i_croc.i_dma.dma_irq_o
+tb_croc_soc.i_croc_soc.i_croc.i_dma.condition_valid_d
+(30)tb_croc_soc.i_croc_soc.i_croc.gpio_o[31:0]
+tb_croc_soc.i_croc_soc.i_croc.i_dma.condition_valid_q
+(29)tb_croc_soc.i_croc_soc.i_croc.gpio_o[31:0]
+(30)tb_croc_soc.i_croc_soc.i_croc.gpio_o[31:0]
+tb_croc_soc.i_croc_soc.i_croc.i_spi.cs_n_o
+[pattern_trace] 1
+[pattern_trace] 0
