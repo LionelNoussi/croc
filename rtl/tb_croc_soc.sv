@@ -434,30 +434,30 @@ module tb_croc_soc #(
         @(posedge fetch_en_i);
         uart_read_buf.delete();
         forever begin
-            uart_read_byte(bite);
-            $display("@%t | [UART] %p", $time, bite);
+            // uart_read_byte(bite);
+            // $display("@%t | [UART] %p", $time, bite);
 
             // if (bite == 8'h00) continue;
             
-            // if (bite == "\n" || uart_read_buf.size() > 80 && 0) begin
-            //      if (uart_read_buf.size() > 0) begin
-            //         automatic string uart_str = "";               
-            //         foreach (uart_read_buf[i]) begin
-            //             uart_str = {uart_str, uart_read_buf[i]};
-            //         end
+            if (bite == "\n" || uart_read_buf.size() > 80 && 0) begin
+                 if (uart_read_buf.size() > 0) begin
+                    automatic string uart_str = "";               
+                    foreach (uart_read_buf[i]) begin
+                        uart_str = {uart_str, uart_read_buf[i]};
+                    end
                     
-            //         $display("@%t | [UART] %s", $time, uart_str);
-            //         uart_read_buf.push_back(bite);
-            //         $display("@%t | [UART] raw: %p", $time, uart_read_buf);
+                    $display("@%t | [UART] %s", $time, uart_str);
+                    uart_read_buf.push_back(bite);
+                    $display("@%t | [UART] raw: %p", $time, uart_read_buf);
   
-            //     end else begin
-            //         $display("@%t | [UART] ???", $time);
-            //     end
+                end else begin
+                    $display("@%t | [UART] ???", $time);
+                end
 
-            //     uart_read_buf.delete();
-            // end else begin
-            //     uart_read_buf.push_back(bite);
-            // end
+                uart_read_buf.delete();
+            end else begin
+                uart_read_buf.push_back(bite);
+            end
         end
     end
 
