@@ -83,6 +83,9 @@ yosys setattr -set keep_hierarchy 1 "t:sync$*"
 yosys setattr -set keep_hierarchy 1 "t:dma$*"
 yosys setattr -set keep_hierarchy 1 "t:spi$*"
 
+# blackbox modules (applies the *blackbox* attribute)
+yosys blackbox "t:tc_sram_blackbox$*"
+
 # map dont_touch attribute commonly applied to output-nets of async regs to keep
 yosys attrmap -rename dont_touch keep
 # copy the keep attribute to their driving cells (retain on net for debugging)
@@ -117,6 +120,10 @@ yosys tee -q -o "reports/croc_elaborated.rpt" stat -width
 # -------------------- 3. Coarse-grain Synthesis -----------------------------------------------
 # ----------------------------------------------------------------------------------------------
 
+# synth - coarse:
+# similar to yosys synth -run coarse -noalumacc
+yosys opt_expr
+
 # First round of optimizations without flipflops, since no fsm yet
 yosys opt -noff
 
@@ -128,12 +135,17 @@ yosys wreduce
 
 # Simplify arithmetic operations and more
 yosys peepopt
+yosys opt_clean
 
 # Full optimization
 yosys opt -full
 
+# copied from referenec. idk
+yosys booth
+
 # Consolidates shareable resources
 yosys share
+yosys opt
 
 # Infer memory blocks (mostly done for FPGA flows).
 # Generate optimized address decoders and registers for large flip-flop arrays for ASIC
@@ -142,9 +154,14 @@ yosys memory -nomap
 # Explicitly optimize flip-flops again
 yosys opt_dff
 yosys memory_map
+yosys opt -fast
+
+yosys opt_dff -sat -nodffe -nosdff
+yosys share
+yosys opt -full
 
 # clean and check
-yosys clean
+yosys clean -purge
 yosys check
 
 # Generate report
@@ -175,6 +192,10 @@ yosys splitnets -format __v
 yosys rename -wire -suffix _reg t:*DFF*
 yosys opt
 
+# rename all other cells
+yosys autoname t:*DFF* %n
+yosys clean -purge
+
 # map only the flip flops first
 yosys dfflibmap -liberty $tech_cells_lib
 
@@ -199,10 +220,11 @@ yosys write_verilog "out/croc.techmapped.v"
 yosys write_verilog -norename -noexpr -attr2comment out/croc_chip_yosys_debug.v
 
 # Split multi-bit nets
-yosys splitnets
+yosys splitnets -ports -format __v
 
 # Replace undefined constants
 yosys setundef -zero
+yosys clean -purge
 
 # Replace constant bits with driver cells
 set tech_cell_tiehi {sg13g2_tiehi L_HI}

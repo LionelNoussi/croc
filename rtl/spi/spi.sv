@@ -44,7 +44,7 @@ module spi #(
   spi_hw2reg_t hw2reg; // Interface from Internal SPI Logic(HW) to Register
 
 
-
+    logic activate;
   // Instantiate register file
     spi_reg_top #(
         .obi_req_t(obi_req_t),
@@ -57,7 +57,8 @@ module spi #(
         .reg2hw(reg2hw),
         .hw2reg(hw2reg),
         .rx_read_pulse(rx_pulse),
-        .tx_write_pulse(tx_pulse)
+        .tx_write_pulse(tx_pulse),
+        .activate_o(activate)
     );
 
     typedef enum logic [2:0] {
@@ -66,6 +67,15 @@ module spi #(
         SHIFT,
         DONE
     } spi_state_e;
+
+    typedef enum logic {
+        LENGTH,
+        UNLIMITED
+
+    } mode_t;
+
+    mode_t mode;
+    assign mode = (reg2hw.control[7]) ? UNLIMITED : LENGTH;
 
     logic spi_fifo_write;
     assign spi_fifo_write = (spi_state_q == DONE) && !rx_full;
@@ -123,19 +133,22 @@ module spi #(
 
     logic [7:0] rx_shift_reg_q, rx_shift_reg_d, tx_shift_reg_q, tx_shift_reg_d;
     logic [3:0] bit_cnt_q, bit_cnt_d;
-    logic [7:0] clk_div_count_q, clk_div_count_d;
+    logic [15:0] clk_div_count_q, clk_div_count_d;
     logic       sclk_int_q, sclk_int_d;
     logic [7:0] byte_cnt_q, byte_cnt_d;
     logic [7:0] cmd_q, cmd_d;
-    logic [7:0] length_d, length_q;
+    logic [15:0] length_d, length_q;
     logic [2:0] rw_type_d, rw_type_q;
-    logic [4:0] clk_scale_q, clk_scale_d;
+    logic [15:0] clk_scale_q, clk_scale_d;
     logic [7:0] status_q, status_d;
+    logic mosi_q, mosi_d;
+    
 
 
     logic cpol;   //_q, cpol,d;
     logic cpha;    //_q, cpha_d;
     logic active_clk, sample_edge;
+    // logic [7:0] sample;
 
     assign cpol = reg2hw.mode_ctrl[0];
     assign cpha = reg2hw.mode_ctrl[1];
@@ -143,7 +156,7 @@ module spi #(
     assign sample_edge = cpol ^ cpha;    // when it is zero, we sample on the rising edge, if 1 on the falling edge. Default mode is therfore SPI MODE 0
 
     assign sclk_o = sclk_int_q;
-    assign mosi_o = tx_shift_reg_q[7] && !((spi_state_q != IDLE) ? 1'b0 : 1'b1);
+    assign mosi_o = mosi_q && !cs_n_o;//!((spi_state_q != IDLE) ? 1'b0 : 1'b1);
     assign cs_n_o = (spi_state_q != IDLE) ? 1'b0 : 1'b1;
 
     assign hw2reg.busy   = {6'd0, !cs_n_o};
@@ -166,6 +179,7 @@ module spi #(
         spi_tx_fifo_rd_en_q <= 0;
         clk_scale_q     <= 1;
         status_q        <= 0;
+        mosi_q          <= 0;
     end else begin
         spi_state_q     <= spi_state_d;
         bit_cnt_q       <= bit_cnt_d;
@@ -180,6 +194,7 @@ module spi #(
         spi_tx_fifo_rd_en_q <= spi_tx_fifo_rd_en_d;
         clk_scale_q     <= clk_scale_d;
         status_q        <= status_d;
+        mosi_q          <= mosi_d;
     end
     end
 
@@ -197,10 +212,11 @@ module spi #(
         spi_tx_fifo_rd_en_d = 0;
         clk_scale_d     = clk_scale_q;
         status_d        = status_q;
+        mosi_d          = mosi_q;
     
         case (spi_state_q) 
             IDLE: begin
-                if (reg2hw.control[0]) begin
+                if (activate) begin
                     spi_state_d = LOAD;
                     status_d = 0;
                 end
@@ -214,19 +230,22 @@ module spi #(
                 sclk_int_d = active_clk;
                 clk_div_count_d = 0;
                 cmd_d = reg2hw.control;
-                clk_scale_d = reg2hw.control[7:3];
+                clk_scale_d = reg2hw.freq;
                 length_d = reg2hw.length;
                 rw_type_d = reg2hw.control[2:1];
                 if (!tx_empty) begin
                     spi_tx_fifo_rd_en_d = 1;
                     tx_shift_reg_d = tx_fifo_data;
+                    if(!cpha) begin
+                        mosi_d         = tx_fifo_data[7];
+                    end
                 end
 
             end
 
             SHIFT: begin
 
-                if((bit_cnt_q == 4'b0111) && (clk_div_count_q +1  == clk_scale_q) && (sclk_int_q == 1'b1)) begin
+                if((bit_cnt_q == (4'b0111 + cpha)) && (clk_div_count_q +1  == clk_scale_q) && (sclk_int_q == (!active_clk))) begin
                     spi_state_d = DONE;
                 end
 
@@ -234,11 +253,21 @@ module spi #(
                 if (clk_div_count_q+1 == clk_scale_q) begin
                     // clk_div_count_d = 8'h0;
                     // sclk_int_d = ~sclk_int_q; //eventuell jetzt vertauscht
-                    if(sclk_int_d == sample_edge) begin
+                    if(sclk_int_q == sample_edge) begin
                         rx_shift_reg_d = {rx_shift_reg_q[6:0], miso_i}; // does this still conflicts with non shift laoding
                     end else begin
-                        // if(bit_cnt_q != 0) begin
-                        tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
+                        if(cpha== 0) begin
+                            tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
+                            // if(bit_cnt_q != 4'b1000) begin
+                            mosi_d         = tx_shift_reg_q[6];
+                            // end
+                        end else begin
+                            tx_shift_reg_d = {tx_shift_reg_q[6:0], 1'b0}; //FIX
+                            // if(bit_cnt_q != 4'b0000) begin
+                                mosi_d         = tx_shift_reg_q[7];
+                            // end
+                        end
+
                         // end
                         bit_cnt_d  = bit_cnt_q + 1;
                     end
@@ -249,7 +278,7 @@ module spi #(
             end
 
             DONE: begin
-                if (byte_cnt_q >= length_q) begin
+                if (byte_cnt_q >= length_q && mode==LENGTH) begin
                     spi_state_d = IDLE;
                     byte_cnt_d = 0;
                 end else begin
@@ -277,6 +306,7 @@ module spi #(
 
         if(spi_state_q != SHIFT) begin
             tx_shift_reg_d = tx_fifo_data;  // pull from fifo     // set fifo enable bit
+            // mosi_d         = tx_fifo_data[7];
         end
 
     end

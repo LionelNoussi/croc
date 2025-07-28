@@ -56,16 +56,17 @@ utl::report "Done with GlobalRoute Script!"
 utl::report "Checking fixing antennas and doing detailed routing twice!"
 
 utl::report "Repairing Antennas, design and timing..."
-repair_antennas -ratio_margin 30 -iterations 1;
-report_metrics FixedAntennasIter1
-save_checkpoint FixedAntennasIter1
+# repair_antennas -ratio_margin 30 -iterations 1;
+# estimate_parasitics -global_routing;
+# report_metrics FixedAntennasIter1
+# save_checkpoint FixedAntennasIter1
 
 utl::report "Running first detailed routing..."
 set_global_routing_layer_adjustment Metal2-Metal3 0.30
 set_global_routing_layer_adjustment TopMetal1 0.20
 set_routing_layers -signal Metal2-TopMetal1 -clock Metal2-TopMetal1
 
-set_thread_count 6;
+set_thread_count 12;
 detailed_route -output_drc reports/croc_route_drc1.rpt \
               -bottom_routing_layer Metal2 \
               -top_routing_layer TopMetal1 \
@@ -76,14 +77,17 @@ detailed_route -output_drc reports/croc_route_drc1.rpt \
               -verbose 1 \
 
 save_checkpoint croc_one_detailed_route
+estimate_parasitics -global_routing;
+report_metrics most_accurate
 
 utl::report "Repairing antennas again..."
 repair_antennas -ratio_margin 30 -iterations 1;
+estimate_parasitics -global_routing;
 
 report_metrics FixedAntennasDetailedRouteIter1
 
 utl::report "Running second detailed routing..."
-set_thread_count 6;
+set_thread_count 12;
 detailed_route -output_drc reports/croc_route_drc2.rpt \
               -bottom_routing_layer Metal2 \
               -top_routing_layer TopMetal1 \
@@ -92,6 +96,7 @@ detailed_route -output_drc reports/croc_route_drc2.rpt \
               -save_guide_updates \
               -clean_patches \
               -verbose 1 \
+
 
 # FINISHING
 

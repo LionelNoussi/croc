@@ -197,7 +197,7 @@ void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
 #define SPI_TX_REG_OFFSET 0x8
 #define SPI_RX_REG_OFFSET 0xC
 
-void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) {
+void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint16_t num_bytes) {
     while (dma_busy());
     while(SPI_BUSY == 0x01);
     spi_empty_rx();
@@ -205,8 +205,8 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
     uint8_t status;
     const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
     const uint8_t addr_lo = addr & 0xFF;
-    const uint8_t control_on = (5 << 3) | (1 << 1) | 0x1;
-    const uint8_t control_rst = (5 << 3) | (1 << 1) | 0x0;
+    const uint8_t control_on = (0 << 7) | (1 << 1) | 0x1;
+    const uint8_t control_rst = (0 << 1) | 0x0;
 
     *dma_src_reg = (uint32_t) SPI_BASE_ADDR;
     *dma_dst_reg = (uint32_t) destination_array;
@@ -236,9 +236,11 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
     // Telling the SPI how many transactions it should do
     // This is done to facilitate unbroken communication
     // If the TX buffer is empty at any point, it will continue to send 0x0
+    SPI_MODE_CTRL = 0b00000000; 
     SPI_LENGTH = num_bytes + 3;
+    SPI_FREQ = 0x05;
     SPI_CTRL = control_on;
-    SPI_CTRL = control_rst;
+    // SPI_CTRL = control_rst;
     
     // Load four first dummy responses
     for (uint8_t i = 0; i < 4; i++) {
@@ -250,6 +252,7 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
     }
 
     *dma_ctrl_reg = dma_controls;
+
     // for (uint8_t i = 0; i < num_bytes; i++) {
     //     // Stall while, RX buffer is empty
     //     while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
@@ -268,14 +271,14 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
 }
 
 
-void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
+void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint16_t num_bytes) {
     while (dma_busy());
     while(SPI_BUSY);
     uint8_t status, dummy;
     const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
     const uint8_t addr_lo = addr & 0xFF;
-    const uint8_t control_on = (5 << 3) | (2 << 1) | 0x1;
-    const uint8_t control_rst = (5 << 3) | (2 << 1) | 0x0;
+    const uint8_t control_on = (0 << 3) | (2 << 1) | 0x1;
+    const uint8_t control_rst = (0 << 3) | (2 << 1) | 0x0;
 
     *dma_src_reg = (uint32_t) source_array;
     *dma_dst_reg = (uint32_t) SPI_BASE_ADDR;
@@ -306,6 +309,7 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint8_t num_bytes) {
     // This is done to facilitate unbroken communication
     // If the TX buffer is empty at any point, it will continue to send 0x0
     SPI_LENGTH = num_bytes + 3;
+    SPI_FREQ = 0x5;
 
     // Control on, and off immediately after, otherwise state machine will restart
     SPI_CTRL = control_on;
