@@ -83,3 +83,5 @@
 sw/bin
 yosys/out/
 yosys/reports/
+/final_submission/
+/yosys/reports/

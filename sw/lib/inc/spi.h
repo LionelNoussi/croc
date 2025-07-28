@@ -9,10 +9,11 @@
 #define SPI_RX          (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x00C))
 #define SPI_ADDR_LO     (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x010))
 #define SPI_ADDR_HI     (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x014))
-#define SPI_LENGTH      (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x018))
+#define SPI_LENGTH      (*(volatile uint16_t *)(SPI_BASE_ADDR + 0x018))
 #define SPI_FIFOSTAT    (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x01C))
 #define SPI_MODE_CTRL   (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x020))
 #define SPI_BUSY        (*(volatile uint8_t *)(SPI_BASE_ADDR + 0x024))
+#define SPI_FREQ        (*(volatile uint16_t *)(SPI_BASE_ADDR + 0x028))
 
 
 // SPI read/write interface

@@ -6,10 +6,9 @@ package spi_reg_pkg;
   typedef struct packed{
     logic [7:0] control;
     logic [7:0] tx_data;   // 16-byte TX buffer
-    logic [7:0] address_low;
-    logic [7:0] address_high;
-    logic [7:0] length;
+    logic [15:0] length; 
     logic [7:0] mode_ctrl;
+    logic [15:0] freq;
   } spi_reg2hw_t;
 
 
@@ -31,6 +30,7 @@ package spi_reg_pkg;
   parameter logic [AddressWidth-1:0] SPI_FIFOSTAT_OFFSET    = 12'h01C;
   parameter logic [AddressWidth-1:0] SPI_MODE_CTRL_OFFSET   = 12'h020;
   parameter logic [AddressWidth-1:0] SPI_MODE_BUSY_OFFSET   = 12'h024;
+  parameter logic [AddressWidth-1:0] SPI_MODE_FREQ_OFFSET   = 12'h028;
 
 
 endpackage
