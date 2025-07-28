@@ -124,3 +124,19 @@ set_input_delay  -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_po
 set_input_delay  -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports uart_rx_i]
 set_output_delay -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_ports uart_tx_o]
 set_output_delay -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports uart_tx_o]
+
+
+
+##########
+## SPI ##
+##########
+puts "SPI..."
+
+set_input_delay  -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_ports spi_miso_i]
+set_input_delay  -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports spi_miso_i]
+set_output_delay -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_ports spi_cs_n_o]
+set_output_delay -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports spi_cs_n_o]
+set_output_delay  -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_ports spi_mosi_o]
+set_output_delay  -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports spi_mosi_o]
+set_output_delay -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_ports spi_sclk_o]
+set_output_delay -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports spi_sclk_o]

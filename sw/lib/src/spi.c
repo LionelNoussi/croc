@@ -54,6 +54,7 @@ void spi_write_full(uint16_t addr, uint8_t *data, uint8_t length) {
 
     // Wait until done
     delay_cycles(15);
+
     while (SPI_STATUS != length + 3);
     uint8_t dummy;
     for (uint8_t i= 0; i < 4; i++){

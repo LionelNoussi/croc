@@ -166,6 +166,7 @@ void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
     }
     *dma_src_reg = (uint32_t) src;
     *dma_dst_reg = (uint32_t) dst;
+    *dma_cond_reg = 0;
     *dma_ctrl_reg = controls;
     asm volatile ("wfi");
     return dst;
