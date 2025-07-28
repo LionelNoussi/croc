@@ -195,7 +195,6 @@ module spi_slave_demo (
             DONE: begin
                 
                 mem_d[address_q] = rx_shift_reg_q;  // pull from fifo     // set fifo enable bit
-                $display("@%t | [SPI SLAVE] Received byte: 0x%02h,", $time, rx_shift_reg_q);
                 address_d = address_q + 1;
 
                 if ((byte_cnt_q >= IMGLENGTH) ||  cs_n_i) begin
@@ -203,6 +202,7 @@ module spi_slave_demo (
                     byte_cnt_d  = 0;
                     $sformat(filename, "videoframes/img_received_%0t.hex", $time);
                     $writememh(filename, mem_d);
+                    $display("@%t | [SPI SLAVE] Received frame.", $time);
                 end else begin
                     spi_state_d = LOAD;
                     byte_cnt_d = byte_cnt_q+1;
