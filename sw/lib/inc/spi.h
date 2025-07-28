@@ -19,3 +19,6 @@ void spi_write_full(uint16_t addr, uint8_t *data, uint8_t length);
 void spi_read_full(uint16_t addr, uint8_t *data, uint8_t length);
 void spi_write(uint16_t addr,uint8_t length);
 void spi_read(uint16_t addr, uint8_t length);
+void ssd_read(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes);
+void ssd_write(uint8_t* source_array, uint16_t addr, uint8_t num_bytes);
+void empty_rx();

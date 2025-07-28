@@ -164,17 +164,12 @@ uint8_t compute(uint8_t* buffer) {
 int main() {
     // Setup UART
     uart_init();
-    
-    printf("Hello world\n");
-    uart_write('\n');
-    // uart_write_flush();
-    // if(1) return 1;
+
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // lowest 3 as outputs
     gpio_write(0);      // Prepare initial result
     gpio_enable(0xF);   // enable lowest eight
-    
-    
+
     #ifndef USE_DMA
     normal_example();
     #else

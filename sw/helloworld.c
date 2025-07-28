@@ -107,13 +107,13 @@ int main() {
     }
 
     addr = 0x01A1;
-    ssd_write_dma(buffer, addr, N);
+    ssd_write(buffer, addr, N);
     
     for (int i = 0; i < 500; i++) {
         asm volatile ("nop");
     }
     
-    ssd_read_dma(buffer, addr, N);
+    ssd_read(buffer, addr, N);
 
     // ssd_read_dma(buffer, addr + N, N);
 
