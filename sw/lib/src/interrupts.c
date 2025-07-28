@@ -12,7 +12,7 @@
 // IRQ 19: DMA INTERRUPT
 // --------------------------------------------------------------------------------
 void __attribute__((interrupt)) handle_irq_19(void) {
-    *DMA_REG(DMA_INTERRUPT_OFFSET);  // clear interrupt
+    *DMA_REG(DMA_INTERRUPT_OFFSET) = 1;  // clear interrupt
     dma_irq_handler_user();          // call user override
 }
 

@@ -248,8 +248,6 @@ always_comb begin
 
   // If there is a request
   if (req_q) begin
-    stop_irq = 1'b1;  // Any read or write to the DMA stops active interrupts if there is one
-
     // Process write requests
     if (we_q) begin
       if (dma_is_active && reg_addr != REG_INTERRUPT) begin
@@ -275,7 +273,10 @@ always_comb begin
             condition_negate_d    = wdata_q[1];
             condition_valid_d     = wdata_q[0];
           end
-          REG_INTERRUPT: interrupt_signal_d = 1'b1;
+          REG_INTERRUPT: begin
+            interrupt_signal_d = 1'b1;
+            stop_irq = 1'b1;
+          end
           REG_ACTIVATE:  activate_signal_d = 1'b1;
           default: rsp_err = 1'b1;
         endcase
