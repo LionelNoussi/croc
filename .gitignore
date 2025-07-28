@@ -81,3 +81,5 @@
 #yosys
 /yosys/out
 sw/bin
+yosys/out/
+yosys/reports/

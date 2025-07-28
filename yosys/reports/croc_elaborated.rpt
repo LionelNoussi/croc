@@ -3998,22 +3998,23 @@
 
 === spi$croc_chip.i_croc_soc.i_croc.i_spi ===
 
-   Number of wires:                130
-   Number of wire bits:            760
-   Number of public wires:          40
-   Number of public wire bits:     331
+   Number of wires:                140
+   Number of wire bits:            831
+   Number of public wires:          44
+   Number of public wire bits:     351
    Number of ports:                  8
    Number of port bits:            121
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                118
-     $add_32                         6
+   Number of cells:                126
+     $add_32                         7
      $aldff_1                        2
      $aldff_3                        1
      $aldff_4                        1
      $aldff_5                        1
      $aldff_8                        6
+     $eq_1                           1
      $eq_3                          34
      $eq_32                          2
      $eq_4                           1
@@ -4021,20 +4022,21 @@
      $ge_8                           1
      $logic_and_1                    4
      $logic_not_1                    1
-     $logic_not_3                    2
+     $logic_not_3                    5
      $logic_or_1                     2
      $mux_1                          7
      $mux_3                          6
      $mux_4                          5
      $mux_5                          1
-     $mux_8                         21
+     $mux_8                         22
      $ne_3                           1
      $not_1                          1
      $pmux_1                         1
      $pmux_3                         1
      $pmux_4                         1
-     $pmux_8                         3
+     $pmux_8                         4
      $reduce_bool_3                  2
+     $xor_1                          1
      spi_fifo_buffer$croc_chip.i_croc_soc.i_croc.i_spi.i_spi_rx_fifo      1
      spi_fifo_buffer$croc_chip.i_croc_soc.i_croc.i_spi.i_spi_tx_fifo      1
      spi_reg_top$croc_chip.i_croc_soc.i_croc.i_spi.i_reg_file      1
@@ -4099,33 +4101,33 @@
 
 === spi_reg_top$croc_chip.i_croc_soc.i_croc.i_spi.i_reg_file ===
 
-   Number of wires:                106
-   Number of wire bits:           1348
+   Number of wires:                126
+   Number of wire bits:           1708
    Number of public wires:          36
-   Number of public wire bits:     526
+   Number of public wire bits:     590
    Number of ports:                  8
-   Number of port bits:            183
+   Number of port bits:            199
    Number of memories:               0
    Number of memory bits:            0
    Number of processes:              0
-   Number of cells:                100
+   Number of cells:                122
      $aldff_1                        9
      $aldff_12                       1
-     $aldff_8                        8
+     $aldff_8                       10
      $and_1                          4
-     $and_32                        10
+     $and_32                        14
      $eq_10                          2
-     $eq_12                         22
+     $eq_12                         30
      $logic_and_1                    4
      $logic_not_1                    1
      $logic_not_12                   4
      $mux_1                          4
-     $mux_24                         1
      $mux_32                         2
-     $mux_8                         12
+     $mux_40                         1
+     $mux_8                         16
      $not_1                          3
-     $not_32                         5
-     $or_32                          5
+     $not_32                         7
+     $or_32                          7
      $pmux_1                         2
      $pmux_32                        1
 
@@ -5328,20 +5330,20 @@
            fifo_v3$croc_chip.i_croc_soc.i_user.i_user_err.i_id_fifo      1
          user_rom$croc_chip.i_croc_soc.i_user.i_user_rom      1
 
-   Number of wires:              12417
-   Number of wire bits:         168310
-   Number of public wires:        4468
-   Number of public wire bits:   85772
+   Number of wires:              12447
+   Number of wire bits:         168741
+   Number of public wires:        4472
+   Number of public wire bits:   85856
    Number of ports:               2311
-   Number of port bits:          38805
+   Number of port bits:          38821
    Number of memories:               5
    Number of memory bits:          608
    Number of processes:              0
-   Number of cells:              10946
+   Number of cells:              10976
      $add_17                         1
      $add_2                          8
      $add_31                         1
-     $add_32                        73
+     $add_32                        74
      $add_34                         1
      $add_5                          1
      $add_6                          5
@@ -5367,14 +5369,14 @@
      $aldff_6                       11
      $aldff_64                       5
      $aldff_7                        4
-     $aldff_8                       41
+     $aldff_8                       43
      $and_1                        768
      $and_150                        1
      $and_19                         1
      $and_2                          4
      $and_210                        6
      $and_3                          1
-     $and_32                        26
+     $and_32                        30
      $and_4                          1
      $and_432                        6
      $and_525                        1
@@ -5420,10 +5422,10 @@
      $dff_2                          4
      $dff_32                         4
      $dff_7                          2
-     $eq_1                           4
+     $eq_1                           5
      $eq_10                         38
      $eq_11                          2
-     $eq_12                        424
+     $eq_12                        432
      $eq_16                          1
      $eq_2                         358
      $eq_3                         403
@@ -5456,7 +5458,7 @@
      $logic_not_12                  11
      $logic_not_16                   2
      $logic_not_2                  147
-     $logic_not_3                  119
+     $logic_not_3                  122
      $logic_not_32                  39
      $logic_not_4                   14
      $logic_not_5                   12
@@ -5492,7 +5494,7 @@
      $mux_19                         1
      $mux_2                        419
      $mux_22                         5
-     $mux_24                         4
+     $mux_24                         3
      $mux_256                        7
      $mux_3                        535
      $mux_31                         2
@@ -5501,7 +5503,7 @@
      $mux_35                        24
      $mux_37                        30
      $mux_4                        303
-     $mux_40                        11
+     $mux_40                        12
      $mux_41                        24
      $mux_432                       18
      $mux_5                         37
@@ -5513,7 +5515,7 @@
      $mux_71                        36
      $mux_72                        18
      $mux_75                         6
-     $mux_8                        232
+     $mux_8                        237
      $mux_9                          5
      $mux_96                        11
      $ne_1                           5
@@ -5525,13 +5527,13 @@
      $not_1                        550
      $not_2                          3
      $not_3                          1
-     $not_32                        12
+     $not_32                        14
      $not_33                         1
      $not_4                          5
      $not_6                          3
      $or_1                         257
      $or_2                           3
-     $or_32                         13
+     $or_32                         15
      $pmux_1                       132
      $pmux_11                        2
      $pmux_2                        29
@@ -5543,7 +5545,7 @@
      $pmux_5                         2
      $pmux_64                        1
      $pmux_7                         8
-     $pmux_8                         5
+     $pmux_8                         6
      $reduce_and_2                   1
      $reduce_bool_16                 1
      $reduce_bool_2                  8
@@ -5579,7 +5581,7 @@
      $sub_6                          1
      $sub_8                          1
      $sub_9                          3
-     $xor_1                         13
+     $xor_1                         14
      $xor_32                         1
      RM_IHPSG13_1P_256x64_c2_bm_bist      2
      sg13g2_IOPadIOVdd               4
