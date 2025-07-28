@@ -579,7 +579,7 @@ module tb_croc_soc #(
     //  SPI Slave DUMMY   //
     ////////////////////////
 
-    spi_slave #(
+    spi_slave_demo #(
     ) i_spi_slave (
         .clk_i(clk),
         .rst_ni(rst_n),
