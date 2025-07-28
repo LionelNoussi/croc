@@ -12,8 +12,6 @@
 #include "util.h"
 #include "dma.h"
 
-#include "spi.h"
-
 /// @brief Example integer square root
 /// @return integer square root of n
 uint32_t isqrt(uint32_t n) {

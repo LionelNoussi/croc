@@ -369,7 +369,10 @@ module tb_croc_soc #(
         #UartBaudPeriod;
     endtask
 
+    // `define dma_in_stream_demo
+    // `define dma_out_stream_demo
 
+    `ifdef dma_in_stream_demo
     initial begin
         parameter int TIME_WINDOWS = 32;
         parameter int DMA_DEMO_N = 32;
@@ -417,6 +420,7 @@ module tb_croc_soc #(
             end
         end
     end
+    `endif
 
     logic keyword_detected, loading, computing;
     assign keyword_detected = gpio_o[0];
@@ -435,10 +439,14 @@ module tb_croc_soc #(
         uart_read_buf.delete();
         forever begin
             uart_read_byte(bite);
-            // $display("@%t | [UART] %p", $time, bite);
 
+            `ifdef dma_in_stream_demo
             if (bite == 8'h00) continue;
-            
+            `endif
+
+            `ifdef dma_out_stream_demo
+            $display("@%t | [UART] %p", $time, bite);
+            `else
             if (bite == "\n" || uart_read_buf.size() > 80) begin
                  if (uart_read_buf.size() > 0) begin
                     automatic string uart_str = "";               
@@ -458,6 +466,7 @@ module tb_croc_soc #(
             end else begin
                 uart_read_buf.push_back(bite);
             end
+            `endif
         end
     end
 
