@@ -264,7 +264,7 @@ module spi_slave (
         if(spi_state_q == LOAD) begin
             case (byte_type)
                 BYTE_CMD: begin 
-                    tx_shift_reg_d = 8'h2a;
+                    tx_shift_reg_d = 8'h2f;
                 end
                 BYTE_LENGTH: begin
                     tx_shift_reg_d = 8'h42;

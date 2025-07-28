@@ -20,8 +20,13 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
 
     output logic rx_read_pulse,
-    output logic tx_write_pulse
+    output logic tx_write_pulse,
+
+    output logic activate_o
 );
+
+  logic activate_d, activate_q;
+  assign activate_o = activate_q;
 
   // OBI preparation signals
   logic valid_d, valid_q;
@@ -81,11 +86,10 @@ module spi_reg_top import spi_reg_pkg::*; #(
     logic [7:0] fifo_status;
     logic [7:0] tx_data;
     logic [7:0] rx_data;
-    logic [7:0] address_low;
-    logic [7:0] address_high;
-    logic [7:0] length;
+    logic [15:0] length;
     logic [7:0] mode_ctrl;
     logic [7:0] busy;
+    logic [15:0]  freq;
   } spi_reg_fields_t;
 
   spi_reg_fields_t reg_d, reg_q;
@@ -104,6 +108,7 @@ module spi_reg_top import spi_reg_pkg::*; #(
 
   always_comb begin
     // Defaults
+    activate_d = '0;
     obi_rdata = '0;
     obi_err   = w_err_q;
     w_err_d   = 1'b0;
@@ -112,10 +117,9 @@ module spi_reg_top import spi_reg_pkg::*; #(
     // Assign outputs to logic
     reg2hw.control = reg_q.control;
     reg2hw.tx_data = reg_q.tx_data;
-    reg2hw.address_low = reg_q.address_low;
-    reg2hw.address_high = reg_q.address_high;
     reg2hw.length = reg_q.length;
     reg2hw.mode_ctrl = reg_q.mode_ctrl;
+    reg2hw.freq       = reg_q.freq;
 
     // Update from logic
     new_reg.status  = hw2reg.status;
@@ -129,26 +133,24 @@ module spi_reg_top import spi_reg_pkg::*; #(
     if (obi_write_request) begin
       case ({write_addr, 2'b00})
         SPI_CONTROL_OFFSET: begin
-          reg_d.control = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
+          reg_d.control = obi_wdata[7:0];
+          activate_d = obi_wdata[0];
         end
         SPI_TXBUFFER_OFFSET: begin
-          reg_d.tx_data = (~bit_mask & new_reg.tx_data) | (bit_mask & obi_wdata[7:0]);
-        end
-        SPI_ADDRESS_LO_OFFSET: begin
-          reg_d.address_low = (~bit_mask & new_reg.control) | (bit_mask & obi_wdata[7:0]);
-        end
-        SPI_ADDRESS_HI_OFFSET: begin
-          reg_d.address_high = (~bit_mask & new_reg.address_high) | (bit_mask & obi_wdata[7:0]);
+          reg_d.tx_data = obi_wdata[7:0];
         end
         SPI_LENGTH_OFFSET: begin
-          reg_d.length= (~bit_mask & new_reg.address_low) | (bit_mask & obi_wdata[7:0]);
+          reg_d.length= obi_wdata[15:0];
         end
         SPI_MODE_CTRL_OFFSET: begin
-          reg_d.mode_ctrl= (~bit_mask & new_reg.mode_ctrl) | (bit_mask & obi_wdata[7:0]);
+          reg_d.mode_ctrl= obi_wdata[7:0];
         end
         SPI_MODE_BUSY_OFFSET: begin
-          reg_d.busy= (~bit_mask & new_reg.busy) | (bit_mask & obi_wdata[7:0]);
-        end                
+          reg_d.busy= obi_wdata[7:0];
+        end
+        SPI_MODE_FREQ_OFFSET: begin
+          reg_d.freq= obi_wdata[15:0];
+        end                        
         default: begin
           w_err_d = 1'b1;
         end
@@ -164,12 +166,11 @@ module spi_reg_top import spi_reg_pkg::*; #(
         SPI_RXBUFFER_OFFSET: begin
              obi_rdata = {{24{1'b0}}, reg_q.rx_data};
         end
-        SPI_ADDRESS_LO_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_low};
-        SPI_ADDRESS_HI_OFFSET:  obi_rdata = {{24{1'b0}}, reg_q.address_high};
         SPI_LENGTH_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.length};
         SPI_FIFOSTAT_OFFSET:      obi_rdata = {{24{1'b0}}, reg_q.fifo_status};
         SPI_MODE_CTRL_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.mode_ctrl};
         SPI_MODE_BUSY_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.busy};
+        SPI_MODE_FREQ_OFFSET:     obi_rdata = {{24{1'b0}}, reg_q.freq};
         default: begin
           obi_rdata = 32'hDEAD_BEEF;
           obi_err   = 1'b1;
@@ -190,11 +191,13 @@ module spi_reg_top import spi_reg_pkg::*; #(
       read_to_rxbuffer_q   <= 1'b0;
       tx_write_access_q    <= 1'b0;
       write_to_txbuffer_q  <= 1'b0;
+      activate_q           <= '0;
     end else begin
       rx_read_access_q     <= rx_read_access_d;
       read_to_rxbuffer_q   <= rx_read_access_q;
       tx_write_access_q    <= tx_write_access_d;
       write_to_txbuffer_q  <= tx_write_access_q;
+      activate_q           <= activate_d;
     end
   end
 

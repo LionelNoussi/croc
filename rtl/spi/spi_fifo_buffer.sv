@@ -39,13 +39,11 @@ module spi_fifo_buffer #(
             wr_ptr_d = (wr_ptr_q + 1) % DEPTH;
         end
 
-        if (obi_read_en
- && !empty_o) begin
+        if (obi_read_en && !empty_o) begin
             rd_ptr_d  = (rd_ptr_q + 1) % DEPTH;
         end
 
-        unique case ({spi_write_i && !full_o, obi_read_en
- && !empty_o})
+        unique case ({spi_write_i && !full_o, obi_read_en && !empty_o})
             2'b10: count_d = count_q + 1;
             2'b01: count_d = count_q - 1;
             2'b11: count_d = count_q;
