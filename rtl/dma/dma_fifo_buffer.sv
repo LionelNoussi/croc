@@ -15,7 +15,9 @@ module dma_fifo_buffer #(
     input  logic        rd_en_i,
     output logic [31:0] rd_data_o,
     output logic        empty_o,
-    output logic        almost_empty_o
+    output logic        almost_empty_o,
+
+    input logic         reset_i
 );
 
     // Internal memory
@@ -35,27 +37,32 @@ module dma_fifo_buffer #(
         rd_ptr_d   = rd_ptr_q;
         count_d    = count_q;
 
-        if (wr_en_i && !full_o) begin
-            wr_ptr_d = (wr_ptr_q + 1) % DEPTH;
-        end
+        if (reset_i) begin
+            wr_ptr_d = '0;
+            rd_ptr_d = '0;
+            count_d = '0;
+        end else begin
+            if (wr_en_i && !full_o) begin
+                wr_ptr_d = (wr_ptr_q + 1) % DEPTH;
+            end
 
-        if (rd_en_i && !empty_o) begin
-            rd_ptr_d  = (rd_ptr_q + 1) % DEPTH;
-        end
+            if (rd_en_i && !empty_o) begin
+                rd_ptr_d  = (rd_ptr_q + 1) % DEPTH;
+            end
 
-        unique case ({wr_en_i && !full_o, rd_en_i && !empty_o})
-            2'b10: count_d = count_q + 1;
-            2'b01: count_d = count_q - 1;
-            2'b11: count_d = count_q;
-            default: count_d = count_q;
-        endcase
+            unique case ({wr_en_i && !full_o, rd_en_i && !empty_o})
+                2'b10: count_d = count_q + 1;
+                2'b01: count_d = count_q - 1;
+                2'b11: count_d = count_q;
+                default: count_d = count_q;
+            endcase
+        end
     end
 
     // -------------------------------
     // Sequential logic
     // -------------------------------
     always_ff @(posedge clk_i or negedge rst_ni) begin
-        
         if (!rst_ni) begin
             wr_ptr_q   <= '0;
             rd_ptr_q   <= '0;

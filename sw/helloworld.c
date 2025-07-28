@@ -44,12 +44,12 @@ int main() {
 
     // ROM TEST -------------------------------------
     // Read from the Rom and print the result
-    uint32_t val;
+    char val;
     printf("ROM content: ");
     // Reading 12 characters. Should be "LN&LK's ASIC"
-    for (int i = 0; i < 12; i += 4) {
-        val = *reg32(USER_ROM_BASE_ADDR, i);    // Reads 4 chars from ROM at once
-        printf((char*) &val);     // Cast to char array and printf
+    for (int i = 0; i < 12; i += 1) {
+        val = *reg8(USER_ROM_BASE_ADDR, i);
+        uart_write(val);
     }
     uart_write('\n');
     // ROM TEST END ---------------------------------

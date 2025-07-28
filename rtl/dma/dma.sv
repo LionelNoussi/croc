@@ -126,6 +126,9 @@ logic fifo_empty;
 logic fifo_almost_empty;
 logic [DataW-1:0] fifo_rd_data;
 
+logic reset_fifo;
+assign reset_fifo = activate_signal_q;
+
 dma_fifo_buffer #(
   .DEPTH(2),
   .DATA_WIDTH(DataW)
@@ -141,7 +144,9 @@ dma_fifo_buffer #(
   .rd_en_i        (fifo_rd_en),
   .rd_data_o      (fifo_rd_data),
   .empty_o        (fifo_empty),
-  .almost_empty_o (fifo_almost_empty)
+  .almost_empty_o (fifo_almost_empty),
+
+  .reset_i        (reset_fifo)
 );
 
 logic inputs_ready;
