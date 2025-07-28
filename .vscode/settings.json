@@ -17,6 +17,8 @@
         "initializer_list": "c",
         "utility": "c",
         "functional": "c",
-        "interrupts.h": "c"
+        "interrupts.h": "c",
+        "uart.h": "c",
+        "spi.h": "c"
     }
 }

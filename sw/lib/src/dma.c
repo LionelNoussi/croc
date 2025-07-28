@@ -261,14 +261,14 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
         SPI_RX;
     }
 
-    *dma_ctrl_reg = dma_controls;
-    // for (uint8_t i = 0; i < num_bytes; i++) {
-    //     // Stall while, RX buffer is empty
-    //     while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
+    // *dma_ctrl_reg = dma_controls;
+    for (uint8_t i = 0; i < num_bytes; i++) {
+        // Stall while, RX buffer is empty
+        while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
 
-    //     // Store result in destination array
-    //     destination_array[i] = SPI_RX;
-    // }
+        // Store result in destination array
+        destination_array[i] = SPI_RX;
+    }
 
     // This blocks now, because the condition is probably wrong,
     // and so the dma never reads enough bytes. If this works,
@@ -276,7 +276,6 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint8_t num_bytes) 
     // if (dma_busy()) {
     //     asm volatile ("wfi");
     // }
-    while (dma_busy());
 }
 
 

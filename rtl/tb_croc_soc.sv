@@ -371,7 +371,7 @@ module tb_croc_soc #(
 
 
     initial begin
-        parameter int TIME_WINDOWS = 8;
+        parameter int TIME_WINDOWS = 32;
         parameter int DMA_DEMO_N = 32;
         byte_bt source_array[TIME_WINDOWS][DMA_DEMO_N];
         byte_bt start_bite;
@@ -401,26 +401,27 @@ module tb_croc_soc #(
 
         @(posedge fetch_en_i);
         
-        win = 0;
-        forever begin
-            uart_read_byte(start_bite);
-            if (start_bite == 8'h00) begin
-                $display("@%t | [Sensor] Read request byte. Sending data...", $time);
-                for (int i = 0; i < DMA_DEMO_N; i++) begin
-                    // $display("Sent byte %0h", source_array[win][i]);
-                    uart_write_byte(source_array[win][i]);
-                end
-                win = win + 1;
-                if (win >= TIME_WINDOWS) begin
-                    win = 0;
-                end
-            end
-        end
+        // win = 0;
+        // forever begin
+        //     uart_read_byte(start_bite);
+        //     if (start_bite == 8'h00) begin
+        //         $display("@%t | [Sensor] Read request byte. Sending data...", $time);
+        //         for (int i = 0; i < DMA_DEMO_N; i++) begin
+        //             // $display("Sent byte %0h", source_array[win][i]);
+        //             uart_write_byte(source_array[win][i]);
+        //         end
+        //         win = win + 1;
+        //         if (win >= TIME_WINDOWS) begin
+        //             win = 0;
+        //         end
+        //     end
+        // end
     end
 
     logic keyword_detected, loading, computing;
     assign keyword_detected = gpio_o[0];
     assign loading = gpio_o[1];
+    assign sending = gpio_o[1];
     assign computing = gpio_o[2];
 
 
@@ -434,28 +435,29 @@ module tb_croc_soc #(
         uart_read_buf.delete();
         forever begin
             uart_read_byte(bite);
+            $display("@%t | [UART] %p", $time, bite);
 
-            if (bite == 8'h00) continue;
+            // if (bite == 8'h00) continue;
             
-            if (bite == "\n" || uart_read_buf.size() > 80) begin
-                 if (uart_read_buf.size() > 0) begin
-                    automatic string uart_str = "";               
-                    foreach (uart_read_buf[i]) begin
-                        uart_str = {uart_str, uart_read_buf[i]};
-                    end
+            // if (bite == "\n" || uart_read_buf.size() > 80 && 0) begin
+            //      if (uart_read_buf.size() > 0) begin
+            //         automatic string uart_str = "";               
+            //         foreach (uart_read_buf[i]) begin
+            //             uart_str = {uart_str, uart_read_buf[i]};
+            //         end
                     
-                    $display("@%t | [UART] %s", $time, uart_str);
-                    // uart_read_buf.push_back(bite);
-                    // $display("@%t | [UART] raw: %p", $time, uart_read_buf);
+            //         $display("@%t | [UART] %s", $time, uart_str);
+            //         uart_read_buf.push_back(bite);
+            //         $display("@%t | [UART] raw: %p", $time, uart_read_buf);
   
-                end else begin
-                    $display("@%t | [UART] ???", $time);
-                end
+            //     end else begin
+            //         $display("@%t | [UART] ???", $time);
+            //     end
 
-                uart_read_buf.delete();
-            end else begin
-                uart_read_buf.push_back(bite);
-            end
+            //     uart_read_buf.delete();
+            // end else begin
+            //     uart_read_buf.push_back(bite);
+            // end
         end
     end
 

@@ -89,40 +89,40 @@ int main() {
     uart_write_flush();
     uint8_t N = 43;
     uint8_t NUM_WINDOWS =2;
-        uint16_t addr = 0;
-        int8_t buffer[N];
-        
-        int result = 0;
-        
-        for (int win = 0; win < NUM_WINDOWS; win++) {
-            ssd_read_dma(buffer, addr, N);
-            addr += N;
-
-            // result = compute(buffer);
-            // gpio_write(result);
-        }
-
-        for (int i = 0; i < N; i++) {
-            buffer[i] = i + 64;
-        }
-
-        addr = 0x01A1;
-        ssd_write_dma(buffer, addr, N);
-        
-        for (int i = 0; i < 500; i++) {
-            asm volatile ("nop");
-        }
-        
+    uint16_t addr = 0;
+    int8_t buffer[N];
+    
+    int result = 0;
+    
+    for (int win = 0; win < NUM_WINDOWS; win++) {
         ssd_read_dma(buffer, addr, N);
+        addr += N;
 
-        // ssd_read_dma(buffer, addr + N, N);
+        // result = compute(buffer);
+        // gpio_write(result);
+    }
 
-        for (int i = 0; i < N; i++) {
-            printf("buffer[0x%x] = 0x%x\n", i, buffer[i]);
-        }
+    for (int i = 0; i < N; i++) {
+        buffer[i] = i + 64;
+    }
+
+    addr = 0x01A1;
+    ssd_write_dma(buffer, addr, N);
+    
+    for (int i = 0; i < 500; i++) {
+        asm volatile ("nop");
+    }
+    
+    ssd_read_dma(buffer, addr, N);
+
+    // ssd_read_dma(buffer, addr + N, N);
+
+    for (int i = 0; i < N; i++) {
+        printf("buffer[0x%x] = 0x%x\n", i, buffer[i]);
+    }
 
     printf("Done with SPI test\n");
-    // printf("SPI returned: 0x%x\n", result_spi);
+    
     uart_write_flush();
 
     // doing some computes

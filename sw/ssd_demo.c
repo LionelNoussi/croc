@@ -9,6 +9,7 @@
 #include "uart.h"
 #include "gpio.h"
 #include "print.h"
+#include "timer.h"
 #include "interrupts.h"
 #include "spi.h"
 
@@ -48,7 +49,7 @@ void print_array(uint8_t* array, uint8_t len) {
         uart_write(',');
         uart_write(' ');
     }
-    uart_write(array[array[len-1]]);
+    uart_write(array[len-1]);
     uart_write(']');
     uart_write('\n');
 }
@@ -86,34 +87,32 @@ uint8_t compute(uint8_t* buffer) {
 
 
 #ifndef USE_DMA
-    void normal_examble() {
+    void normal_example() {
         uint16_t addr = 65;
         uint8_t buffer[N];
+        for (int i = 0; i < N; i++) {
+            buffer[i] = 1;
+        }
         
         int result = 0;
         
         for (int win = 0; win < NUM_WINDOWS; win++) {
-
             write_gpio_state(LOADING, !COMPUTING, result);
-            // spi_read_full(addr, buffer, N);
+            spi_read_full(addr, buffer, N);
             // ssd_read_dma(buffer, addr, N);
+            addr += N;
+            printf("Read array: ");
             print_array(buffer, N);
-
-        addr = 0x01A1;
-        ssd_write_dma(buffer, addr, N);
-        
-        for (int i = 0; i < 500; i++) {
-            asm volatile ("nop");
         }
-        
-        ssd_read_dma(buffer, addr, N);
-        
 
-        // printf("Hello world \n");
-        // uart_init();
-        // printf("Data buffer at 3: %d \n", buffer[3]);
-        // uart_write_flush();
+        // addr = 0x01A1;
+        // ssd_write_dma(buffer, addr, N);
         
+        // for (int i = 0; i < 500; i++) {
+        //     asm volatile ("nop");
+        // }
+        
+        // ssd_read_dma(buffer, addr, N);
     }
 #else
     void dma_examble() {
@@ -165,20 +164,24 @@ uint8_t compute(uint8_t* buffer) {
 int main() {
     // Setup UART
     uart_init();
-    printf("Hello world \n");
+    
+    printf("Hello world\n");
+    uart_write('\n');
     // uart_write_flush();
     // if(1) return 1;
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // lowest 3 as outputs
     gpio_write(0);      // Prepare initial result
     gpio_enable(0xF);   // enable lowest eight
-
-
+    
+    
     #ifndef USE_DMA
-        normal_examble();
+    normal_example();
     #else
-        dma_example();
+    dma_example();
     #endif
     
+    uart_write('\n');
+    sleep_ms(1);
     return 1;
 }
