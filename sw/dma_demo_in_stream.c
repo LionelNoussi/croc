@@ -10,9 +10,11 @@
 #include "gpio.h"
 #include "print.h"
 #include "interrupts.h"
+#include "util.h"
+#include "timer.h"
 
 #define N 32
-#define NUM_WINDOWS 8
+#define NUM_WINDOWS 32
 #define THRESHOLD 40000
 
 #define USE_DMA
@@ -130,99 +132,108 @@ int detect_keyword(uint8_t* time_window) {
 }
 
 
-
-#ifndef USE_DMA
-    void keyword_detection() {
-        int8_t buffer[N];
+void keyword_detection() {
+    int8_t buffer[N];
+    
+    int result = 0;
+    
+    // uart_write(0x00);
+    
+    for (int win = 0; win < NUM_WINDOWS; win++) {
         
-        int result = 0;
-        
-        // uart_write(0x00);
-        
-        for (int win = 0; win < NUM_WINDOWS; win++) {
-            
-            // Signal Testbench to send another input
-            uart_write(0x00);
-            
-            gpio_write(0x2 + result);
-            for (int i = 0; i < N; i++) {
-                buffer[i] = uart_read();
-            }
-            gpio_write(0x4 + result);
-
-            // if (win != NUM_WINDOWS -1) {
-            //     uart_write(0x00);
-            // }
-
-            gpio_write(4 + result);
-            result = detect_keyword(buffer);
-        }
-        gpio_write(result);
-    }
-#else
-    void keyword_detection_dma() {
-        // Send start signal to testbench
+        // Signal Testbench to send another input
         uart_write(0x00);
         
-        // One buffer of double length for double buffering
-        // For clarity: buffer0 = buffer; buffer1 = buffer + N
-        int8_t  buffer[2*N];
-        uint8_t dst_offset = 0;     // 0 for buffer0, N for buffer1
-        int8_t* current_buffer = buffer;     // buffer + offset;
-        
-        uint8_t result = 0;
-
-        // Start the DMA
-        write_gpio_state(LOADING, !COMPUTING, 0);
-        uart_read_dma(current_buffer, N);
-
-        for (int win = 0; win < NUM_WINDOWS; win++) {
-            
-            // Get reference to current buffer
-            // if (dst_offset == N) {dst_offset = 0;} else {dst_offset = N;}
-            current_buffer = buffer + dst_offset;
-            
-            // Wait for the dma to finish loading data into the current buffer
-            if (dma_busy()) {
-                asm volatile("wfi");
-            }
-
-            write_gpio_state(!LOADING, COMPUTING, result);  
-
-            // Start DMA to fill next buffer, except in last iteration
-            if (win != NUM_WINDOWS - 1) {
-                write_gpio_state(LOADING, COMPUTING, result);
-                
-                // Alternate offset between 0 and N
-                dst_offset ^= N;
-                // Tell testbench to send another array
-                uart_write(0x0);
-                // Start dma
-                uart_read_dma(buffer + dst_offset, N);
-            }
-
-            result = detect_keyword(current_buffer);
-
-            write_gpio_state(dma_busy(), !COMPUTING, result);
+        gpio_write(0x2 + result);
+        for (int i = 0; i < N; i++) {
+            buffer[i] = uart_read();
         }
+        gpio_write(0x4 + result);
+
+        // if (win != NUM_WINDOWS -1) {
+        //     uart_write(0x00);
+        // }
+
+        gpio_write(4 + result);
+        result = detect_keyword(buffer);
     }
-#endif
+    gpio_write(result);
+}
+
+
+void keyword_detection_dma() {
+    // Send start signal to testbench
+    uart_write(0x00);
+    
+    // One buffer of double length for double buffering
+    // For clarity: buffer0 = buffer; buffer1 = buffer + N
+    int8_t  buffer[2*N];
+    uint8_t dst_offset = 0;     // 0 for buffer0, N for buffer1
+    int8_t* current_buffer = buffer;     // buffer + offset;
+    
+    uint8_t result = 0;
+
+    // Start the DMA
+    write_gpio_state(LOADING, !COMPUTING, 0);
+    uart_read_dma(current_buffer, N);
+
+    for (int win = 0; win < NUM_WINDOWS; win++) {
+        
+        // Get reference to current buffer
+        // if (dst_offset == N) {dst_offset = 0;} else {dst_offset = N;}
+        current_buffer = buffer + dst_offset;
+        
+        // Wait for the dma to finish loading data into the current buffer
+        if (dma_busy()) {
+            asm volatile("wfi");
+        }
+
+        write_gpio_state(!LOADING, COMPUTING, result);  
+
+        // Start DMA to fill next buffer, except in last iteration
+        if (win != NUM_WINDOWS - 1) {
+            write_gpio_state(LOADING, COMPUTING, result);
+            
+            // Alternate offset between 0 and N
+            dst_offset ^= N;
+            // Tell testbench to send another array
+            uart_write(0x0);
+            // Start dma
+            uart_read_dma(buffer + dst_offset, N);
+        }
+
+        result = detect_keyword(current_buffer);
+
+        write_gpio_state(dma_busy(), !COMPUTING, result);
+    }
+}
 
 
 int main() {
     // Setup UART
     uart_init();
-
+    
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // lowest 3 as outputs
     gpio_write(0);      // Prepare initial result
     gpio_enable(0xF);   // enable lowest eight
-
-    #ifndef USE_DMA
-        keyword_detection();
-    #else
-        keyword_detection_dma();
-    #endif
     
+    
+    uint64_t start, end;
+
+    start = get_mcycle();
+    keyword_detection();
+    end = get_mcycle();
+    printf("Keyword detection without dma took %u cycles.\n", (uint32_t) (end - start));
+
+    write_gpio_state(0, 0, 0);
+    sleep_ms(5);
+
+    start = get_mcycle();
+    keyword_detection_dma();
+    end = get_mcycle();
+    printf("Keyword detection with dma took %u cycles.\n", (uint32_t) (end - start));
+
+    sleep_ms(5);
     return 1;
 }

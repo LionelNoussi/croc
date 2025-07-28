@@ -485,9 +485,6 @@ module croc_domain import croc_pkg::*; #(
     .default_idx_i    ( '0 )
   );
 
-  // TODO change this to periph_demux_w_dma, which acts like a wrapper to obi_demux,
-  // but has an extra mux before all dma enabled peripherals, which can pick the input source
-  // to be either from the xbar or from the dma, depending on a dma enable signal
   obi_demux #(
     .ObiCfg      ( SbrObiCfg     ),
     .obi_req_t   ( sbr_obi_req_t ),
@@ -650,7 +647,7 @@ module croc_domain import croc_pkg::*; #(
   assign timer_obi_rsp.r.err        = 1'b0;
   assign timer_obi_rsp.r.r_optional = 1'b0;
 
-    // SPI
+  // SPI
   spi #(
     .ObiCfg     (SbrObiCfg                  ),
     .obi_req_t  (sbr_obi_req_t              ),

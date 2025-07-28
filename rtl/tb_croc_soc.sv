@@ -371,7 +371,7 @@ module tb_croc_soc #(
 
 
     initial begin
-        parameter int TIME_WINDOWS = 8;
+        parameter int TIME_WINDOWS = 32;
         parameter int DMA_DEMO_N = 32;
         byte_bt source_array[TIME_WINDOWS][DMA_DEMO_N];
         byte_bt start_bite;
@@ -421,6 +421,7 @@ module tb_croc_soc #(
     logic keyword_detected, loading, computing;
     assign keyword_detected = gpio_o[0];
     assign loading = gpio_o[1];
+    assign sending = gpio_o[1];
     assign computing = gpio_o[2];
 
 
@@ -434,6 +435,7 @@ module tb_croc_soc #(
         uart_read_buf.delete();
         forever begin
             uart_read_byte(bite);
+            // $display("@%t | [UART] %p", $time, bite);
 
             if (bite == 8'h00) continue;
             
