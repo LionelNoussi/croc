@@ -312,7 +312,7 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint16_t num_bytes) {
 
     // Control on, and off immediately after, otherwise state machine will restart
     SPI_CTRL = control_on;
-    SPI_CTRL = control_rst;
+    // SPI_CTRL = control_rst;
     
     // Turning dma on to stream in rest of the data.
     *dma_ctrl_reg = dma_controls;
@@ -343,4 +343,33 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint16_t num_bytes) {
     //     }
     // } while(SPI_STATUS < num_bytes + 4);
     // dummy = SPI_RX;
+}
+
+void spi_write_dma(uint8_t* source_array, uint16_t num_bytes) {
+    while (dma_busy());
+    while(SPI_BUSY);
+    const uint8_t control_on = (0 << 3) | (2 << 1) | 0x1;
+    *dma_src_reg = (uint32_t) source_array;
+    *dma_dst_reg = (uint32_t) SPI_BASE_ADDR;
+    *dma_cond_reg = (uint32_t) (
+        (SPI_FIFOSTAT_OFFSET            << DMA_COND_OFFSET_SHIFT)       |
+        (SPI_STATUS_TX_ALMOST_FULL_MASK << DMA_COND_MASK_SHIFT)         |
+        (DMA_COND_DST_BASE              << DMA_COND_BASE_ADDR_SHIFT)    |
+        (0                              << DMA_COND_NEGATE_SHIFT)       |
+        (1                              << DMA_COND_ENABLE_SHIFT)
+    );
+    const dma_control_t dma_controls = (uint32_t) (
+        (0                  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
+        (SPI_TX_REG_OFFSET  << DMA_CTRL_DST_OFFSET_SHIFT)       |
+        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
+        (1                  << DMA_CTRL_INC_SRC_SHIFT)          |
+        (0                  << DMA_CTRL_INC_DEST_SHIFT)         |
+        (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
+        (1                  << DMA_CTRL_ACTIVATE_SHIFT)
+    ) | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+
+    *dma_ctrl_reg = dma_controls;
+    SPI_LENGTH = num_bytes -1;
+    SPI_FREQ = 0x4;
+    SPI_CTRL = control_on;
 }

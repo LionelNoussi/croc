@@ -70,7 +70,7 @@ sources:
 
   - target: any(simulation, verilator)
     files:
-      - rtl/spi/spi_slave.sv
+      - rtl/spi/spi_slave_demo.sv
       - rtl/tb_croc_soc.sv
 
   - target: genesys2

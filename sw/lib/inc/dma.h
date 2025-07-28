@@ -176,6 +176,8 @@ void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint16_t num_bytes)
 
 void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint16_t num_bytes);
 
+void spi_write_dma(uint8_t*source_array, uint16_t num_bytes);
+
 // -----------------------------------------------------------------------------
 // DMA MEMCPY
 // -----------------------------------------------------------------------------

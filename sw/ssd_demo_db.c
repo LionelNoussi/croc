@@ -125,41 +125,48 @@ void compute(int8_t* buffer){
 void ssd_demo(){
 
 #ifdef USE_DMA
-    uint16_t N = 40;
-    uint8_t NUM_WINDOWS =3;
+    uint16_t N = 128;
+    uint8_t NUM_WINDOWS =10;
     int8_t buffer1[N];
     int8_t buffer2[N];
     uint8_t address = 0x32;
 
-    for (int win = 0; win < NUM_WINDOWS; win++) {
-        while(dma_busy());
-        enable_dma_irq();
-        if((win  %2) == 0){
-             ssd_read_dma(buffer1, address, N);
-             write_gpio_state(1,0,0);
-             compute(buffer2);
-             write_gpio_state(0,0,0);
-        }
-        else {
-             ssd_read_dma(buffer2, address, N);
-             write_gpio_state(0, 1, 0);
-             compute(buffer1);
-             write_gpio_state(0,0,0);
-        }
-        address += N;
-        // while(dma_busy());
+    for(uint16_t i =0; i<N; i++){
+        buffer1[i] = i +2;
+    }
 
+    // for (int win = 0; win < NUM_WINDOWS; win++) {
+    //     while(dma_busy());
+    //     enable_dma_irq();
+    //     if((win  %2) == 0){
+    //          ssd_read_dma(buffer1, address, N);
+    //          write_gpio_state(1,0,0);
+    //          compute(buffer2);
+    //          write_gpio_state(0,0,0);
+    //     }
+    //     else {
+    //          ssd_read_dma(buffer2, address, N);
+    //          write_gpio_state(0, 1, 0);
+    //          compute(buffer1);
+    //          write_gpio_state(0,0,0);
+    //     }
+    //     address += N;
+    //     // while(dma_busy());
+
+    // }
+    //  while(dma_busy());
+    //  buffer2[0] = 0xa2;
+    for (int win = 0; win < NUM_WINDOWS; win++) {
+        spi_write_dma(buffer1,N);
+        while(dma_busy());
     }
-     while(dma_busy());
-     buffer2[0] = 0xa2;
-    ssd_write_dma(buffer2, address,N);
-    ssd_read_dma(buffer2, address,N);
-    delay_cycles(10000);
-    SPI_CTRL =0x00;
-    delay_cycles(10000);
-    for (int i = 0; i < 5; i++) {
-        printf("b[%x] = %x\n", i, buffer2[i]);
-    }
+    // ssd_read_dma(buffer2, address,N);
+    // delay_cycles(10000);
+    // SPI_CTRL =0x00;
+    // delay_cycles(10000);
+    // for (int i = 0; i < 5; i++) {
+    //     printf("b[%x] = %x\n", i, buffer2[i]);
+    // }
 #else
             uint8_t N = 50;
     uint8_t NUM_WINDOWS =1;
