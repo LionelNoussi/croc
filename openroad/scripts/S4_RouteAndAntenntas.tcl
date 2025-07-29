@@ -30,7 +30,7 @@ utl::report "Perform buffer insertion..."
 repair_design -verbose
 
 utl::report "Repairing the timing..."
-repair_timing -skip_pin_swap -setup -setup_margin 0.05 -verbose -repair_tns 100
+repair_timing -skip_pin_swap -setup -setup_margin 0.06 -verbose -repair_tns 100
 repair_timing -skip_pin_swap -hold -hold_margin 0.1 -verbose -repair_tns 100
 
 # check_placement -verbose
@@ -56,10 +56,6 @@ utl::report "Done with GlobalRoute Script!"
 utl::report "Checking fixing antennas and doing detailed routing twice!"
 
 utl::report "Repairing Antennas, design and timing..."
-# repair_antennas -ratio_margin 30 -iterations 1;
-# estimate_parasitics -global_routing;
-# report_metrics FixedAntennasIter1
-# save_checkpoint FixedAntennasIter1
 
 utl::report "Running first detailed routing..."
 set_global_routing_layer_adjustment Metal2-Metal3 0.30
