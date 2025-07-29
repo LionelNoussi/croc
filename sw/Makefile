@@ -34,7 +34,7 @@ RISCV_LDFLAGS  ?= -static -nostartfiles -lm -lgcc $(RISCV_FLAGS)
 all: compile
 
 # Building defaults
-
+HEXDIR ?= hex_files
 BINDIR 	?= bin
 CRT0 	?= crt0.S
 LINK 	?= link.ld
@@ -45,11 +45,20 @@ LIB_SOURCES := $(wildcard $(SRCDIR)/*.[cS])
 LIB_OBJS 	:= $(LIB_SOURCES:$(SRCDIR)/%=$(BINDIR)/%.o)
 STATIC_LIB  := $(LIBDIR)/libcroc.a
 
+# DEMO FILES
+DEMO_SOURCES := $(wildcard demos/*.c)
+DEMO_BASENAMES := $(notdir $(basename $(DEMO_SOURCES)))
+DEMO_OBJS := $(DEMO_BASENAMES:=.o)
+DEMO_TARGETS := $(DEMO_BASENAMES:%=$(BINDIR)/%.elf) $(DEMO_BASENAMES:%=$(BINDIR)/%.dump) $(DEMO_BASENAMES:%=$(BINDIR)/%.hex)
+
+
 # Build all assembly and C files in the top level as seperate binaries
 TOP_SOURCES ?= $(filter-out $(CRT0), $(wildcard *.[cS]))
 TOP_BASENAMES := $(basename $(TOP_SOURCES))
 TOP_OBJS    := $(TOP_BASENAMES:=.o)
-ALL_TARGETS := $(TOP_BASENAMES:%=$(BINDIR)/%.elf) $(TOP_BASENAMES:%=$(BINDIR)/%.dump) $(TOP_BASENAMES:%=$(BINDIR)/%.hex)
+ALL_TARGETS := \
+	$(TOP_BASENAMES:%=$(BINDIR)/%.elf) $(TOP_BASENAMES:%=$(BINDIR)/%.dump) $(TOP_BASENAMES:%=$(HEXDIR)/%.hex) \
+	$(DEMO_BASENAMES:%=$(BINDIR)/%.elf) $(DEMO_BASENAMES:%=$(BINDIR)/%.dump) $(DEMO_BASENAMES:%=$(HEXDIR)/%.hex)
 
 
 $(BINDIR):
@@ -67,13 +76,8 @@ $(BINDIR)/%.c.o: $(SRCDIR)/%.c | $(BINDIR)
 %.c.o: %.c
 	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
 
-# Compile flow 1
-# $(BINDIR)/%.elf: %.S.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
-# 	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
-
-# $(BINDIR)/%.elf: %.c.o $(CRT0).o $(LIB_OBJS) | $(BINDIR)
-# 	$(RISCV_CC) -o $@ $^ $(RISCV_LDFLAGS) -T$(LINK)
-# 	$(RISCV_SIZE) $@
+%.c.o: demos/%.c
+	$(RISCV_CC) -ffunction-sections -fdata-sections $(RISCV_CCFLAGS) -c $< -o $@
 
 # IMPORTANT NOTE: New Make target, which links to static library and filters unused sections, to reduce .text size of code
 $(BINDIR)/%.elf: %.c.o $(CRT0).o $(STATIC_LIB) | $(BINDIR)
@@ -86,8 +90,11 @@ $(STATIC_LIB): $(LIB_OBJS)
 $(BINDIR)/%.dump: $(BINDIR)/%.elf
 	$(RISCV_OBJDUMP) -D -s $< >$@
 
-$(BINDIR)/%.hex: $(BINDIR)/%.elf
+$(HEXDIR)/%.hex: $(BINDIR)/%.elf | $(HEXDIR)
 	$(RISCV_OBJCOPY) -O verilog $< $@
+
+$(HEXDIR):
+	mkdir -p $(HEXDIR)
 
 
 # Phonies
