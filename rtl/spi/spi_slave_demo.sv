@@ -196,7 +196,7 @@ module spi_slave_demo (
                 if ((byte_cnt_q >= IMGLENGTH) ||  cs_n_i) begin
                     spi_state_d = IDLE;
                     byte_cnt_d  = 0;
-                    $sformat(filename, "videoframes/frame_%0t.hex", $time);
+                    $sformat(filename, "videoframes/videoframes/frame_%0t.hex", $time);
                     $writememh(filename, mem_d);
                     $display("@%t | [SPI SLAVE] Received frame.", $time);
                 end else begin

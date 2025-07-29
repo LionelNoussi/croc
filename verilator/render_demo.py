@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 
-WIDTH = 64
-HEIGHT = 64         # Full frame height
-HEIGHT_CHUNKS = 8   # Number of vertical chunks per frame
+WIDTH = 128
+HEIGHT = 128         # Full frame height
+HEIGHT_CHUNKS = 32   # Number of vertical chunks per frame
 H_CHUNK_SIZE = HEIGHT // HEIGHT_CHUNKS
 
 def extract_timestamp(filename):
@@ -63,7 +63,7 @@ def render(frames, interval_ms):
         return [im]
 
     print(f"Interval: {interval_ms}")
-    anim = FuncAnimation(fig, update, frames=len(frames), interval=interval_ms*2, blit=True)
+    anim = FuncAnimation(fig, update, frames=len(frames), interval=interval_ms, blit=True)
     plt.show()
 
 if __name__ == "__main__":

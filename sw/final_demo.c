@@ -44,12 +44,12 @@ void* memcpy(void* dest, const void* src, unsigned len) {
 }
 
 
-#define WIDTH 64
-#define HEIGHT 64
-#define HEIGHT_CHUNKS 8
+#define WIDTH 128
+#define HEIGHT 128
+#define HEIGHT_CHUNKS 32
 #define H_CHUNK_SIZE (HEIGHT / HEIGHT_CHUNKS)
-#define N (WIDTH * H_CHUNK_SIZE)
-#define NUM_FRAMES 1
+#define N 512
+#define NUM_FRAMES 64
 
 static const uint8_t sin_table[256] = {
     32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
@@ -70,39 +70,40 @@ static const uint8_t sin_table[256] = {
     32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
 };
 
+
+#define RING_SPEED 4
+#define MAX_DIST 256
+#define CENTER_Y HEIGHT/2
+#define CENTER_X WIDTH/2
+
 void compute_next_frame(uint8_t* next_frame) {
     static uint32_t frame_index = 0;
 
-    const int center_x = WIDTH / 2;
-    const int center_y = HEIGHT / 2;
-    const int ring_speed = 6;
+    uint32_t full_frame_index = frame_index / HEIGHT_CHUNKS;  // div HEIGHT_CHUNKS
+    uint32_t chunk_index = frame_index % HEIGHT_CHUNKS;      // mod HEIGHT_CHUNKS
+    uint32_t y_start = chunk_index * H_CHUNK_SIZE;           // chunk_index * H_CHUNK_SIZE
 
-    uint32_t full_frame_index = frame_index / HEIGHT_CHUNKS;
-    uint32_t chunk_index = frame_index % HEIGHT_CHUNKS;
+    int ring_pos = (full_frame_index * RING_SPEED) % MAX_DIST;
 
-    int y_start = chunk_index * H_CHUNK_SIZE;
+    for (int y = 0; y < H_CHUNK_SIZE; y++) {
+        int abs_y = y + y_start;
+        int dy = abs_y - CENTER_Y;
+        int y_offset = abs_y * 4;
 
-    for (int y = y_start; y < y_start + H_CHUNK_SIZE; y++) {
         for (int x = 0; x < WIDTH; x++) {
-            // Background wave pattern
-            int index = (x * 3 + y * 5 + full_frame_index * 4) & 0xFF;
-            uint8_t bg = sin_table[index];
-
-            // Ripple ring
-            int dx = x - center_x;
-            int dy = y - center_y;
+            int dx = x - CENTER_X;
             int dist = dx * dx + dy * dy;
 
-            int ring_pos = (full_frame_index * ring_speed) % 300;
             int diff = dist - ring_pos;
             if (diff < 0) diff = -diff;
 
-            int intensity = (diff < 255) ? (255 - diff) : 0;
+            int bg_index = (x * 4 + y_offset + full_frame_index * 4) & 0xFF;
+            uint8_t bg = sin_table[bg_index];
 
-            uint8_t pixel = bg + (intensity >> 2);
-            if (pixel > 255) pixel = 255;
+            uint8_t intensity = (diff < 255) ? (255 - diff) >> 2 : 0;
 
-            next_frame[(y - y_start) * WIDTH + x] = pixel;
+            uint16_t pixel = bg + intensity;
+            next_frame[y * WIDTH + x] = (pixel > 255) ? 255 : pixel;
         }
     }
 
@@ -110,28 +111,6 @@ void compute_next_frame(uint8_t* next_frame) {
 }
 
 
-
-
-
-void render_video() {
-    uint8_t frame[N];
-    
-    for (int f = 0; f < NUM_FRAMES; f++) {
-        for (int c = 0; c < HEIGHT_CHUNKS; c++) {
-            write_gpio_state(!SENDING, COMPUTING);
-    
-            compute_next_frame(frame);
-            
-            write_gpio_state(SENDING, !COMPUTING);
-    
-            spi_write_dma(frame, (uint16_t)N);
-            while (dma_busy());
-    
-            write_gpio_state(!SENDING, !COMPUTING);
-        }
-    }
-    while (SPI_BUSY);
-}
 
 
 void render_video_dma() {

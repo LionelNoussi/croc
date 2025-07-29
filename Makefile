@@ -73,8 +73,8 @@ sw_objdump:
 	riscv64-unknown-elf-objdump -d $(patsubst %.hex,%.elf,$(SW_HEX))
 
 demo_clean:
-	rm -rf verilator/videoframes/
-	mkdir verilator/videoframes/
+	rm -rf verilator/videoframes/videoframes/
+	mkdir verilator/videoframes/videoframes/
 
 .PHONY: software sw swclean demo_clean
 
