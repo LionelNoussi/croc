@@ -135,10 +135,9 @@ module spi #(
     logic [3:0] bit_cnt_q, bit_cnt_d;
     logic [15:0] clk_div_count_q, clk_div_count_d;
     logic       sclk_int_q, sclk_int_d;
-    logic [7:0] byte_cnt_q, byte_cnt_d;
+    logic [15:0] byte_cnt_q, byte_cnt_d;
     logic [7:0] cmd_q, cmd_d;
     logic [15:0] length_d, length_q;
-    logic [2:0] rw_type_d, rw_type_q;
     logic [15:0] clk_scale_q, clk_scale_d;
     logic [7:0] status_q, status_d;
     logic mosi_q, mosi_d;
@@ -175,7 +174,6 @@ module spi #(
         length_q        <= 0;
         rx_shift_reg_q  <= 0;
         tx_shift_reg_q  <= 0;
-        rw_type_q       <= 0;
         spi_tx_fifo_rd_en_q <= 0;
         clk_scale_q     <= 1;
         status_q        <= 0;
@@ -190,7 +188,6 @@ module spi #(
         length_q        <= length_d;
         rx_shift_reg_q  <= rx_shift_reg_d;
         tx_shift_reg_q  <= tx_shift_reg_d;
-        rw_type_q       <= rw_type_d;
         spi_tx_fifo_rd_en_q <= spi_tx_fifo_rd_en_d;
         clk_scale_q     <= clk_scale_d;
         status_q        <= status_d;
@@ -208,7 +205,6 @@ module spi #(
         length_d        = length_q;
         rx_shift_reg_d  = rx_shift_reg_q;
         tx_shift_reg_d  = tx_shift_reg_q;
-        rw_type_d       = rw_type_q;
         spi_tx_fifo_rd_en_d = 0;
         clk_scale_d     = clk_scale_q;
         status_d        = status_q;
@@ -232,7 +228,6 @@ module spi #(
                 cmd_d = reg2hw.control;
                 clk_scale_d = reg2hw.freq;
                 length_d = reg2hw.length;
-                rw_type_d = reg2hw.control[2:1];
                 if (!tx_empty) begin
                     spi_tx_fifo_rd_en_d = 1;
                     tx_shift_reg_d = tx_fifo_data;
