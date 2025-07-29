@@ -28,20 +28,10 @@ uint32_t write_gpio_state(int sending, int computing) {
     );
 }
 
-
 void dma_irq_handler_user() {
     gpio_toggle(2);
 }
 
-
-void* memcpy(void* dest, const void* src, unsigned len) {
-    unsigned char* d = (unsigned char*) dest;
-    const unsigned char* s = (const unsigned char*) src;
-    while (len--) {
-        *d++ = *s++;
-    }
-    return dest;
-}
 
 
 #define WIDTH 128
@@ -49,7 +39,7 @@ void* memcpy(void* dest, const void* src, unsigned len) {
 #define HEIGHT_CHUNKS 32
 #define H_CHUNK_SIZE (HEIGHT / HEIGHT_CHUNKS)
 #define N 512
-#define NUM_FRAMES 64
+#define NUM_FRAMES 1
 
 static const uint8_t sin_table[256] = {
     32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
@@ -111,6 +101,24 @@ void compute_next_frame(uint8_t* next_frame) {
 }
 
 
+void render_video() {
+
+    uint8_t frame[N];
+
+    for (int f = 0; f < NUM_FRAMES; f++) {
+        for (int c = 0; c < HEIGHT_CHUNKS; c++) {
+            write_gpio_state(!SENDING, COMPUTING);
+    
+            compute_next_frame(frame);
+    
+            write_gpio_state(SENDING, !COMPUTING);
+            
+            spi_write(frame, N);
+    
+            write_gpio_state(!SENDING, !COMPUTING);
+        }
+    }
+}
 
 
 void render_video_dma() {
@@ -151,27 +159,28 @@ void render_video_dma() {
 
 
 int main() {
+    spi_init(0, 8);
 
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // set bottom 4 as outputs
     gpio_write(0);      // Prepare initial result
     gpio_enable(0x00FF);   // enable lowest eight
 
-    // uint64_t start, end;
-    // start = get_mcycle();
-    // render_video();
-    // while (SPI_BUSY);
-    // end = get_mcycle();
-    // printf("Keyword detection without dma took %u cycles.\n", (uint32_t) (end - start));
+    uint64_t start, end;
+    start = get_mcycle();
+    render_video();
+    while (SPI_BUSY);
+    end = get_mcycle();
+    printf("Keyword detection without dma took %u cycles.\n", (uint32_t) (end - start));
 
-    // write_gpio_state(0, 0);
-    // sleep_ms(8);
+    write_gpio_state(0, 0);
+    sleep_ms(8);
 
-    // start = get_mcycle();
+    start = get_mcycle();
     render_video_dma();
-    // end = get_mcycle();
-    // printf("Keyword detection with dma took %u cycles.\n", (uint32_t) (end - start));
-    // sleep_ms(8);
+    end = get_mcycle();
+    printf("Keyword detection with dma took %u cycles.\n", (uint32_t) (end - start));
+    sleep_ms(8);
     
     return 1;
 }

@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Tue Jul 29 17:41:58 2025
+[*]
+[dumpfile] "/scratch/vlsi2_45fs25/croc/verilator/croc.vcd"
+[dumpfile_mtime] "Tue Jul 29 17:39:49 2025"
+[dumpfile_size] 185204334
+[savefile] "/scratch/vlsi2_45fs25/croc/verilator/gtkwaves/gpio_signal_names.gtkw"
+[timestart] 0
+[size] 1680 986
+[pos] -96 -96
+*-33.670872 30830000000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[sst_width] 297
+[signals_width] 158
+[sst_expanded] 1
+[sst_vpaned_height] 600
+@28
+tb_croc_soc.computing
+tb_croc_soc.keyword_detected
+tb_croc_soc.loading
+tb_croc_soc.sending
+[pattern_trace] 1
+[pattern_trace] 0

@@ -370,7 +370,7 @@ module tb_croc_soc #(
     endtask
 
     // `define dma_in_stream_demo
-    `define dma_out_stream_demo
+    // `define dma_out_stream_demo
 
     `ifdef dma_in_stream_demo
     initial begin
