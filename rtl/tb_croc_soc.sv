@@ -422,7 +422,7 @@ module tb_croc_soc #(
     end
     `endif
 
-    logic keyword_detected, loading, computing;
+    logic keyword_detected, loading, computing, sending;
     assign keyword_detected = gpio_o[0];
     assign loading = gpio_o[1];
     assign sending = gpio_o[1];

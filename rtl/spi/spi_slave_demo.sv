@@ -54,14 +54,9 @@ module spi_slave_demo (
     logic sclk_falling;
     assign sclk_falling = sclk_int_q && !sclk_int_d;
 
-    logic [7:0] mem [0:IMGLENGTH-1];  // 64 KB
+    logic [7:0] mem [0:IMGLENGTH-1];
     logic [7:0] mem_d [0:IMGLENGTH-1];
     logic [7:0] mem_q [0:IMGLENGTH-1];
-  // Load memory from HEX file
-    // initial begin
-    //     $readmemh("memory.hex", mem_q);
-    // end
-
 
     typedef enum logic [2:0] {
         BYTE_CMD, BYTE_LENGTH, BYTE_ADDR1, BYTE_ADDR0, BYTE_DATA
@@ -196,6 +191,7 @@ module spi_slave_demo (
                 
                 mem_d[address_q] = rx_shift_reg_q;  // pull from fifo     // set fifo enable bit
                 address_d = address_q + 1;
+                // $display("@%t | [SPI SLAVE] Received byte %0x", $time, rx_shift_reg_q);
 
                 if ((byte_cnt_q >= IMGLENGTH) ||  cs_n_i) begin
                     spi_state_d = IDLE;
@@ -208,7 +204,6 @@ module spi_slave_demo (
                     byte_cnt_d = byte_cnt_q+1;
                 end
 
-                // $display("@%t | [SPI SLAVE] Received byte.", $time);
 
 
             end

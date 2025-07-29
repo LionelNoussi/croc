@@ -21,17 +21,17 @@
 #define COMPUTING 1
 
 // Helper function to write different outputs and states to the gpios
-// uint32_t write_gpio_state(int sending, int computing) {
-//     gpio_write(
-//         (sending << SENDIGN_GPIO) |
-//         (computing << COMPUTING_GPIO)
-//     );
-// }
+uint32_t write_gpio_state(int sending, int computing) {
+    gpio_write(
+        (sending << SENDIGN_GPIO) |
+        (computing << COMPUTING_GPIO)
+    );
+}
 
 
-// void dma_irq_handler_user() {
-//     gpio_toggle(2);
-// }
+void dma_irq_handler_user() {
+    gpio_toggle(2);
+}
 
 
 void* memcpy(void* dest, const void* src, unsigned len) {
@@ -46,7 +46,9 @@ void* memcpy(void* dest, const void* src, unsigned len) {
 
 #define WIDTH 64
 #define HEIGHT 64
-#define N (WIDTH * HEIGHT)
+#define HEIGHT_CHUNKS 8
+#define H_CHUNK_SIZE (HEIGHT / HEIGHT_CHUNKS)
+#define N (WIDTH * H_CHUNK_SIZE)
 #define NUM_FRAMES 1
 
 static const uint8_t sin_table[256] = {
@@ -75,18 +77,23 @@ void compute_next_frame(uint8_t* next_frame) {
     const int center_y = HEIGHT / 2;
     const int ring_speed = 6;
 
-    for (int y = 0; y < HEIGHT; y++) {
+    uint32_t full_frame_index = frame_index / HEIGHT_CHUNKS;
+    uint32_t chunk_index = frame_index % HEIGHT_CHUNKS;
+
+    int y_start = chunk_index * H_CHUNK_SIZE;
+
+    for (int y = y_start; y < y_start + H_CHUNK_SIZE; y++) {
         for (int x = 0; x < WIDTH; x++) {
-            // Background: moving sine wave
-            int index = (x * 3 + y * 5 + frame_index * 4) & 0xFF;
+            // Background wave pattern
+            int index = (x * 3 + y * 5 + full_frame_index * 4) & 0xFF;
             uint8_t bg = sin_table[index];
 
-            // Ripple ring effect
+            // Ripple ring
             int dx = x - center_x;
             int dy = y - center_y;
             int dist = dx * dx + dy * dy;
 
-            int ring_pos = (frame_index * ring_speed) % 300;
+            int ring_pos = (full_frame_index * ring_speed) % 300;
             int diff = dist - ring_pos;
             if (diff < 0) diff = -diff;
 
@@ -95,7 +102,7 @@ void compute_next_frame(uint8_t* next_frame) {
             uint8_t pixel = bg + (intensity >> 2);
             if (pixel > 255) pixel = 255;
 
-            next_frame[y * WIDTH + x] = pixel;
+            next_frame[(y - y_start) * WIDTH + x] = pixel;
         }
     }
 
@@ -105,60 +112,61 @@ void compute_next_frame(uint8_t* next_frame) {
 
 
 
+
 void render_video() {
     uint8_t frame[N];
     
     for (int f = 0; f < NUM_FRAMES; f++) {
-
-        // write_gpio_state(!SENDING, COMPUTING);
-
-        compute_next_frame(frame);
-        
-        // write_gpio_state(SENDING, !COMPUTING);
-
-        spi_write_dma(frame, (uint16_t)N);
-        while (dma_busy());
-
-        // write_gpio_state(!SENDING, !COMPUTING);
+        for (int c = 0; c < HEIGHT_CHUNKS; c++) {
+            write_gpio_state(!SENDING, COMPUTING);
+    
+            compute_next_frame(frame);
+            
+            write_gpio_state(SENDING, !COMPUTING);
+    
+            spi_write_dma(frame, (uint16_t)N);
+            while (dma_busy());
+    
+            write_gpio_state(!SENDING, !COMPUTING);
+        }
     }
     while (SPI_BUSY);
 }
 
 
 void render_video_dma() {
-    // write_gpio_state(!SENDING, !COMPUTING);
 
     uint8_t frames[2][N];
     uint8_t current_frame_idx = 0;
     uint8_t* current_frame;
 
     for (int f = 0; f < NUM_FRAMES; f++) {
+        for (int c = 0; c < HEIGHT_CHUNKS; c++) {
 
-        uint8_t* current_frame = frames[current_frame_idx];
-        
-        // write_gpio_state(dma_busy(), COMPUTING);
-
-        compute_next_frame(current_frame);
-
-        // write_gpio_state(dma_busy(), !COMPUTING);
-        
-        while (dma_busy()) { asm volatile("wfi"); }
-
-        // write_gpio_state(!SENDING, !COMPUTING);
-
-        enable_dma_irq();
-        spi_write_dma(current_frame, N);
-
-        // write_gpio_state(SENDING, !COMPUTING);
-
-        current_frame_idx = !current_frame_idx;
+            current_frame = frames[current_frame_idx];
+            
+            write_gpio_state(dma_busy(), COMPUTING);
+    
+            compute_next_frame(current_frame);
+    
+            write_gpio_state(dma_busy(), !COMPUTING);
+            
+            while (dma_busy()) { asm volatile("wfi"); }
+    
+            write_gpio_state(!SENDING, !COMPUTING);
+    
+            enable_dma_irq();
+            spi_write_dma(current_frame, N);
+    
+            write_gpio_state(SENDING, !COMPUTING);
+    
+            current_frame_idx = !current_frame_idx;
+        }
     }
     
     // Wait for the last dma transfer to finish
     while (dma_busy()) { asm volatile("wfi"); }
     while (SPI_BUSY);
-
-    // write_gpio_state(!SENDING, !COMPUTING);
 }
 
 
@@ -166,9 +174,9 @@ void render_video_dma() {
 int main() {
 
     // Setup GPIO
-    // gpio_set_direction(0xFFFF, 0x000F); // set bottom 4 as outputs
-    // gpio_write(0);      // Prepare initial result
-    // gpio_enable(0x00FF);   // enable lowest eight
+    gpio_set_direction(0xFFFF, 0x000F); // set bottom 4 as outputs
+    gpio_write(0);      // Prepare initial result
+    gpio_enable(0x00FF);   // enable lowest eight
 
     // uint64_t start, end;
     // start = get_mcycle();
