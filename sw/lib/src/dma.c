@@ -188,167 +188,11 @@ void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
     */
 }
 
-
-#include "spi.h"
-#define SPI_STATUS_RX_EMPTY_MASK 32
-#define SPI_FIFOSTAT_OFFSET 0x1C
-#define SPI_STATUS_TX_ALMOST_FULL_MASK 0x3
-#define SPI_TX_REG_OFFSET 0x8
-#define SPI_RX_REG_OFFSET 0xC
-
-void ssd_read_dma(uint8_t* destination_array, uint16_t addr, uint16_t num_bytes) {
-    while (dma_busy());
-    while(SPI_BUSY == 0x01);
-    spi_empty_rx();
-
-    uint8_t status;
-    const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
-    const uint8_t addr_lo = addr & 0xFF;
-    const uint8_t control_on = (0 << 7) | (1 << 1) | 0x1;
-    const uint8_t control_rst = (0 << 1) | 0x0;
-
-    *dma_src_reg = (uint32_t) SPI_BASE_ADDR;
-    *dma_dst_reg = (uint32_t) destination_array;
-    *dma_cond_reg = (uint32_t) (
-        (SPI_FIFOSTAT_OFFSET            << DMA_COND_OFFSET_SHIFT)       |
-        (SPI_STATUS_RX_EMPTY_MASK       << DMA_COND_MASK_SHIFT)         |
-        (DMA_COND_SRC_BASE              << DMA_COND_BASE_ADDR_SHIFT)    |
-        (1                              << DMA_COND_NEGATE_SHIFT)       |
-        (1                              << DMA_COND_ENABLE_SHIFT)
-    );
-    const dma_control_t dma_controls = (uint32_t) (
-        (SPI_RX_REG_OFFSET  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
-        (0                  << DMA_CTRL_DST_OFFSET_SHIFT)       |
-        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
-        (0                  << DMA_CTRL_INC_SRC_SHIFT)          |
-        (1                  << DMA_CTRL_INC_DEST_SHIFT)         |
-        (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
-        (1                  << DMA_CTRL_ACTIVATE_SHIFT)
-    ) | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-
-    // Pre-fill SPI TX Buffer with correct bytes to start SSD protocol without pause
-    SPI_TX = control_on;
-    SPI_TX = num_bytes;
-    SPI_TX = addr_hi;
-    SPI_TX = addr_lo;
-
-    // Telling the SPI how many transactions it should do
-    // This is done to facilitate unbroken communication
-    // If the TX buffer is empty at any point, it will continue to send 0x0
-    SPI_MODE_CTRL = 0b00000000; 
-    SPI_LENGTH = num_bytes + 3;
-    SPI_FREQ = 0x05;
-    SPI_CTRL = control_on;
-    // SPI_CTRL = control_rst;
-    
-    // Load four first dummy responses
-    for (uint8_t i = 0; i < 4; i++) {
-
-        // Stall while, RX buffer is empty
-        while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
-
-        SPI_RX;
-    }
-
-    *dma_ctrl_reg = dma_controls;
-
-    // for (uint8_t i = 0; i < num_bytes; i++) {
-    //     // Stall while, RX buffer is empty
-    //     while (SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK);
-
-    //     // Store result in destination array
-    //     destination_array[i] = SPI_RX;
-    // }
-
-    // This blocks now, because the condition is probably wrong,
-    // and so the dma never reads enough bytes. If this works,
-    // remove it from the function, since the user is supposed to call it.
-    // if (dma_busy()) {
-    //     asm volatile ("wfi");
-    // }
-    // while (dma_busy());
-}
-
-
-void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint16_t num_bytes) {
-    while (dma_busy());
-    while(SPI_BUSY);
-    uint8_t status, dummy;
-    const uint8_t addr_hi = (addr >> 8) & 0xFF;  // upper 8 bits
-    const uint8_t addr_lo = addr & 0xFF;
-    const uint8_t control_on = (0 << 3) | (2 << 1) | 0x1;
-    const uint8_t control_rst = (0 << 3) | (2 << 1) | 0x0;
-
-    *dma_src_reg = (uint32_t) source_array;
-    *dma_dst_reg = (uint32_t) SPI_BASE_ADDR;
-    *dma_cond_reg = (uint32_t) (
-        (SPI_FIFOSTAT_OFFSET            << DMA_COND_OFFSET_SHIFT)       |
-        (SPI_STATUS_TX_ALMOST_FULL_MASK << DMA_COND_MASK_SHIFT)         |
-        (DMA_COND_DST_BASE              << DMA_COND_BASE_ADDR_SHIFT)    |
-        (0                              << DMA_COND_NEGATE_SHIFT)       |
-        (1                              << DMA_COND_ENABLE_SHIFT)
-    );
-    const dma_control_t dma_controls = (uint32_t) (
-        (0                  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
-        (SPI_TX_REG_OFFSET  << DMA_CTRL_DST_OFFSET_SHIFT)       |
-        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
-        (1                  << DMA_CTRL_INC_SRC_SHIFT)          |
-        (0                  << DMA_CTRL_INC_DEST_SHIFT)         |
-        (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
-        (1                  << DMA_CTRL_ACTIVATE_SHIFT)
-    ) | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-
-    // Pre-fill SPI TX Buffer with correct bytes to start SSD protocol without pause
-    SPI_TX = control_on;
-    SPI_TX = num_bytes;
-    SPI_TX = addr_hi;
-    SPI_TX = addr_lo;
-
-    // Telling the SPI how many transactions it should do
-    // This is done to facilitate unbroken communication
-    // If the TX buffer is empty at any point, it will continue to send 0x0
-    SPI_LENGTH = num_bytes + 3;
-    SPI_FREQ = 0x5;
-
-    // Control on, and off immediately after, otherwise state machine will restart
-    SPI_CTRL = control_on;
-    // SPI_CTRL = control_rst;
-    
-    // Turning dma on to stream in rest of the data.
-    *dma_ctrl_reg = dma_controls;
-
-    // DMA implements the following function:
-    // for (uint8_t i = 0; i < num_bytes; i++) {
-    //     // Stall while, TX buffer full
-    //     while (!(SPI_FIFOSTAT & SPI_STATUS_TX_ALMOST_FULL_MASK));
-
-    //     // Write source array into SPI TX
-    //     SPI_TX =  source_array[i];
-    // }
-
-    // if (dma_busy()) {
-    //     asm volatile ("wfi");
-    // }
-    // while(dma_busy());
-
-    // At the end clear, the read buffer.
-    // Either put this in the irq handler, or check and clear at the beginning of all spi functions.
-
-    // could also simply call spi_empty_rx after
-    // while(dma_busy());
-
-    // do {
-    //     while (!(SPI_FIFOSTAT & SPI_STATUS_RX_EMPTY_MASK)) {
-    //         dummy = SPI_RX;
-    //     }
-    // } while(SPI_STATUS < num_bytes + 4);
-    // dummy = SPI_RX;
-}
-
+// initialize the SPI with spi_init()
 void spi_write_dma(uint8_t* source_array, uint16_t num_bytes) {
     while (dma_busy());
     while(SPI_BUSY);
-    const uint8_t control_on = (0 << 3) | (2 << 1) | 0x1;
+    const uint8_t control_on = 0x1;
     *dma_src_reg = (uint32_t) source_array;
     *dma_dst_reg = (uint32_t) SPI_BASE_ADDR;
     *dma_cond_reg = (uint32_t) (
@@ -372,4 +216,35 @@ void spi_write_dma(uint8_t* source_array, uint16_t num_bytes) {
     SPI_LENGTH = num_bytes -1;
     SPI_FREQ = 0x4;
     SPI_CTRL = control_on;
+}
+
+
+// initialize the SPI with spi_init()
+void spi_read_dma(uint8_t* destination_array, uint16_t num_bytes) {
+    while (dma_busy());
+    spi_empty_rx();
+    const uint8_t control_on =0x1; // upper 5 bits 
+    *dma_src_reg = (uint32_t) SPI_BASE_ADDR;
+    *dma_dst_reg = (uint32_t) destination_array;
+    *dma_cond_reg = (uint32_t) (
+        (SPI_FIFOSTAT_OFFSET            << DMA_COND_OFFSET_SHIFT)       |
+        (SPI_STATUS_RX_EMPTY_MASK       << DMA_COND_MASK_SHIFT)         |
+        (DMA_COND_SRC_BASE              << DMA_COND_BASE_ADDR_SHIFT)    |
+        (1                              << DMA_COND_NEGATE_SHIFT)       |
+        (1                              << DMA_COND_ENABLE_SHIFT)
+    );
+    const dma_control_t dma_controls = (uint32_t) (
+        (SPI_RX_REG_OFFSET  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
+        (0                  << DMA_CTRL_DST_OFFSET_SHIFT)       |
+        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
+        (0                  << DMA_CTRL_INC_SRC_SHIFT)          |
+        (1                  << DMA_CTRL_INC_DEST_SHIFT)         |
+        (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
+        (1                  << DMA_CTRL_ACTIVATE_SHIFT)
+    ) | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+    SPI_LENGTH = num_bytes + 3;
+    SPI_CTRL = control_on;
+
+    // Turn on the dma
+    *dma_ctrl_reg = dma_controls;
 }
