@@ -80,6 +80,29 @@ if not orphan_cell:
   print("[INFO] No orphan cells")
 
 
+
+# Shift all cells -70um down and left, to have exact pin placement
+
+# Shift entire layout by (dx, dy) in microns
+dx_um = -70   # example: shift 1000um right
+dy_um = -70   # example: shift 2000um up
+dx = int(dx_um / top_only_layout.dbu)
+dy = int(dy_um / top_only_layout.dbu)
+
+print(f"[INFO] Translating top cell '{design_name}' by ({dx_um}um, {dy_um}um)")
+
+top_cell = top_only_layout.cell(design_name)
+for inst in top_cell.each_inst():
+    t = inst.trans
+    t.disp += pya.DPoint(dx, dy)
+    inst.trans = t
+
+for li in top_only_layout.layer_indexes():
+    shapes = top_cell.shapes(li)
+    for shape in shapes.each():
+        shape.transform(pya.Trans(dx, dy))
+
+
 # Write out the GDS
 print("[INFO] Writing out GDS/OAS '{0}'".format(out_file))
 top_only_layout.write(out_file)

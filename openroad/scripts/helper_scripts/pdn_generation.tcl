@@ -28,8 +28,8 @@ add_pdn_stripe -grid {core_grid} \
   -extend_to_core_ring
 
 add_pdn_stripe -grid {core_grid} -layer {TopMetal2} -width 6 \
-               -pitch 204 -spacing 60 -offset 97 \
-               -extend_to_core_ring -snap_to_grid -number_of_straps 7
+               -pitch 204 -spacing 90 -offset 70 \
+               -extend_to_core_ring -snap_to_grid -number_of_straps 8
 
 # Standard cell stripes to power ring
 add_pdn_connect -grid {core_grid} -layers {Metal1 TopMetal2}
