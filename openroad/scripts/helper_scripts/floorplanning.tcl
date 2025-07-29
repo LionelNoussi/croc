@@ -22,14 +22,14 @@ proc placeInstance { name x y orient } {
 
 # Define chip dimensions
 
-# set chipW            [expr 2235 - 2 * (39 + 70)];    # 2235 with sealring spacing
-# set chipH            [expr 2235 - 2 * (39 + 70)];    # 2235 with sealring spacing
-set chipW            2017;    # 2235 with sealring spacing
-set chipH            2017;    # 2235 with sealring spacing
+set chipW            [expr 2235 - 2 * (39)];    # 2235 with sealring spacing
+set chipH            [expr 2235 - 2 * (39)];    # 2235 with sealring spacing
+# set chipW            2017;    # 2235 with sealring spacing
+# set chipH            2017;    # 2235 with sealring spacing
 
 set padRing           180.0
 set bondpad           70
-set coreMargin [expr $padRing + 35]
+set coreMargin [expr $padRing + 35 + 70]
 
 # Initialize Floorplan
 initialize_floorplan -die_area "0 0 $chipW $chipH" \
