@@ -44,49 +44,69 @@ void* memcpy(void* dest, const void* src, unsigned len) {
 }
 
 
-#define WIDTH 16
-#define HEIGHT 8
+#define WIDTH 32
+#define HEIGHT 16
 #define N (WIDTH * HEIGHT)
-#define NUM_FRAMES 32
+#define NUM_FRAMES 8
+
+static const uint8_t sin_table[256] = {
+    32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
+    59, 59, 60, 60, 60, 60, 60, 59, 59, 58, 57, 56, 55, 54, 52, 51,
+    49, 47, 45, 43, 41, 39, 36, 34, 32, 29, 27, 25, 23, 21, 19, 17,
+    15, 13, 12, 10,  9,  8,  7,  6,  5,  5,  4,  4,  4,  4,  4,  5,
+     5,  6,  7,  8,  9, 10, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29,
+    32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
+    59, 59, 60, 60, 60, 60, 60, 59, 59, 58, 57, 56, 55, 54, 52, 51,
+    49, 47, 45, 43, 41, 39, 36, 34, 32, 29, 27, 25, 23, 21, 19, 17,
+    15, 13, 12, 10,  9,  8,  7,  6,  5,  5,  4,  4,  4,  4,  4,  5,
+     5,  6,  7,  8,  9, 10, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29,
+    32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
+    59, 59, 60, 60, 60, 60, 60, 59, 59, 58, 57, 56, 55, 54, 52, 51,
+    49, 47, 45, 43, 41, 39, 36, 34, 32, 29, 27, 25, 23, 21, 19, 17,
+    15, 13, 12, 10,  9,  8,  7,  6,  5,  5,  4,  4,  4,  4,  4,  5,
+     5,  6,  7,  8,  9, 10, 12, 13, 15, 17, 19, 21, 23, 25, 27, 29,
+    32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
+};
 
 void compute_next_frame(uint8_t* next_frame) {
-    static int x = 0;
-    static int y = HEIGHT - 2;  // fixed point y
-    static int vx = 1;
-    static int vy = 0;              // fixed point vy
-    static int gravity = -1;          // gravity in fixed point
+    static uint32_t frame_index = 0;
 
-    // Clear frame
-    for (int i = 0; i < N; i++) {next_frame[i] = 0;}
+    const int center_x = WIDTH / 2;
+    const int center_y = HEIGHT / 2;
+    const int ring_speed = 6;
 
-    // 2d view
-    uint8_t (*frame2d)[WIDTH] = (uint8_t (*)[WIDTH]) next_frame;
+    for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < WIDTH; x++) {
+            // Background: moving sine wave
+            int index = (x * 3 + y * 5 + frame_index * 4) & 0xFF;
+            uint8_t bg = sin_table[index];
 
-    x += vx;
-    y += vy;
+            // Ripple ring effect
+            int dx = x - center_x;
+            int dy = y - center_y;
+            int dist = dx * dx + dy * dy;
 
-    vy += gravity;
+            int ring_pos = (frame_index * ring_speed) % 300;
+            int diff = dist - ring_pos;
+            if (diff < 0) diff = -diff;
 
-    if (y < 0) {
-        y = -y - 1;
-        vy = (-vy);
-    } else if (y >= HEIGHT) {
-        y = HEIGHT - 1;
+            int intensity = (diff < 255) ? (255 - diff) : 0;
+
+            uint8_t pixel = bg + (intensity >> 2);
+            if (pixel > 255) pixel = 255;
+
+            next_frame[y * WIDTH + x] = pixel;
+        }
     }
 
-    if (x >= WIDTH) {
-        x = x % WIDTH;
-    }
-
-    // Draw ball
-    frame2d[y][x] = 255;
+    frame_index++;
 }
 
 
 
 
 void render_video() {
-    int8_t frame[N];
+    uint8_t frame[N];
     
     for (int f = 0; f < NUM_FRAMES; f++) {
 
@@ -96,7 +116,7 @@ void render_video() {
         
         write_gpio_state(SENDING, !COMPUTING);
 
-        spi_write_dma(frame, N);
+        spi_write_dma(frame, (uint16_t)N);
         while (dma_busy());
 
         write_gpio_state(!SENDING, !COMPUTING);

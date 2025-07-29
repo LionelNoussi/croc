@@ -18,7 +18,7 @@ module spi_slave_demo (
 
 );
 
-    localparam IMGLENGTH = 128;
+    localparam IMGLENGTH = 512;
     string filename;
 
 
@@ -35,7 +35,7 @@ module spi_slave_demo (
     logic [3:0] bit_cnt_q, bit_cnt_d;
     logic [7:0] clk_div_count_q, clk_div_count_d;
     logic       sclk_int_q, sclk_int_d;
-    logic [7:0] byte_cnt_q, byte_cnt_d;
+    logic [15:0] byte_cnt_q, byte_cnt_d;
     logic [7:0] cmd_q, cmd_d;
     logic [7:0] length_d, length_q;
     logic [1:0] rw_type_d, rw_type_q;
@@ -200,13 +200,15 @@ module spi_slave_demo (
                 if ((byte_cnt_q >= IMGLENGTH) ||  cs_n_i) begin
                     spi_state_d = IDLE;
                     byte_cnt_d  = 0;
-                    $sformat(filename, "videoframes/img_received_%0t.hex", $time);
+                    $sformat(filename, "videoframes/frame_%0t.hex", $time);
                     $writememh(filename, mem_d);
                     $display("@%t | [SPI SLAVE] Received frame.", $time);
                 end else begin
                     spi_state_d = LOAD;
                     byte_cnt_d = byte_cnt_q+1;
                 end
+
+                // $display("@%t | [SPI SLAVE] Received byte.", $time);
 
 
             end
