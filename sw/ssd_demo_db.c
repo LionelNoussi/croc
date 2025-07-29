@@ -124,37 +124,62 @@ void ssd_write_dma(uint8_t* source_array, uint16_t addr, uint16_t num_bytes) {
 
 void ssd_demo(){
 
-    uint16_t N = 124;
+    uint16_t N = 58;
     uint8_t NUM_WINDOWS =10;
     int8_t buffer[N];
+    int8_t buffer1[N];
     uint8_t address = 0x32;
 
     for(uint16_t i =0; i<N; i++){
         buffer[i] = i +2;
     }
 
-    // for (int win = 0; win < NUM_WINDOWS; win++) {
-    //     enable_dma_irq();
-    //     ssd_write_dma(buffer,address,N);
-    //     enable_dma_irq();
-    //     ssd_read_dma(buffer,address,N);
-    //     while(dma_busy());
-    //     address += N;
-    // }
-    // ssd_read_dma(buffer, address,N);
-    // while(dma_busy());
+    for (int win = 0; win < NUM_WINDOWS; win++) {
+        enable_dma_irq();
+        ssd_write_dma(buffer,address,N);
+        enable_dma_irq();
+        ssd_read_dma(buffer,address,N);
+        while(dma_busy());
+        address += N;
+    }
+    ssd_read_dma(buffer, address,N);
+    while(dma_busy());
 
-    buffer[0] = 0x4;
-    buffer[1] = N;
-    uint16_t clkdiv = 0x05;
-    spi_init(SPI_MODE_0, clkdiv);
-    spi_write(buffer,N);
+    // buffer[0] = 0x4;
+    // buffer[1] = N-4;
+    // uint16_t clkdiv = 0x05;
+
+    // spi_init(SPI_MODE_0, clkdiv);
+    // spi_write(buffer,N);
+    // for(uint16_t i =0; i<N; i++){
+    //     buffer[i] = 0;
+    // }
+    // buffer[0] = 0x3;
+    // buffer[1] = N-4;
+    // SPI_TX = 0x3;
+    // SPI_TX = 0x36;
+    // SPI_TX = 0x00;
+    // SPI_TX = 0x22;
+    // spi_read(buffer,N);
+    // printf("Buffer %x \n", buffer[3]);
+
+    // buffer[0] = 0x4;
+    // buffer[1] = N-4;
+    // spi_write(buffer,N);
+
+    // buffer[0] = 0x4;
+    // buffer[1] = N-4;
+    // buffer[2] = 0x0;
+    // buffer[3] = 0x61;
+    // spi_read_write(buffer,buffer1,N);
+    // printf("buffer1 %x \n", buffer1[N-1]);
+    // while(dma_busy());
 }
 
 int main() {
     uart_init(); // setup the uart peripheral
     ssd_demo();
-    while(dma_busy());
+    // while(dma_busy());
     printf("Done with SPI test\n");
     uart_write_flush();
     return 1;

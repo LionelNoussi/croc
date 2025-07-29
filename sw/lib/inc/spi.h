@@ -23,7 +23,7 @@
 #define SPI_STATUS_TX_ALMOST_FULL_MASK      0x3
 #define SPI_TX_REG_OFFSET                   0x8
 #define SPI_RX_REG_OFFSET                   0xC
-#define SPI_STATUS_TX_ALMOST_FULL           0x3
+#define SPI_STATUS_TX_ALMOST_FULL           0x4
 
 #define SPI_MODE_0                          0x00
 #define SPI_MODE_1                          0x02

@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Sun Jul 27 16:54:20 2025
+[*] Tue Jul 29 16:50:27 2025
 [*]
 [dumpfile] "/scratch/vlsi2_45fs25/croc/verilator/croc.vcd"
-[dumpfile_mtime] "Sun Jul 27 16:54:19 2025"
-[dumpfile_size] 136813306
-[savefile] "/scratch/vlsi2_45fs25/croc/croc.gtkw"
-[timestart] 16556200000
+[dumpfile_mtime] "Tue Jul 29 16:49:53 2025"
+[dumpfile_size] 289778018
+[savefile] "/scratch/vlsi2_45fs25/croc/verilator/gtkwaves/croc.gtkw"
+[timestart] 1285000000
 [size] 1680 986
 [pos] -1 -1
-*-25.286512 16288300000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+*-25.953936 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -50,13 +50,9 @@ tb_croc_soc.i_croc_soc.i_croc.i_spi.clk_i
 tb_croc_soc.i_croc_soc.i_croc.i_spi.cmd_q[7:0]
 @28
 tb_croc_soc.i_croc_soc.i_croc.i_spi.cs_n_o
-@22
-tb_croc_soc.i_croc_soc.i_croc.i_spi.length_q[7:0]
-@28
 tb_croc_soc.i_croc_soc.i_croc.i_spi.miso_i
 tb_croc_soc.i_croc_soc.i_croc.i_spi.mosi_o
 tb_croc_soc.i_croc_soc.i_croc.i_spi.obi_read_enable
-tb_croc_soc.i_croc_soc.i_croc.i_spi.rw_type_q[2:0]
 @22
 tb_croc_soc.i_croc_soc.i_croc.i_spi.rx_shift_reg_d[7:0]
 tb_croc_soc.i_croc_soc.i_croc.i_spi.rx_shift_reg_q[7:0]
@@ -123,5 +119,58 @@ tb_croc_soc.i_croc_soc.i_croc.i_dma.condition_type_q
 @28
 tb_croc_soc.i_croc_soc.i_croc.i_dma.condition_valid_d
 tb_croc_soc.i_croc_soc.i_croc.i_dma.condition_valid_q
+tb_croc_soc.i_croc_soc.i_croc.i_spi.tx_pulse
+@22
+tb_croc_soc.i_spi_slave.address_d[15:0]
+tb_croc_soc.i_spi_slave.address_q[15:0]
+tb_croc_soc.i_spi_slave.bit_cnt_d[3:0]
+tb_croc_soc.i_spi_slave.bit_cnt_q[3:0]
+tb_croc_soc.i_spi_slave.byte_cnt_d[7:0]
+tb_croc_soc.i_spi_slave.byte_cnt_q[7:0]
+@100000028
+tb_croc_soc.i_spi_slave.byte_type[2:0]
+@22
+tb_croc_soc.i_spi_slave.clk_div_count_d[7:0]
+tb_croc_soc.i_spi_slave.clk_div_count_q[7:0]
+@28
+tb_croc_soc.i_spi_slave.clk_i
+@22
+tb_croc_soc.i_spi_slave.clk_scale_d[4:0]
+tb_croc_soc.i_spi_slave.clk_scale_q[4:0]
+tb_croc_soc.i_spi_slave.cmd_d[7:0]
+tb_croc_soc.i_spi_slave.cmd_q[7:0]
+@28
+tb_croc_soc.i_spi_slave.cs_edge_d
+tb_croc_soc.i_spi_slave.cs_edge_q
+tb_croc_soc.i_spi_slave.cs_falling
+tb_croc_soc.i_spi_slave.cs_n_i
+@22
+tb_croc_soc.i_spi_slave.length_d[7:0]
+tb_croc_soc.i_spi_slave.length_q[7:0]
+@28
+tb_croc_soc.i_spi_slave.miso_o
+tb_croc_soc.i_spi_slave.mosi_i
+tb_croc_soc.i_spi_slave.rst_ni
+tb_croc_soc.i_spi_slave.rw_type_d[1:0]
+tb_croc_soc.i_spi_slave.rw_type_q[1:0]
+@22
+tb_croc_soc.i_spi_slave.rx_shift_reg_d[7:0]
+tb_croc_soc.i_spi_slave.rx_shift_reg_q[7:0]
+@28
+tb_croc_soc.i_spi_slave.sclk_falling
+tb_croc_soc.i_spi_slave.sclk_i
+tb_croc_soc.i_spi_slave.sclk_int_d
+tb_croc_soc.i_spi_slave.sclk_int_q
+tb_croc_soc.i_spi_slave.sclk_rising
+@100000028
+tb_croc_soc.i_spi_slave.spi_state_d[2:0]
+tb_croc_soc.i_spi_slave.spi_state_q[2:0]
+@22
+tb_croc_soc.i_spi_slave.status_d[7:0]
+tb_croc_soc.i_spi_slave.status_q[7:0]
+tb_croc_soc.i_spi_slave.store_d[7:0]
+tb_croc_soc.i_spi_slave.store_q[7:0]
+tb_croc_soc.i_spi_slave.tx_shift_reg_d[7:0]
+tb_croc_soc.i_spi_slave.tx_shift_reg_q[7:0]
 [pattern_trace] 1
 [pattern_trace] 0
