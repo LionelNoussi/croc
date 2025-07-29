@@ -58,6 +58,7 @@ int main() {
         src_arr[i] = (65 + (i % 26));
     }
 
+    // Benchmarking software memcpy
     start = get_mcycle();
     memcpy(dst_arr, src_arr, N);
     end = get_mcycle();
@@ -66,13 +67,18 @@ int main() {
     printf("Destination array is: ");
     print_array(dst_arr, N);
 
-    // Clearing dst array
-    for (int i = 0; i < N; i++) {
-        dst_arr[i] = 0;
-    }
+    // Clearing dst array, also with dma as additional test
+    enable_dma_irq();
+    memset_dma(dst_arr, 48, N);
+    asm volatile ("wfi");
+    printf("Cleared array is: ");
+    print_array(dst_arr, N);
 
+    // Comparing memcpy with dma
     start = get_mcycle();
+    enable_dma_irq();
     memcpy_dma(dst_arr, src_arr, N);
+    asm volatile ("wfi");
     end = get_mcycle();
 
     printf("Memcpy with dma took %u cycles.\n", (uint32_t) (end - start));

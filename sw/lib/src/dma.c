@@ -1,8 +1,6 @@
 #include "dma.h"
 #include "util.h"
 #include "config.h"
-#include "print.h"
-#include "timer.h"
 #include "uart.h"
 #include "spi.h"
 
@@ -16,29 +14,6 @@ static volatile uint32_t* const dma_irq_reg         = DMA_REG(DMA_INTERRUPT_OFFS
 static volatile uint32_t* const dma_status_reg      = DMA_REG(DMA_STATUS_OFFSET);
 
 
-// Encodes DMA control word from control struct
-dma_control_t encode_dma_controls(const dma_control_struct_t* opts) {
-    return ((opts->src_offset        & DMA_CTRL_SRC_OFFSET_MASK)      << DMA_CTRL_SRC_OFFSET_SHIFT)     |
-           ((opts->dst_offset        & DMA_CTRL_DST_OFFSET_MASK)      << DMA_CTRL_DST_OFFSET_SHIFT)     |
-           ((opts->num_transfers     & DMA_CTRL_NUM_TRANSFERS_MASK)   << DMA_CTRL_NUM_TRANSFERS_SHIFT)  |
-           ((opts->interrupt_enable  & DMA_CTRL_IRQ_ENABLE_MASK)      << DMA_CTRL_IRQ_ENABLE_SHIFT)     |
-           ((opts->increment_src     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_SRC_SHIFT)        |
-           ((opts->increment_dst     & DMA_CTRL_INC_MASK)             << DMA_CTRL_INC_DEST_SHIFT)       |
-           ((opts->transfer_size     & DMA_CTRL_TRANSFER_SIZE_MASK)   << DMA_CTRL_TRANSFER_SIZE_SHIFT)  |
-           ((opts->activate          & DMA_CTRL_ACTIVATE_MASK)        << DMA_CTRL_ACTIVATE_SHIFT);
-}
-
-
-// Encodes DMA condition word from condition struct
-dma_condition_t encode_dma_condition(const dma_condition_struct_t* cond) {
-    return ((cond->cond_addr_offset  & DMA_COND_OFFSET_MASK)          << DMA_COND_OFFSET_SHIFT)         |
-           ((cond->bitmask           & DMA_COND_MASK_MASK)            << DMA_COND_MASK_SHIFT)           |
-           ((cond->cond_base_addr    & DMA_COND_BASE_ADDR_MASK)       << DMA_COND_BASE_ADDR_SHIFT)      |
-           ((cond->negate            & DMA_COND_NEGATE_MASK)          << DMA_COND_NEGATE_SHIFT)         |
-           ((cond->enable            & DMA_COND_ENABLE_MASK)          << DMA_COND_ENABLE_SHIFT);
-}
-
-
 void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t controls, dma_condition_t condition) {
     *dma_src_reg    = src_addr;
     *dma_dst_reg    = dst_addr;
@@ -46,15 +21,18 @@ void program_dma(uint32_t src_addr, uint32_t dst_addr, dma_control_t controls, d
     *dma_ctrl_reg   = controls;
 }
 
+
 void activate_dma() {
     *dma_activate_reg = 1;
 }
+
 
 void interrupt_dma() {
     do {
         *dma_irq_reg = 1;
     } while (dma_busy());
 }
+
 
 dma_status_t read_dma_status() {
     uint32_t raw_status = *dma_status_reg;
@@ -68,183 +46,79 @@ dma_status_t read_dma_status() {
     return status;
 }
 
-int dma_busy() {
-    return (*dma_status_reg >> DMA_STATUS_ACTIVE_SHIFT) & DMA_STATUS_ACTIVE_MASK;
-}
 
-void enable_dma_irq(void) {
-    // Enable DMA fast interrupt bit 3
-    asm volatile("csrs mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
-    // Enable global interrupts
-    asm volatile("csrsi mstatus, 8" ::: "memory");
-}
-
-void disable_dma_irq(void) {
-    asm volatile("csrc mie, %0" ::"r"(MIE_DMA_IRQ_BIT));
-}
-
-
-void uart_read_dma(uint8_t* destination_array, uint8_t N) {
-    enable_dma_irq();
+void uart_read_dma(uint8_t* destination_array, uint8_t num_bytes) {
     *dma_src_reg = UART_BASE_ADDR;
     *dma_dst_reg = (uint32_t) destination_array;
-    *dma_cond_reg = 0x14010001;
-    *dma_ctrl_reg = 0x17 | ((N & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-
-    /*
-    Magic numbers of condition and control reg come from:
-
-    // Condition is static and is always the same struct
-    dma_condition_struct_t dma_condition_struct = {
-        .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
-        .bitmask = (1 << UART_LINE_STATUS_DATA_READY_BIT),
-        .cond_base_addr = DMA_COND_SRC_BASE,
-        .negate = 0,
-        .enable = 1
-    };
-    encode_dma_condition(&dma_condition_struct) --> 0x14010001;
-
-    // Only variable part is the number of transfers N
-    dma_control_struct_t dma_control_struct = {
-        .src_offset = UART_RBR_REG_OFFSET,
-        .dst_offset = 0,
-        .num_transfers = 0, // replace with N later
-        .interrupt_enable = 1,
-        .increment_src = 0,
-        .increment_dst = 1,
-        .transfer_size = DMA_TRANSFER_BYTE,
-        .activate = 1
-    };
-    encode_dma_controls(&dma_control_struct) --> 0x17;
-    */
+    *dma_cond_reg = DMA_COND(UART_LINE_STATUS_REG_OFFSET, 1 << UART_LINE_STATUS_DATA_READY_BIT, DMA_COND_SRC_BASE, 0, 1);
+    *dma_ctrl_reg = DMA_CTRL(UART_RBR_REG_OFFSET, 0, num_bytes, 1, 0, 1, DMA_TRANSFER_BYTE, 1);
 }
 
-void uart_write_dma(uint8_t* source_array, uint8_t N) {
-    enable_dma_irq();
+
+void uart_write_dma(uint8_t* source_array, uint8_t num_bytes) {
     *dma_src_reg = (uint32_t) source_array;
     *dma_dst_reg = UART_BASE_ADDR;
-    *dma_cond_reg = 0x14200005;
-    *dma_ctrl_reg = 0x1B | ((N & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-
-    /*
-    Magic numbers of condition and control reg come from:
-
-    // Condition is static and is always the same struct
-    dma_condition_struct_t dma_condition_struct = {
-        .cond_addr_offset = UART_LINE_STATUS_REG_OFFSET,
-        .bitmask = (1 << UART_LINE_STATUS_THR_EMPTY_BIT),
-        .cond_base_addr = DMA_COND_DST_BASE,
-        .negate = 0,
-        .enable = 1
-    };
-    encode_dma_condition(&dma_condition_struct) --> 0x14200005;
-
-    // Only variable part is the number of transfers N
-    dma_control_struct_t dma_control_struct = {
-        .src_offset = 0,
-        .dst_offset = UART_THR_REG_OFFSET,
-        .num_transfers = 0,
-        .interrupt_enable = 1,
-        .increment_src = 1,
-        .increment_dst = 0,
-        .transfer_size = DMA_TRANSFER_BYTE,
-        .activate = 1
-    };
-
-    encode_dma_controls(&dma_control_struct) --> 0x1B;
-    */
+    *dma_cond_reg = DMA_COND(UART_LINE_STATUS_REG_OFFSET, 1 << UART_LINE_STATUS_THR_EMPTY_BIT, DMA_COND_DST_BASE, 0, 1);
+    *dma_ctrl_reg = DMA_CTRL(0, UART_THR_REG_OFFSET, num_bytes, 1, 1, 0, DMA_TRANSFER_BYTE, 1);
 }
 
 
-void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
-    dma_control_t controls;
-    enable_dma_irq();
-    if ((num_bytes & 3) == 0 && (((uint32_t) src & 3) == 0) && (((uint32_t) dst & 3) == 0)) {
-        unsigned num_words = num_bytes >> 2;
-        controls = 0x1D | ((num_words & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-    } else {
-        controls = 0x1F | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-    }
-    *dma_src_reg = (uint32_t) src;
-    *dma_dst_reg = (uint32_t) dst;
-    *dma_cond_reg = 0;
-    *dma_ctrl_reg = controls;
-    return dst;
-
-    /*
-    // Only variable part is the number of transfers N
-    dma_control_struct_t dma_control_struct = {
-        .src_offset = 0,
-        .dst_offset = 0,
-        .num_transfers = 0, // Change later
-        .interrupt_enable = 1,
-        .increment_src = 1,
-        .increment_dst = 1,
-        .transfer_size = DMA_TRANSFER_BYTE or DMA_TRANSFER_WORD,
-        .activate = 1
-    };
-
-    encode_dma_controls(&dma_control_struct) --> 0x1F if byte 0x1D if word;
-    */
-}
-
-// initialize the SPI with spi_init()
 void spi_write_dma(uint8_t* source_array, uint16_t num_bytes) {
-    while (dma_busy());
     while(SPI_BUSY);
-    const uint8_t control_on = 0x1;
+
+    // Configure and start DMA
     *dma_src_reg = (uint32_t) source_array;
     *dma_dst_reg = (uint32_t) SPI_BASE_ADDR;
-    *dma_cond_reg = (uint32_t) (
-        (SPI_FIFOSTAT_OFFSET            << DMA_COND_OFFSET_SHIFT)       |
-        (SPI_STATUS_TX_ALMOST_FULL_MASK << DMA_COND_MASK_SHIFT)         |
-        (DMA_COND_DST_BASE              << DMA_COND_BASE_ADDR_SHIFT)    |
-        (0                              << DMA_COND_NEGATE_SHIFT)       |
-        (1                              << DMA_COND_ENABLE_SHIFT)
-    );
-    const dma_control_t dma_controls = (uint32_t) (
-        (0                  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
-        (SPI_TX_REG_OFFSET  << DMA_CTRL_DST_OFFSET_SHIFT)       |
-        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
-        (1                  << DMA_CTRL_INC_SRC_SHIFT)          |
-        (0                  << DMA_CTRL_INC_DEST_SHIFT)         |
-        (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
-        (1                  << DMA_CTRL_ACTIVATE_SHIFT)
-    ) | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
+    *dma_cond_reg = DMA_COND(SPI_FIFOSTAT_OFFSET, SPI_STATUS_TX_ALMOST_FULL_MASK, DMA_COND_DST_BASE, 0, 1);
+    *dma_ctrl_reg = DMA_CTRL(0, SPI_TX_REG_OFFSET, num_bytes, 1, 1, 0, DMA_TRANSFER_BYTE, 1);
 
-    *dma_ctrl_reg = dma_controls;
-    SPI_LENGTH = num_bytes -1;
-    SPI_FREQ = 0x4;
-    SPI_CTRL = control_on;
+    // Configure and start SPI
+    SPI_LENGTH = num_bytes - 1;
+    SPI_CTRL = 0x1;
 }
 
 
 // initialize the SPI with spi_init()
 void spi_read_dma(uint8_t* destination_array, uint16_t num_bytes) {
-    while (dma_busy());
+    while(SPI_BUSY);
     spi_empty_rx();
-    const uint8_t control_on =0x1; // upper 5 bits 
+    
+    // Configure and start DMA
     *dma_src_reg = (uint32_t) SPI_BASE_ADDR;
     *dma_dst_reg = (uint32_t) destination_array;
-    *dma_cond_reg = (uint32_t) (
-        (SPI_FIFOSTAT_OFFSET            << DMA_COND_OFFSET_SHIFT)       |
-        (SPI_STATUS_RX_EMPTY_MASK       << DMA_COND_MASK_SHIFT)         |
-        (DMA_COND_SRC_BASE              << DMA_COND_BASE_ADDR_SHIFT)    |
-        (1                              << DMA_COND_NEGATE_SHIFT)       |
-        (1                              << DMA_COND_ENABLE_SHIFT)
-    );
-    const dma_control_t dma_controls = (uint32_t) (
-        (SPI_RX_REG_OFFSET  << DMA_CTRL_SRC_OFFSET_SHIFT)       |
-        (0                  << DMA_CTRL_DST_OFFSET_SHIFT)       |
-        (1                  << DMA_CTRL_IRQ_ENABLE_SHIFT)       |
-        (0                  << DMA_CTRL_INC_SRC_SHIFT)          |
-        (1                  << DMA_CTRL_INC_DEST_SHIFT)         |
-        (DMA_TRANSFER_BYTE  << DMA_CTRL_TRANSFER_SIZE_SHIFT)    |
-        (1                  << DMA_CTRL_ACTIVATE_SHIFT)
-    ) | ((num_bytes & DMA_CTRL_NUM_TRANSFERS_MASK) << DMA_CTRL_NUM_TRANSFERS_SHIFT);
-    SPI_LENGTH = num_bytes + 3;
-    SPI_CTRL = control_on;
+    *dma_cond_reg = DMA_COND(SPI_FIFOSTAT_OFFSET, SPI_STATUS_RX_EMPTY_MASK, DMA_COND_SRC_BASE, 1, 1);
+    *dma_ctrl_reg = DMA_CTRL(SPI_RX_REG_OFFSET, 0, num_bytes, 1, 0, 1, DMA_TRANSFER_BYTE, 1);
+    
+    // Configure and start SPI
+    SPI_LENGTH = num_bytes - 1;
+    SPI_CTRL = 0x1;
+}
 
-    // Turn on the dma
-    *dma_ctrl_reg = dma_controls;
+
+void* memcpy_dma(void* dst, const void* src, unsigned num_bytes) {
+    dma_control_t controls;
+
+    if ((num_bytes & 3) == 0 && (((uint32_t) src & 3) == 0) && (((uint32_t) dst & 3) == 0)) {
+        unsigned num_words = num_bytes >> 2;
+        controls = DMA_CTRL(0, 0, num_words, 1, 1, 1, DMA_TRANSFER_WORD, 1);
+    } else {
+        controls = DMA_CTRL(0, 0, num_bytes, 1, 1, 1, DMA_TRANSFER_BYTE, 1);
+    }
+
+    *dma_src_reg = (uint32_t) src;
+    *dma_dst_reg = (uint32_t) dst;
+    *dma_cond_reg = 0;
+    *dma_ctrl_reg = controls;
+    return dst;
+}
+
+
+static volatile uint8_t dma_memset_fill_value;
+void* memset_dma(void* ptr, int value, unsigned num) {
+    dma_memset_fill_value = value;
+    *dma_src_reg = (uint32_t) &dma_memset_fill_value;
+    *dma_dst_reg = (uint32_t) ptr;
+    *dma_cond_reg = 0;
+    *dma_ctrl_reg = DMA_CTRL(0, 0, num, 1, 0, 1, DMA_TRANSFER_BYTE, 1);
+    return ptr;
 }

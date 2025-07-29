@@ -137,27 +137,20 @@ void keyword_detection() {
     
     int result = 0;
     
-    // uart_write(0x00);
-    
     for (int win = 0; win < NUM_WINDOWS; win++) {
         
-        // Signal Testbench to send another input
+        write_gpio_state(LOADING, !COMPUTING, result);
+
         uart_write(0x00);
-        
-        gpio_write(0x2 + result);
         for (int i = 0; i < N; i++) {
             buffer[i] = uart_read();
         }
-        gpio_write(0x4 + result);
+        
+        write_gpio_state(!LOADING, COMPUTING, result);
 
-        // if (win != NUM_WINDOWS -1) {
-        //     uart_write(0x00);
-        // }
-
-        gpio_write(4 + result);
         result = detect_keyword(buffer);
     }
-    gpio_write(result);
+    write_gpio_state(!LOADING, !COMPUTING, result);
 }
 
 
@@ -175,6 +168,7 @@ void keyword_detection_dma() {
 
     // Start the DMA
     write_gpio_state(LOADING, !COMPUTING, 0);
+    enable_dma_irq();
     uart_read_dma(current_buffer, N);
 
     for (int win = 0; win < NUM_WINDOWS; win++) {
@@ -199,6 +193,7 @@ void keyword_detection_dma() {
             // Tell testbench to send another array
             uart_write(0x0);
             // Start dma
+            enable_dma_irq();
             uart_read_dma(buffer + dst_offset, N);
         }
 
