@@ -87,4 +87,5 @@ yosys/reports/
 /yosys/reports/
 verilator/videoframes
 sw/lib/libcroc.a
+sw/hex_files/
 sw_final_submission/

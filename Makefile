@@ -48,13 +48,13 @@ clean-deps:
 ############
 # Software #
 ############
-# SW_HEX := sw/bin/helloworld.hex
-# SW_HEX := sw/bin/test_dma.hex
-# SW_HEX := sw/bin/dma_demo_memcpy.hex
-# SW_HEX := sw/bin/dma_demo_in_stream.hex
-# SW_HEX := sw/bin/dma_demo_out_stream.hex
-# SW_HEX := sw/bin/ssd_demo_db.hex
-SW_HEX := sw/bin/final_demo.hex
+# SW_HEX := sw/hex_files/helloworld.hex
+# SW_HEX := sw/hex_files/test_dma.hex
+# SW_HEX := sw/hex_files/dma_demo_memcpy.hex
+# SW_HEX := sw/hex_files/dma_demo_in_stream.hex
+# SW_HEX := sw/hex_files/dma_demo_out_stream.hex
+# SW_HEX := sw/hex_files/ssd_demo_db.hex
+SW_HEX := sw/hex_files/final_demo.hex
 
 $(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld
 	$(MAKE) -C sw/ compile

@@ -3,8 +3,8 @@
 import os
 import sys
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+import matplotlib.pyplot as plt # type: ignore
+from matplotlib.animation import FuncAnimation, PillowWriter # type: ignore
 
 
 WIDTH = 128
@@ -49,11 +49,10 @@ def load_frames(directory):
     deltas = [t2 - t1 for t1, t2 in zip(full_timestamps[:-1], full_timestamps[1:])]
     avg_ns = sum(deltas) / len(deltas) if deltas else 1e8
     avg_ms = avg_ns / 1e6  # ms for matplotlib interval
-
     return full_frames, avg_ms
 
 
-def render(frames, interval_ms):
+def render(frames, interval_ms, filename):
     fig, ax = plt.subplots()
     im = ax.imshow(frames[0], cmap="gray", vmin=0, vmax=255)
     ax.axis("off")
@@ -65,13 +64,23 @@ def render(frames, interval_ms):
     print(f"Interval: {interval_ms}")
     anim = FuncAnimation(fig, update, frames=len(frames), interval=interval_ms, blit=True)
     plt.show()
+    # anim.save(filename + '.mp4', fps=1000//interval_ms, writer='ffmpeg') # needs ffmpeg installed
+    # anim.save(filename + '.gif', writer=PillowWriter(fps=1000//interval_ms))
+
 
 if __name__ == "__main__":
-    frame_dir = "verilator/videoframes/videoframes/"
+    frame_dir = "verilator/videoframes/final_demo/"
+    out_filename = "demo_video"
+
+    if len(frame_dir) == 0 or len(out_filename) == 0:
+        print("Please specify the directory of the saved frames" +
+              "or the output filename of the video.")
+        exit()
+
     frames, interval_ms = load_frames(frame_dir)
     if not frames:
         print("No valid frames found.")
         sys.exit(1)
 
     print(f"Rendering at ~{interval_ms:.2f} ms per frame")
-    render(frames, interval_ms)
+    render(frames, 67.24, out_filename)

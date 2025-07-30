@@ -14,24 +14,30 @@
 #include "timer.h"
 #include "spi.h"
 
+#define TRACE_STATES
 #define SENDIGN_GPIO 1
 #define COMPUTING_GPIO 2
 
 #define SENDING 1
 #define COMPUTING 1
 
-// Helper function to write different outputs and states to the gpios
-uint32_t write_gpio_state(int sending, int computing) {
-    gpio_write(
-        (sending << SENDIGN_GPIO) |
-        (computing << COMPUTING_GPIO)
-    );
-}
 
-void dma_irq_handler_user() {
-    gpio_toggle(2);
-}
+#ifdef TRACE_STATES
 
+    // Helper function to write different outputs and states to the gpios
+    void write_gpio_state(int sending, int computing) {
+        gpio_write(
+            (sending << SENDIGN_GPIO) |
+            (computing << COMPUTING_GPIO)
+        );
+    }
+
+    void dma_irq_handler_user() {
+        gpio_toggle(2);
+    }
+#else
+    void write_gpio_state(int sending, int computing) {}
+#endif
 
 
 #define WIDTH 128
@@ -39,7 +45,7 @@ void dma_irq_handler_user() {
 #define HEIGHT_CHUNKS 32
 #define H_CHUNK_SIZE (HEIGHT / HEIGHT_CHUNKS)
 #define N 512
-#define NUM_FRAMES 1
+#define NUM_FRAMES 2
 
 static const uint8_t sin_table[256] = {
     32, 34, 36, 39, 41, 43, 45, 47, 49, 51, 52, 54, 55, 56, 57, 58,
@@ -102,7 +108,7 @@ void compute_next_frame(uint8_t* next_frame) {
 
 
 void render_video() {
-
+    write_gpio_state(!SENDING, !COMPUTING);
     uint8_t frame[N];
 
     for (int f = 0; f < NUM_FRAMES; f++) {
@@ -118,10 +124,13 @@ void render_video() {
             write_gpio_state(!SENDING, !COMPUTING);
         }
     }
+    while (SPI_BUSY);
+    write_gpio_state(!SENDING, !COMPUTING);
 }
 
 
 void render_video_dma() {
+    write_gpio_state(!SENDING, !COMPUTING);
 
     uint8_t frames[2][N];
     uint8_t current_frame_idx = 0;
@@ -150,10 +159,10 @@ void render_video_dma() {
             current_frame_idx = !current_frame_idx;
         }
     }
-    
     // Wait for the last dma transfer to finish
     while (dma_busy()) { asm volatile("wfi"); }
     while (SPI_BUSY);
+    write_gpio_state(!SENDING, !COMPUTING);
 }
 
 
@@ -161,25 +170,19 @@ void render_video_dma() {
 int main() {
     spi_init(0, 8);
 
+    #ifdef TRACE_STATES
     // Setup GPIO
     gpio_set_direction(0xFFFF, 0x000F); // set bottom 4 as outputs
-    gpio_write(0);      // Prepare initial result
+    write_gpio_state(0, 0);      // Prepare initial result
     gpio_enable(0x00FF);   // enable lowest eight
+    #endif
 
-    uint64_t start, end;
-    start = get_mcycle();
     render_video();
-    while (SPI_BUSY);
-    end = get_mcycle();
-    printf("Keyword detection without dma took %u cycles.\n", (uint32_t) (end - start));
 
-    write_gpio_state(0, 0);
     sleep_ms(8);
 
-    start = get_mcycle();
     render_video_dma();
-    end = get_mcycle();
-    printf("Keyword detection with dma took %u cycles.\n", (uint32_t) (end - start));
+
     sleep_ms(8);
     
     return 1;

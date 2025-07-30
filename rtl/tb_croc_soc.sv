@@ -6,10 +6,12 @@
 // - Philippe Sauter <phsauter@iis.ee.ethz.ch>
 
 `define TRACE_WAVE
+// `define dma_in_stream_demo
+// `define dma_out_stream_demo
 
 module tb_croc_soc #(
-    parameter time         ClkPeriod     = 50ns,
-    parameter time         ClkPeriodJtag = 50ns,
+    parameter time         ClkPeriod     = 12.5ns,
+    parameter time         ClkPeriodJtag = 12.5ns,
     parameter time         ClkPeriodRef  = 30518ns,
     parameter time         TAppl         = 0.2*ClkPeriod,
     parameter time         TTest         = 0.8*ClkPeriod,
@@ -368,9 +370,6 @@ module tb_croc_soc #(
         #UartBaudPeriod uart_rx_i = 1'b1;
         #UartBaudPeriod;
     endtask
-
-    // `define dma_in_stream_demo
-    // `define dma_out_stream_demo
 
     `ifdef dma_in_stream_demo
     initial begin
