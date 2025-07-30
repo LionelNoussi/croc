@@ -73,8 +73,7 @@ sw_objdump:
 	riscv64-unknown-elf-objdump -d $(patsubst %.hex,%.elf,$(SW_HEX))
 
 demo_clean:
-	rm -rf verilator/videoframes/videoframes/
-	mkdir verilator/videoframes/videoframes/
+	rm -rf verilator/videoframes/
 
 .PHONY: software sw swclean demo_clean
 
@@ -122,8 +121,12 @@ verilator/croc.f: Bender.lock Bender.yml
 verilator/obj_dir/Vtb_croc_soc: verilator/croc.f $(SW_HEX)
 	cd verilator; $(VERILATOR) $(VERILATOR_ARGS) -O3 --top tb_croc_soc -f croc.f
 
+# Demo output folder
+verilator/videoframes/videoframes/:
+	mkdir verilator/videoframes/videoframes/
+
 ## Simulate RTL using Verilator
-verilator: verilator/obj_dir/Vtb_croc_soc
+verilator: verilator/obj_dir/Vtb_croc_soc | verilator/videoframes/videoframes/
 	cd verilator; obj_dir/Vtb_croc_soc +binary="$(realpath $(SW_HEX))"
 
 verilator_all:

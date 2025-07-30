@@ -2,7 +2,7 @@
 
 import os
 import sys
-import numpy as np
+import numpy as np # type: ignore
 import matplotlib.pyplot as plt # type: ignore
 from matplotlib.animation import FuncAnimation, PillowWriter # type: ignore
 
@@ -69,8 +69,8 @@ def render(frames, interval_ms, filename):
 
 
 if __name__ == "__main__":
-    frame_dir = "verilator/videoframes/final_demo/"
-    out_filename = "demo_video"
+    frame_dir = "verilator/videoframes/"
+    out_filename = "out/demo_video"
 
     if len(frame_dir) == 0 or len(out_filename) == 0:
         print("Please specify the directory of the saved frames" +
