@@ -52,8 +52,8 @@ The SoC is fully functional as-is and our final demo is provided for simulation.
 
 To compile the software, execute the following two commands:
 
-3. oseda make -B sw (to compile software (sw/) to be run during simulation)
-4. oseda make verilator	(functional simulation)
+1. oseda make -B sw (to compile software (sw/) to be run during simulation)
+2. oseda make verilator	(functional simulation)
 
 To write your own demo scripts, create a file in the "sw/demos/" folder. To use that script during
 verilator, change the SW_HEX variable in the main makefile.
