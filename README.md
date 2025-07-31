@@ -1,54 +1,23 @@
-# Croc System-on-Chip
+# RIVER
+## Based on the Croc System-On-Chip
 
-A simple SoC for education using PULP IPs. Croc includes all scripts necessary to produce a nearly finished chip in [IHPs open-source 130nm technology](https://github.com/IHP-GmbH/IHP-Open-PDK/tree/main).
+This repository was forked from the Croc repository from ETH: [Original GitHub](https://github.com/pulp-platform/croc)
 
-As it is oriented towards education, it forgoes some configurability to increase readability of the RTL and scripts.
+As part of the VLSI2 course, it was extended to also include a DMA and an SPI peripheral. You can find the final report in the repository as well as a PDF.
 
-Croc is developed as part of the PULP project, a joint effort between ETH Zurich and the University of Bologna.
-
-Croc was successfully taped out in Nov 2024. The chip is called [MLEM](http://asic.ee.ethz.ch/2024/MLEM.html), named after the sound Yoshi makes when eating a tasty fruit.
-MLEM was designed and prepared for tapeout by ETHZ students as a bachelor project. The exact code and scripts used for the tapeout can be seen in the frozen [mlem-tapeout](https://github.com/pulp-platform/croc/tree/mlem-tapeout) branch.
-
-
-**IMPORTANT: Update to 1.1 recommended.**  
-Release 1.1 and newer includes a fix for the SRAMs where the `A_DLY` pin was tied low instead of high. The pin controls internal timings and the old version may create violations for some SRAMs.  
-
+The name RIVER comes from the fact, that we greatly improved the chip's streaming capabilities: Streaming -> Stream -> River (A strong stream).
 
 ## Architecture
 
-![Croc block diagram](doc/croc_arch.svg)
+![Croc block diagram](doc/block_diagram.jpeg)
 
-The SoC is composed of two main parts:
-- The `croc_domain` containing a CVE2 core (a fork of Ibex), SRAM, an OBI crossbar and a few simple peripherals 
-- The `user_domain` where students are invited to add their own designs or other open-source designs (peripherals, accelerators...)
+The base `croc_domain` contained only a CVE2 core (a fork of Ibex), SRAM, an OBI crossbar and a few simple peripherals. We extended the design by adding a DMA and an SPI peripheral.
 
 The main interconnect is OBI, you can find [the spec online](https://github.com/openhwgroup/obi/blob/072d9173c1f2d79471d6f2a10eae59ee387d4c6f/OBI-v1.6.0.pdf). 
 
 The various IPs of the SoC (UART, OBI, debug-module, timer...) come from other PULP repositories and are managed by [Bender](https://github.com/pulp-platform/bender).
-To make it easier to browse and understand, only the currently used files are included in `rtl/<IP>`. You may want to explore the repositories of the respective IPs to find their documentation or additional functionality, the urls are in `Bender.yml`.
-
-## Configuration
-
-The main SoC configurations are in `rtl/croc_pkg.sv`:
-
-| Parameter           | Default          | Function                                              |
-|---------------------|------------------|-------------------------------------------------------|
-| `HartId`            | `0`              | Core's Hart ID                                        |
-| `PulpJtagIdCode`    | `32'hED9_C0C50`  | Debug module ID code                                  |
-| `NumExternalIrqs`   | `4`              | Number of external interrupts into Croc domain        |
-| `BankNumWords`      | `512`            | Number of 32bit words in a memory bank                |
-| `NumSramBanks`      | `2`              | Number of memory banks                                |
-
-The SRAMs are instantiated via a technology wrapper called `tc_sram_impl` (tc: tech_cells), the technology-independent implementation is in `rtl/tech_cells_generic/tc_sram_impl.sv`. A number of SRAM configurations are implemented using IHP130 SRAM memories in `ihp13/tc_sram_impl.sv`. If an unimplemented SRAM configuration is instantiated it will result in a `tc_sram_blackbox` module which can then be easily identified from the synthesis results.
-
-## Bootmodes
-
-Currently the only way to boot is via JTAG.
 
 ## Memory Map
-
-If possible, the memory map should remain compatible with [Cheshire's memory map](https://pulp-platform.github.io/cheshire/um/arch/#memory-map).  
-Further each new subordinate should occupy multiples of 4KB of the address space (`32'h0000_1000`).
 
 The address map of the default configuration is as follows:
 
@@ -59,23 +28,14 @@ The address map of the default configuration is as follows:
 | `32'h0300_2000` | `32'h0300_3000` | UART peripheral                            |
 | `32'h0300_5000` | `32'h0300_6000` | GPIO peripheral                            |
 | `32'h0300_A000` | `32'h0300_B000` | Timer peripheral                           |
+| `32'h0300_C000` | `32'h0300_D000` | SPI peripheral                           	 |
 | `32'h1000_0000` | `+SRAM_SIZE`    | Memory banks (SRAM)                        |
-| `32'h2000_0000` | `32'h8000_0000` | Passthrough to user domain                 |
-| `32'h2000_0000` | `32'h2000_1000` | reserved for string formatted user ROM*    |
-
-
-*If people modify Croc we suggest they add a ROM at this address containing additional information 
-like the names of the developers, a project link or similar. This can then be written out via UART.  
-We ask people to format the ROM like a C string with zero termination and using ASCII encoding if feasible.  
-The [MLEM user ROM](https://github.com/pulp-platform/croc/blob/mlem-tapeout/rtl/user_domain/user_rom.sv) may serve as a reference implementation.
+| `32'h2000_0000` | `32'h5000_0000` | Passthrough to user domain                 |
+| `32'h2000_0000` | `32'h2000_1000` | USER ROM								     |
+| `32'h5000_A000` | `32'h5000_1000` | DMA			                             |
 
 ## Flow
-```mermaid
-graph LR;
-	Bender-->Yosys;
-	Yosys-->OpenRoad;
-	OpenRoad-->KLayout;
-```
+
 1. Bender provides a list of SystemVerilog files
 2. Yosys parses, elaborates, optimizes and maps the design to the technology cells
 3. The netlist, constraints and floorplan are loaded into OpenRoad for Place&Route
@@ -86,10 +46,64 @@ Currently, the final GDS is still missing the following things:
 - sealring
 These can be added in KLayout, check the [IHP repository](https://github.com/IHP-GmbH/IHP-Open-PDK/tree/main) (possible the dev branch) for a reference script.
 
-### Example Results
-Cell/Module placement                      |  Routing
-:-----------------------------------------:|:------------------------------------:
-![Chip module view](doc/croc_modules.jpg)  |  ![Chip routed](doc/croc_routed.jpg)
+
+## Simulation
+The SoC is fully functional as-is and our final demo is provided for simulation.
+
+To compile the software, execute the following two commands:
+
+3. oseda make -B sw (to compile software (sw/) to be run during simulation)
+4. oseda make verilator	(functional simulation)
+
+To write your own demo scripts, create a file in the "sw/demos/" folder. To use that script during
+verilator, change the SW_HEX variable in the main makefile.
+
+To run our input and output streaming demos, which utilize UART, please uncomment the defines at the very top of "rtl/tb_croc_soc.sv".
+
+Right now the makefile is configured to run our final demo. To render the video, run:
+oseda python python_files/render_demo.py
+
+## Getting started
+We re-wrote the synthesis, place and route scripts again from scratch, taking a lot of inspiration from the reference flow
+and the course exercises.
+
+### 0. Environment Setup
+
+icdesign ihp13 -update all -nogui \
+oseda -2025.07 make checkout
+
+### 1. Development
+
+1. Write RTL, testbench, and software.
+2. Add all rtl source files to Bender (Bender.yml) under appropriate sections.
+
+
+### 2. Synthesis (Yosys)
+
+oceda make yosys-flist  
+oceda make yosys
+
+ℹ️ To preserve hierarchy for specific modules, add them to yosys/scripts/synthesis.tcl.
+
+### 4. Physical Design (OpenROAD)
+
+cd openroad  
+oseda -2025.07 openroad scripts/S1_*  
+oseda -2025.07 openroad scripts/S2_*  
+oseda -2025.07 openroad scripts/S3_*  
+oseda -2025.07 openroad scripts/S4_*
+
+Execute scripts in order and review reports after each step!
+
+Each script will open the gui at the end, for manuel inspection.
+
+✅ Script S4 finishes the flow. S5 only opens a checkpoint for manuel analysis.
+
+### 5. GDS Generation
+
+./final2gds.sh
+
+This prepares the design for DRC & LVS checks by creating the gds file and a spice netlist.
 
 
 ## Requirements
@@ -154,43 +168,6 @@ You need to build/install the required tools manually:
 - (Optional) [Verilator](https://github.com/verilator/verilator): Simulator
 - (Optional) Questasim/Modelsim: Simulator
 
-
-## Getting started
-The SoC is fully functional as-is and a simple software example is provided for simulation.
-To run the synthesis and place & route flow execute:
-```sh
-make checkout
-make yosys
-make openroad
-make klayout
-```
-
-To simulate you can use:
-```sh
-make verilator
-```
-
-If you have Questasim/Modelsim, you can also run:
-```sh
-make vsim
-```
-
-
-The most important make targets are documented, you can list them with:
-```sh
-make help
-```
-
-### Building on Croc
-To add your own design, we recommend creating a new directory under `rtl/` or put single source files (small designs) into `rtl/user_domain`, then go into `Bender.yml` and add the files in the indicated places.
-This will make Bender aware of the files and any script it contains will contain your design as well.
-
-Then re-generate the default synthesis file-list:
-```sh
-make yosys-flist
-```
-
-If you want to add an existing design and it already containts a `Bender.yml` in its repository, you can add it as a dependency in the `Bender.yml` and reading the guide below.
 
 ## Bender
 The dependency manager [Bender](https://github.com/pulp-platform/bender) is used in most pulp-platform IPs.
