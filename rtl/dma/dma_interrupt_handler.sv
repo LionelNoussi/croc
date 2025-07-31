@@ -1,3 +1,11 @@
+// Copyright 2023 ETH Zurich and University of Bologna.
+// Solderpad Hardware License, Version 0.51, see LICENSE for details.
+// SPDX-License-Identifier: SHL-0.51
+
+// Authors:
+//    Lionel Noussi <lnoussi@ethz.ch> <lio.noussi@gmail.com>
+
+
 module dma_interrupt_handler (
   input  logic clk_i,
   input  logic rst_ni,

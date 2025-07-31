@@ -1,3 +1,11 @@
+// Copyright 2023 ETH Zurich and University of Bologna.
+// Solderpad Hardware License, Version 0.51, see LICENSE for details.
+// SPDX-License-Identifier: SHL-0.51
+
+// Authors:
+//    Lionel Noussi <lnoussi@ethz.ch> <lio.noussi@gmail.com>
+
+
 module dma import dma_pkg::*; #(
   /// The OBI configuration for the subordinate ports
   parameter obi_pkg::obi_cfg_t           SbrObiCfg      = obi_pkg::ObiDefaultConfig,

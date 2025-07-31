@@ -1,3 +1,11 @@
+// Copyright 2023 ETH Zurich and University of Bologna.
+// Solderpad Hardware License, Version 0.51, see LICENSE for details.
+// SPDX-License-Identifier: SHL-0.51
+
+// Authors:
+//    Lionel Noussi <lnoussi@ethz.ch> <lio.noussi@gmail.com>
+
+
 module dma_fifo_buffer #(
     parameter DEPTH = 4,  // Must be power of 2
     parameter DATA_WIDTH = 32
